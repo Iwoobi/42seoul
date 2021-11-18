@@ -6,16 +6,14 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:14:25 by youhan            #+#    #+#             */
-/*   Updated: 2021/11/18 17:41:40 by youhan           ###   ########.fr       */
+/*   Updated: 2021/11/18 16:14:25 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 void	ft_bzero(void *str, unsigned int n)
 {
 	unsigned char	*dest;
 
-<<<<<<< HEAD
 	dest = str;
 	while (n > 0)
 	{
@@ -23,8 +21,4 @@ void	ft_bzero(void *str, unsigned int n)
 		dest++;
 		n--;
 	}
-	return (str);
 }
-=======
-}
->>>>>>> b22767d298ab99cfb6c9e4840f76242ba4b0b2da
