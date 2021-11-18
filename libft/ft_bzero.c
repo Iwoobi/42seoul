@@ -11,9 +11,16 @@
 /* ************************************************************************** */
 
 
-int main(void)
-
+void	ft_bzero(void *str, unsigned int n)
 {
-	int a=0;
+	unsigned char	*dest;
 
+	dest = str;
+	while (n > 0)
+	{
+		*dest = 0;
+		dest++;
+		n--;
+	}
+	return (str);
 }

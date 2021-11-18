@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memset(void *str, int a, int n)
+void	*ft_memset(void *str, int a, unsigned int n)
 {
 	unsigned char	*dest;
 
