@@ -6,13 +6,14 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 21:13:50 by youhan            #+#    #+#             */
-/*   Updated: 2021/11/18 21:13:50 by youhan           ###   ########.fr       */
+/*   Updated: 2021/11/23 16:21:44 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void *memmove (void *dest, const void *src, unsigned int num)
+void	*ft_memmove(void *dest, const void *src, unsigned int num)
 {
 	char		*dest_point;
+	int			i;
 	const char	*src_point;
 
 	dest_point = dest;
@@ -20,17 +21,19 @@ void *memmove (void *dest, const void *src, unsigned int num)
 	if (dest_point < src_point)
 	{
 		while (num > 0)
-			*dest_point = *src_point;
+		{
+			dest_point[num - 1] = src_point[num - 1];
+			num--;
+		}
 	}
 	else
 	{
-		int i;
-
 		i = 0;
 		while (num > i)
 		{
-			*dest_point = *src_point;
+			dest_point[i] = *src_point[i];
 			i++;
 		}
 	}
+	return (dest);
 }

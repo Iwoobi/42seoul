@@ -6,9 +6,10 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 12:05:43 by youhan            #+#    #+#             */
-/*   Updated: 2021/11/18 17:40:33 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/01 17:53:14 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 char	*ft_strchr(const char *str, int a)
 {
 	while (*str != '\0')
@@ -17,5 +18,5 @@ char	*ft_strchr(const char *str, int a)
 			return ((char *)str);
 		str++;
 	}
-	return ('\0');
+	return (NULL);
 }

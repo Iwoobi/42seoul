@@ -6,11 +6,11 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 12:06:05 by youhan            #+#    #+#             */
-/*   Updated: 2021/11/18 17:39:51 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/01 17:48:46 by youhan           ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_toupper(int a)
+int	ft_toupper(int a, size_t b)
 {
 	if (a >= 'a' && a <= 'z')
 		a = a - 'a' + 'A';
