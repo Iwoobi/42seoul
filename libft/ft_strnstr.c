@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 18:01:04 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/03 18:35:57 by youhan           ###   ########.fr       */
+/*   Created: 2021/12/03 19:30:22 by youhan            #+#    #+#             */
+/*   Updated: 2021/12/03 20:05:56 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memchr(const void *ptr, int value, size_t num)
+char	*ft_strnstr(const char *s1, const char *s2, size_t len)
 {
-	unsigned char	val;
-	const char		*ptr_a;
+	size_t	i;
 
-	val = (unsigned char)value;
-	ptr_a = (const char *)ptr;
-	while (num > 0 && *ptr_a != '\0')
+	i = 0;
+	while (len > 0)
 	{
-		if (*ptr_a == val)
-			return ((void *)ptr_a);
-		ptr_a++;
-		num--;
+		if (*s1 != '\0')
+		{
+			if (*s1 == s2[i])
+				i++;
+			else
+				i = 0;
+			if (s2[i] == '\0')
+				return ((char *)s1 - i + 1);
+			s1++;
+		}
+		len--;
 	}
 	return (NULL);
 }

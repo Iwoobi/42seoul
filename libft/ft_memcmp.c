@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 18:01:04 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/03 18:35:57 by youhan           ###   ########.fr       */
+/*   Created: 2021/12/03 19:03:10 by youhan            #+#    #+#             */
+/*   Updated: 2021/12/03 19:37:48 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memchr(const void *ptr, int value, size_t num)
+int	ft_memcmp(const void *ptr1, const void *ptr2, size_t num)
 {
-	unsigned char	val;
-	const char		*ptr_a;
+	const unsigned char	*ptr_1;
+	const unsigned char	*ptr_2;
 
-	val = (unsigned char)value;
-	ptr_a = (const char *)ptr;
-	while (num > 0 && *ptr_a != '\0')
+	ptr_1 = (const unsigned char *)ptr1;
+	ptr_2 = (const unsigned char *)ptr2;
+	while (*ptr_1 != '\0' && *ptr_2 != '\0')
 	{
-		if (*ptr_a == val)
-			return ((void *)ptr_a);
-		ptr_a++;
-		num--;
+		if (num > 0)
+		{
+			if (*ptr_1 - *ptr_2 != 0)
+				return (*ptr_1 - *ptr_2);
+			num--;
+		}
+		ptr_1++;
+		ptr_2++;
 	}
-	return (NULL);
+	return (0);
 }

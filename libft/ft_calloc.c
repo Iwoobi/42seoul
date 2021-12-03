@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 18:01:04 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/03 18:35:57 by youhan           ###   ########.fr       */
+/*   Created: 2021/12/03 20:17:21 by youhan            #+#    #+#             */
+/*   Updated: 2021/12/03 20:50:45 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_memchr(const void *ptr, int value, size_t num)
+#include <stdio.h>
+#include <stdlib.h>
+void    *ft_calloc(size_t count, size_t size)
 {
-	unsigned char	val;
-	const char		*ptr_a;
+	unsigned char    *mem;
 
-	val = (unsigned char)value;
-	ptr_a = (const char *)ptr;
-	while (num > 0 && *ptr_a != '\0')
+	mem = (unsigned char *)malloc(count * size);
+	if (*mem)
+		return (NULL);
+	while (count > 0)
 	{
-		if (*ptr_a == val)
-			return ((void *)ptr_a);
-		ptr_a++;
-		num--;
+		while (size >0)
+		{
+			*mem = 0;
+			mem++;
+			size--;
+		}
+		count--;
 	}
-	return (NULL);
+
 }
