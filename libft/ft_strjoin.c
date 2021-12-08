@@ -1,34 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 20:14:37 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/08 19:22:09 by youhan           ###   ########.fr       */
+/*   Created: 2021/12/08 19:25:23 by youhan            #+#    #+#             */
+/*   Updated: 2021/12/08 19:53:41 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <stdio.h>
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+#include <stdlib.h>
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
 	int		i;
+	int		j;
+	int		k;
 
 	i = 0;
-	str = malloc(sizeof(char) * len + 1);
+	j = 0;
+	while (s1[i] != '\0')
+		i++;
+	while (s2[j] != '\0')
+		j++;
+	str = malloc((i + j) * sizeof(char) + 1);
 	if (!str)
 		return (NULL);
-	while (i < len)
+	k = 0;
+	while (k < i + j)
 	{
-		if (s[start + i - 1] != '\0')
-			str[i] = s[start - 1 + i];
-		else
-			str[i] = '\0';
-		i++;
+		if (k < i)
+			str[k] = s1[k];
+		if (k < j)
+			str[k + i] = s2[k];
+		k++;
 	}
-	str[i] = '\0';
+	str[i + j] = '\0';
 	return (str);
+}
+int main()
+{
+	char a[10]="";
+	char b[10]="";
+	char *c;
+	c = ft_strjoin(a,b);
+	printf("%s",c);
 }
