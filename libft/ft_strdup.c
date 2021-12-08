@@ -1,41 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 20:17:21 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/08 18:09:43 by youhan           ###   ########.fr       */
+/*   Created: 2021/12/08 18:14:54 by youhan            #+#    #+#             */
+/*   Updated: 2021/12/08 18:34:02 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
-void	*ft_calloc(size_t count, size_t size)
+char	*ft_strdup(const char *s1)
 {
-	unsigned char	*mem;
-	unsigned char	*mem_savepoint;
-	size_t			size_num;
-	size_t			count_num;
+	char	*str;
+	int		i;
 
-	mem = (unsigned char *)malloc(count * size);
-	if (mem == NULL)
-	{
+	i = 0;
+	while (s1[i] != '\0')
+		i++;
+	str = malloc(i * sizeof(char) + 1);
+	if (!str)
 		return (NULL);
-	}
-	mem_savepoint = mem;
-	count_num = 0;
-	while (count_num < count)
+	while (i >= 0)
 	{
-		size_num = 0;
-		while (size_num < size)
-		{
-			*mem = 0;
-			mem++;
-			size_num++;
-		}
-		count_num++;
+		str[i] = s1[i];
+		i--;
 	}
-	return (mem_savepoint);
+	return (str);
 }
