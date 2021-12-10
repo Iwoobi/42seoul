@@ -6,12 +6,14 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 19:53:59 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/08 20:33:17 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/10 16:47:00 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 static int	ft_check_set(char const s1, char const *set)
 {
@@ -23,6 +25,7 @@ static int	ft_check_set(char const s1, char const *set)
 	}
 	return (0);
 }
+
 static void	ft_point(int *k, int *j, char const *s1, char const *set)
 {
 	int	i;
@@ -32,40 +35,31 @@ static void	ft_point(int *k, int *j, char const *s1, char const *set)
 	i = 0;
 	while (s1[i] != '\0')
 	{
-		if (ft_check_set(s1[i],set) && a == 1)
-			*k = i;
+		if (ft_check_set(s1[i], set) && a == 1)
+			*k = i + 1;
 		else
 			a = 0;
 		i++;
 	}
 	a = 1;
+	i--;
 	while (i > 0 && *k < i)
 	{
-		
-		if (ft_check_set(s1[i - 1], set) && a == 1)
-		{
-			printf(":%d\n",i);
-			*j = i;
-		}
+		if (ft_check_set(s1[i], set) && a == 1)
+			*j = i - 1;
 		else
 			a = 0;
 		i--;
 	}
 }
+
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	int	k;
-	int j;
+	int	j;
 
 	k = 1;
 	j = 1;
 	ft_point(&k, &j, s1, set);
-	printf("%d, %d", k, j);
-	return (NULL);
-}
-int main()
-{
-	char a[100]="1111111111";
-	char b[100]= "123";
-	ft_strtrim(a,b);
+	return (ft_substr(s1, k + 1, j - k + 1));
 }

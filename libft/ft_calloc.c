@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 20:17:21 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/08 18:09:43 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/10 18:20:29 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,25 @@ void	*ft_calloc(size_t count, size_t size)
 		count_num++;
 	}
 	return (mem_savepoint);
+}
+
+//int main()
+//{
+//	char *a;
+//
+//	a= ft_calloc(0,0);
+//	for (int i = 0; i < 1024; i++)
+//	{
+//		a[i] = 'a';
+//	}
+//	printf("%s\n", a);
+//}
+
+int	main(void)
+{
+	char	nums[10];
+
+	nums[10] = 'a';
+	printf("%d\n", nums[10]);
+	return (0);
 }
