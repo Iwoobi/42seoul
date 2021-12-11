@@ -21,9 +21,7 @@ void	*ft_calloc(size_t count, size_t size)
 
 	mem = (unsigned char *)malloc(count * size);
 	if (mem == NULL)
-	{
 		return (NULL);
-	}
 	mem_savepoint = mem;
 	count_num = 0;
 	while (count_num < count)

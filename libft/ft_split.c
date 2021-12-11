@@ -11,16 +11,14 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
+
 void	ft_strncpy(char *dest, char *src, unsigned int n)
 {
 	unsigned int	a;
-	
+
 	a = 0;
 	while (src[a] && a < n)
 	{
-//		printf("src%d:",a);
-//		printf("%c\n",src[a]);
 		dest[a] = src[a];
 		a++;
 	}
@@ -28,18 +26,7 @@ void	ft_strncpy(char *dest, char *src, unsigned int n)
 	return ;
 }
 
-int	set_check(char a, char *set)
-{
-	while (*set)
-	{
-		if (a == *set)
-			return (0);
-		set++;
-	}
-	return (1);
-}
-
-int	count_str(char *str, char *set, int q, int a)
+int	count_str(char *str, char set, int q, int a)
 {
 	int	count[2];
 
@@ -47,7 +34,7 @@ int	count_str(char *str, char *set, int q, int a)
 	count[1] = 0;
 	while (*str)
 	{
-		if (set_check(*str, set))
+		if (*str != set)
 		{
 			if (a == 0)
 				count[0] += 1;
@@ -68,57 +55,41 @@ int	count_str(char *str, char *set, int q, int a)
 	return (count[0]);
 }
 
-char	*ft_skipstr(char *str, char *charset)
+char	*ft_skipstr(char *str, char set)
 {
 	while (*str)
 	{
-		if (set_check(*str, charset) == 0)
+		if (*str == set)
 			str++;
 		else
 			return (str);
-		
 	}
 	return (str);
 }
 
-char	**ft_split(char *str, char *charset)
+char	**ft_split(char *str, char c)
 {
 	char	**arr;
 	int		a;
 	int		b;
-	int		c;
+	int		i;
 
 	b = -1;
-	c = 0;
-	a = count_str(str, charset, 0, 0);
-	printf("malloc a:%d\n",a);
+	i = 0;
+	a = count_str(str, c, 0, 0);
 	arr = (char **)malloc(sizeof(char *) * a + 1);
+	if (!arr)
+		return (NULL);
 	while (b++ < a)
 	{
-		str = ft_skipstr(str, charset);
-		printf("str: %c\n",*str);
-		c = count_str(str, charset, 1, 1);
-		printf("mallo c:%d\n",c);
-		arr[b] = (char *)malloc(sizeof(char) * c + 1);
-//		printf("%c",*str);
-//		printf("%d",c);
-
-		ft_strncpy(arr[b], str, c);
-		str = str + c ;
+		str = ft_skipstr(str, c);
+		i = count_str(str, c, 1, 1);
+		arr[b] = (char *)malloc(sizeof(char) * i + 1);
+		if (!arr[b])
+			return (NULL);
+		ft_strncpy(arr[b], str, i);
+		str = str + i;
 	}
-	arr[b] = 0;
+	arr[b] = NULL;
 	return (arr);
-}
-int main()
-{
-	char a[100] = "123 123 1 12 3123 1";
-	char c = ' ';
-	char **b;
-	b = ft_split(a,&c);
-	while(*b != NULL)
-	{
-		printf("%s\n",*b);
-		b++;
-	}
-
 }
