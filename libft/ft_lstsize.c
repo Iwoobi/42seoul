@@ -14,7 +14,7 @@
 
 int	ft_lstsize(t_list *lst)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (lst)
@@ -23,5 +23,4 @@ int	ft_lstsize(t_list *lst)
 		lst = lst->next;
 	}
 	return (i);
-
 }

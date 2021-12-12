@@ -1,5 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/13 04:01:13 by youhan            #+#    #+#             */
+/*   Updated: 2021/12/13 04:01:13 by youhan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef	LIBFT_H
+#define LIBFT_H
+
 #include <stdlib.h>
 #include <unistd.h>
+
+typedef struct s_list
+{
+	void	*content;
+	struct s_list *next;
+}t_list;
 
 int	ft_atoi(const char *str);
 void	ft_bzero(void *str, size_t n);
@@ -43,3 +64,5 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int	ft_tolower(int a);
 int	ft_toupper(int a, size_t b);
+
+#endif
