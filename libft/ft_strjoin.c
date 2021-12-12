@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
@@ -39,12 +39,4 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	str[i + j] = '\0';
 	return (str);
-}
-int main()
-{
-	char a[10]="";
-	char b[10]="";
-	char *c;
-	c = ft_strjoin(a,b);
-	printf("%s",c);
 }

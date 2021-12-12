@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 
-void	ft_strncpy(char *dest, char *src, unsigned int n)
+static void	ft_strncpy(char *dest, char *src, unsigned int n)
 {
 	unsigned int	a;
 
@@ -26,7 +26,7 @@ void	ft_strncpy(char *dest, char *src, unsigned int n)
 	return ;
 }
 
-int	count_str(char *str, char set, int q, int a)
+static int	count_str(char *str, char set, int q, int a)
 {
 	int	count[2];
 
@@ -55,7 +55,7 @@ int	count_str(char *str, char set, int q, int a)
 	return (count[0]);
 }
 
-char	*ft_skipstr(char *str, char set)
+static char	*ft_skipstr(char *str, char set)
 {
 	while (*str)
 	{

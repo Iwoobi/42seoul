@@ -37,24 +37,3 @@ void	*ft_calloc(size_t count, size_t size)
 	}
 	return (mem_savepoint);
 }
-
-//int main()
-//{
-//	char *a;
-//
-//	a= ft_calloc(0,0);
-//	for (int i = 0; i < 1024; i++)
-//	{
-//		a[i] = 'a';
-//	}
-//	printf("%s\n", a);
-//}
-
-int	main(void)
-{
-	char	nums[10];
-
-	nums[10] = 'a';
-	printf("%d\n", nums[10]);
-	return (0);
-}

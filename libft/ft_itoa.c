@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 
-void	ft_malloc_count(int n, int *sign, int *malloc_count)
+static void	ft_malloc_count(int n, int *sign, int *malloc_count)
 {
 	*malloc_count = 1;
 	*sign = 1;
