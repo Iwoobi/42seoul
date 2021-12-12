@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_bzero(void *str, unsigned int n)
+#include "libft.h"
+
+void	ft_bzero(void *str, size_t n)
 {
 	unsigned char	*dest;
 

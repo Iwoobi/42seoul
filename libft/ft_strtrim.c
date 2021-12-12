@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+#include "libft.h"
 
 static int	ft_check_set(char const s1, char const *set)
 {

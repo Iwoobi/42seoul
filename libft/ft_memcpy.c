@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_memcpy(void *dest, const void *source, unsigned int num)
+#include "libft.h"
+
+void	ft_memcpy(void *dest, const void *source, size_t num)
 {
 	char		*dest_point;
 	const char	*source_point;

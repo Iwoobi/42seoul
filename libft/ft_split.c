@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
 static void	ft_strncpy(char *dest, char *src, unsigned int n)
 {

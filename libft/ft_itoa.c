@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
 static void	ft_malloc_count(int n, int *sign, int *malloc_count)
 {
