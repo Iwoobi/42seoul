@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 19:30:22 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/03 20:05:56 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/13 18:39:31 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t len)
 	size_t	i;
 
 	i = 0;
+	if (!*s2)
+		return ((char *)s1);
 	while (len > 0)
 	{
 		if (*s1 != '\0')
