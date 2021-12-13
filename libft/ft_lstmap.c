@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 02:09:14 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/13 02:09:14 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/13 13:19:23 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	while (lst)
 	{
 		save_address = lst->next;
-		ft_lstdelone(lst, del(void *));
+		ft_lstdelone(lst, del);
 		lst = save_address;
 		if (lst)
 		{

@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 20:14:37 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/08 19:22:09 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/13 13:14:28 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	str = malloc(sizeof(char) * len + 1);

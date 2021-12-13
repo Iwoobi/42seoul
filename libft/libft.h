@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 04:01:13 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/13 04:01:13 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/13 17:39:05 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_list	*ft_lstnew(void *content);
 int	ft_lstsize(t_list *lst);
 void	*ft_memchr(const void *ptr, int value, size_t num);
 int	ft_memcmp(const void *ptr1, const void *ptr2, size_t num);
-void	ft_memcpy(void *dest, const void *source, size_t num);
-void	*ft_memmove(void *dest, const void *src, size_t num)
+void	*ft_memcpy(void *dest, const void *source, size_t num);
+void	*ft_memmove(void *dest, const void *src, size_t num);
 void	*ft_memset(void *str, int a, size_t n);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
@@ -57,12 +57,12 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 int	ft_strlen(const char *str);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-int	ft_strncmp(const char *s1, const char *s2, unsigned int n);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *s1, const char *s2, size_t len);
 char	*ft_strrchr(const char *str, int a);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int	ft_tolower(int a);
-int	ft_toupper(int a, size_t b);
+int	ft_toupper(int a);
 
 #endif

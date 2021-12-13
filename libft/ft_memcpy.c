@@ -6,13 +6,13 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 18:50:36 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/02 18:48:24 by youhan           ###   ########seoul.kr  */
+/*   Updated: 2021/12/13 17:39:48 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_memcpy(void *dest, const void *source, size_t num)
+void	*ft_memcpy(void *dest, const void *source, size_t num)
 {
 	char		*dest_point;
 	const char	*source_point;
@@ -24,4 +24,5 @@ void	ft_memcpy(void *dest, const void *source, size_t num)
 		dest_point[num - 1] = source_point[num - 1];
 		num--;
 	}
+	return (dest);
 }

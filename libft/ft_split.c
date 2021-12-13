@@ -6,12 +6,12 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 23:46:41 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/10 18:54:05 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/13 16:56:58 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+#include <stdio.h>
 static void	ft_strncpy(char *dest, char *src, unsigned int n)
 {
 	unsigned int	a;
@@ -90,6 +90,6 @@ char	**ft_split(char *str, char c)
 		ft_strncpy(arr[b], str, i);
 		str = str + i;
 	}
-	arr[b] = NULL;
+	arr[a] = NULL;
 	return (arr);
 }

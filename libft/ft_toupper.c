@@ -6,13 +6,13 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 12:06:05 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/01 17:48:46 by youhan           ###   ########seoul.kr  */
+/*   Updated: 2021/12/13 13:15:21 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_toupper(int a, size_t b)
+int	ft_toupper(int a)
 {
 	if (a >= 'a' && a <= 'z')
 		a = a - 'a' + 'A';
