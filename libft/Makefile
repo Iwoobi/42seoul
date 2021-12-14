@@ -6,7 +6,7 @@
 #    By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/13 03:31:14 by youhan            #+#    #+#              #
-#    Updated: 2021/12/13 13:54:53 by youhan           ###   ########.fr        #
+#    Updated: 2021/12/14 17:31:55 by youhan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,10 @@ bonus :
 re:	fclean all
 
 clean : 
-	@rm -f *.o
+	rm -f ${OBJS} ${BONUS_OBJS}
 
 fclean: clean 
-	@rm -f ${TARGET}
+	rm -f ${TARGET}
 
 re:	fclean all
 

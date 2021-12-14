@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 19:53:59 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/10 16:47:00 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/14 18:56:29 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int	k;
 	int	j;
 
-	k = 1;
-	j = 1;
+	k = 0;
+	j = ft_strlen(s1) - 1;
 	ft_point(&k, &j, s1, set);
-	return (ft_substr(s1, k + 1, j - k + 1));
+	return (ft_substr(s1, k, j - k + 1));
 }

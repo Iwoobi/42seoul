@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 04:15:20 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/12 04:15:20 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/14 19:10:49 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 		str++;
 		i++;
 	}
-	str[i] = '\0';
+	*str = '\0';
 	str = str - i;
 	return (str);
 }

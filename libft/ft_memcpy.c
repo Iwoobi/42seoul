@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 18:50:36 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/13 17:39:48 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/14 18:08:46 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	*ft_memcpy(void *dest, const void *source, size_t num)
 	char		*dest_point;
 	const char	*source_point;
 
+	if (dest == NULL && source == NULL)
+		return (NULL);
 	dest_point = dest;
 	source_point = source;
 	while (num > 0)

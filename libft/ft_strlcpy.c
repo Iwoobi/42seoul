@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:47:49 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/13 18:44:25 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/14 17:19:19 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	{
 		if (size > 1)
 		{
-			*dest = *src;
+			*dest++ = *src;
 			size--;
 		}
-		dest++;
 		src++;
 		i++;
 	}
-	*dest = '\0';
+	if (size >= 1)
+		*dest = '\0';
 	return (i);
 }

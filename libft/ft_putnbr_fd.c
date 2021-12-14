@@ -6,13 +6,13 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:55:43 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/12 23:55:43 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/14 19:16:03 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_10_pow(int n_pow)
+static int	ft_10_pow(long n_pow)
 {
 	int	a;
 
@@ -25,7 +25,7 @@ static int	ft_10_pow(int n_pow)
 	return (a);
 }
 
-static int	ft_n_pow(int n)
+static int	ft_n_pow(long n)
 {
 	int	n_pow;
 
@@ -44,20 +44,22 @@ void	ft_putnbr_fd(int n, int fd)
 {
 	int		sign;
 	int		n_pow;
+	long	n_1;
 
+	n_1 = n;
 	sign = 1;
-	if (n < 0)
+	if (n_1 < 0)
 	{
 		sign = -1;
-		n = n * (-1);
+		n_1 = n_1 * (-1);
 	}
-	n_pow = ft_n_pow(n);
+	n_pow = ft_n_pow(n_1);
 	if (sign == -1)
 		ft_putchar_fd('-', fd);
 	while (n_pow > 0)
 	{
-		ft_putchar_fd('0' + n / ft_10_pow(n_pow), fd);
-		n = n % ft_10_pow(n_pow);
+		ft_putchar_fd('0' + n_1 / ft_10_pow(n_pow), fd);
+		n_1 = n_1 % ft_10_pow(n_pow);
 		n_pow--;
 	}
 	ft_putchar_fd('\n', fd);

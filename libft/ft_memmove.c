@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 21:13:50 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/13 17:43:19 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/14 18:07:25 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	*ft_memmove(void *dest, const void *src, size_t num)
 
 	dest_point = dest;
 	src_point = src;
+	if (src == NULL && dest == NULL)
+		return (dest);
 	if (dest_point > src_point)
 	{
 		while (num > 0)

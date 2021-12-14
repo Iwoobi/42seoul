@@ -6,12 +6,12 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 23:46:41 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/13 16:56:58 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/14 20:09:07 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
+
 static void	ft_strncpy(char *dest, char *src, unsigned int n)
 {
 	unsigned int	a;
@@ -77,7 +77,7 @@ char	**ft_split(char *str, char c)
 	b = -1;
 	i = 0;
 	a = count_str(str, c, 0, 0);
-	arr = (char **)malloc(sizeof(char *) * a + 1);
+	arr = (char **)malloc(sizeof(char *) * (a + 1));
 	if (!arr)
 		return (NULL);
 	while (b++ < a)
@@ -86,10 +86,33 @@ char	**ft_split(char *str, char c)
 		i = count_str(str, c, 1, 1);
 		arr[b] = (char *)malloc(sizeof(char) * i + 1);
 		if (!arr[b])
+		{
+			while (b >= 0)
+			{
+				free(arr[b]);
+				b--;
+			}
+			free(arr);
 			return (NULL);
+		}
 		ft_strncpy(arr[b], str, i);
 		str = str + i;
 	}
 	arr[a] = NULL;
 	return (arr);
 }
+
+// #include <stdio.h>
+// int main()
+// {
+// 	char	a[100] = "aasdkjhadkdfh asdasd";
+// 	char	b= ' ';
+// 	char 	**c;
+
+// 	c = ft_split(a,b);
+// 	while (*c)
+// 	{
+// 		printf("%s\n", *c);
+// 		c++;
+// 	}
+// }
