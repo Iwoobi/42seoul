@@ -6,13 +6,13 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 23:46:41 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/14 20:09:07 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/15 18:29:09 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_strncpy(char *dest, char *src, unsigned int n)
+static void	ft_strncpy(char *dest, const char *src, unsigned int n)
 {
 	unsigned int	a;
 
@@ -26,7 +26,7 @@ static void	ft_strncpy(char *dest, char *src, unsigned int n)
 	return ;
 }
 
-static int	count_str(char *str, char set, int q, int a)
+static int	count_str(const char *str, char set, int q, int a)
 {
 	int	count[2];
 
@@ -55,48 +55,62 @@ static int	count_str(char *str, char set, int q, int a)
 	return (count[0]);
 }
 
-static char	*ft_skipstr(char *str, char set)
+static int	ft_malloc_free(char **arr, int b)
 {
+	if (!arr[b])
+	{
+		while (b >= 0)
+		{
+			free(arr[b]);
+			b--;
+		}
+		free(arr);
+		return (-1);
+	}
+	return (1);
+}
+
+static int	ft_skipstr(const char *str, char set)
+{
+	int i;
+
+	i = 0;
 	while (*str)
 	{
 		if (*str == set)
+		{
 			str++;
+			i++;
+		}
 		else
-			return (str);
+			return (i);
 	}
-	return (str);
+	return (i);
 }
 
-char	**ft_split(char *str, char c)
+char	**ft_split(const char *s, char c)
 {
 	char	**arr;
 	int		a;
 	int		b;
 	int		i;
 
-	b = -1;
+	b = 0;
 	i = 0;
-	a = count_str(str, c, 0, 0);
+	a = count_str(s, c, 0, 0);
 	arr = (char **)malloc(sizeof(char *) * (a + 1));
 	if (!arr)
 		return (NULL);
-	while (b++ < a)
+	while (b < a)
 	{
-		str = ft_skipstr(str, c);
-		i = count_str(str, c, 1, 1);
+		s += ft_skipstr(s, c);
+		i = count_str(s, c, 1, 1);
 		arr[b] = (char *)malloc(sizeof(char) * i + 1);
-		if (!arr[b])
-		{
-			while (b >= 0)
-			{
-				free(arr[b]);
-				b--;
-			}
-			free(arr);
+		if (ft_malloc_free(arr, b) == -1)
 			return (NULL);
-		}
-		ft_strncpy(arr[b], str, i);
-		str = str + i;
+		ft_strncpy(arr[b], s, i);
+		s = s + i;
+		b++;
 	}
 	arr[a] = NULL;
 	return (arr);

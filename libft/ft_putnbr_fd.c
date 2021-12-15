@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 23:55:43 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/14 19:16:03 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/15 16:20:22 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,4 @@ void	ft_putnbr_fd(int n, int fd)
 		n_1 = n_1 % ft_10_pow(n_pow);
 		n_pow--;
 	}
-	ft_putchar_fd('\n', fd);
 }
