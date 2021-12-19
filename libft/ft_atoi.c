@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 12:05:10 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/13 13:57:22 by youhan           ###   ########.fr       */
+/*   Updated: 2021/11/18 17:38:18 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	ft_atoi(const char *str)
 	int	n;
 
 	n = 0;
-	sign = 1;
 	while ((*str >= 9 && *str <= 13) || *str == 32)
 		str++;
 	if (*str == '-')
