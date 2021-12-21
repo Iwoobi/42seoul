@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   tet.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 23:44:07 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/21 19:26:25 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/21 20:38:04 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include "get_next_line.h"
+typedef struct s_list
+{
+	int				fd_list;
+	char			**str;
+	struct s_list	*next;
+}t_list;
 
 static int	ft_strlen(char *str)
 {
@@ -149,16 +155,47 @@ static int	ft_read(int fd, char **str, char *buff, int size)
 	return (i);
 }
 
+char	**ft_list_fd(int fd, t_list *list)
+{
+	while(list->next != NULL)
+	{
+		if (list->fd_list == fd)
+		{
+			list->str = malloc(sizeof(char *));
+			return (list->str);
+		}
+		list = list->next;
+	}
+	if (list->fd_list == fd)
+	{
+		list->str = malloc(sizeof(char *));
+		return (list->str);
+	}
+	list->next = malloc(sizeof(t_list));
+	(list->next)->str = malloc(sizeof(char *));
+	(list->next)->fd_list = fd;
+	(list->next)->next = NULL;
+	return ((list->next)->str);
+}
 char	*get_next_line(int fd)
 {
-	char		buff[BUFFER_SIZE + 1];
-	static char	*str_backup;
-	char		*str_return;
-	int			i[3];
+	char			buff[BUFFER_SIZE + 1];
+	static t_list	*list;
+	char			*str_backup;
+	char			*str_return;
+	int				i[3];
 
 	i[0] = 3;
 	if (fd < 0)
 		return (NULL);
+	if (list == NULL)
+	{
+		list = malloc(sizeof(t_list));
+		list->next = NULL;
+		list->fd_list = fd;
+	}
+	str_backup = *(ft_list_fd(fd, list));
+	printf("%s\n",str_backup);
 	while (1)
 	{
 		if (i[0] == 0 || i[0] == 3)
@@ -172,17 +209,17 @@ char	*get_next_line(int fd)
 			return (str_return);
 	}
 }
-// int main(int a, char **b)
-// {
-// 	int	fd;
+int main(int a, char **b)
+{
+	int	fd;
 	
-// 	fd = open("asd.txt", O_RDONLY);
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	close(fd);
-// }
+	fd = open("asd.txt", O_RDONLY);
+	printf("%s",get_next_line(fd));
+	printf("%s",get_next_line(fd));
+	printf("%s",get_next_line(fd));
+	printf("%s",get_next_line(fd));
+	printf("%s",get_next_line(fd));
+	printf("%s",get_next_line(fd));
+	close(fd);
+}
 

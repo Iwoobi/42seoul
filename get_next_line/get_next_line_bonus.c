@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 23:44:07 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/21 19:26:25 by youhan           ###   ########.fr       */
+/*   Updated: 2021/12/21 20:52:43 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include "get_next_line.h"
+
+typedef struct s_list
+{
+	int				fd_list;
+	char			**str;
+	struct s_list	*next;
+}				t_list;
 
 static int	ft_strlen(char *str)
 {
@@ -149,25 +156,51 @@ static int	ft_read(int fd, char **str, char *buff, int size)
 	return (i);
 }
 
+char	**ft_list_fd(int fd, t_list *list)
+{
+	while(list->next != NULL)
+	{
+		if (list->fd_list == fd)
+			return (list->str);
+		list = list->next;
+	}
+	if (list->fd_list == fd)
+		return (list->str);
+	list->next = malloc(sizeof(t_list));
+	list->str = malloc(sizeof(char *));
+	(list->next)->fd_list = fd;
+	(list->next)->next = NULL;
+	return ((list->next)->str);
+}
+
 char	*get_next_line(int fd)
 {
 	char		buff[BUFFER_SIZE + 1];
-	static char	*str_backup;
+	char		**str_backup;
+	static t_list	*list;
 	char		*str_return;
 	int			i[3];
 
 	i[0] = 3;
 	if (fd < 0)
 		return (NULL);
+	if (list == NULL)
+	{
+		list = malloc(sizeof(t_list));
+		list->next = NULL;
+		list->str = malloc(sizeof(char *));
+		list->fd_list = fd;
+	}
+	str_backup = ft_list_fd(fd, list);
 	while (1)
 	{
 		if (i[0] == 0 || i[0] == 3)
-			i[1] = ft_read(fd, &str_backup, buff, BUFFER_SIZE);
+			i[1] = ft_read(fd, str_backup, buff, BUFFER_SIZE);
 		if (i[1] == -2 || i[0] == -1)
 			return (NULL);
-		if (i[1] == 0 && str_backup == NULL)
+		if (i[1] == 0 && *str_backup == NULL)
 			return (NULL);
-		str_return = ft_str_return(&str_backup, &i[0]);
+		str_return = ft_str_return(str_backup, &i[0]);
 		if (str_return != NULL)
 			return (str_return);
 	}
