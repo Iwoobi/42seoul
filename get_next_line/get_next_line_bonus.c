@@ -115,7 +115,7 @@ static char	*ft_str_return(char **str, int *k)
 	*k = 0;
 	if (k[1] == 0)
 	{
-		tmp = malloc(sizeof(char) * ft_strlen(*str));
+		tmp = malloc(sizeof(char) * ft_strlen(*str) + 1);
 		ft_join(&tmp, *str, 0);
 		free(*str);
 		*str=NULL;
@@ -208,7 +208,7 @@ char	*get_next_line(int fd)
 			return (str_return);
 	}
 }
-int main(int a, char **b)
+int main()
 {
 	int	fd;
 	
