@@ -167,7 +167,8 @@ char	**ft_list_fd(int fd, t_list *list)
 	if (list->fd_list == fd)
 		return (list->str);
 	list->next = malloc(sizeof(t_list));
-	list->str = malloc(sizeof(char *));
+	(list->next)->str = malloc(sizeof(char *) * 1);
+	*((list->next)->str) = NULL;
 	(list->next)->fd_list = fd;
 	(list->next)->next = NULL;
 	return ((list->next)->str);
@@ -188,7 +189,8 @@ char	*get_next_line(int fd)
 	{
 		list = malloc(sizeof(t_list));
 		list->next = NULL;
-		list->str = malloc(sizeof(char *));
+		list->str = malloc(sizeof(char *) * 1);
+		*(list->str) = NULL;
 		list->fd_list = fd;
 	}
 	str_backup = ft_list_fd(fd, list);
@@ -196,6 +198,7 @@ char	*get_next_line(int fd)
 	{
 		if (i[0] == 0 || i[0] == 3)
 			i[1] = ft_read(fd, str_backup, buff, BUFFER_SIZE);
+		printf("%s\n",*str_backup);
 		if (i[1] == -2 || i[0] == -1)
 			return (NULL);
 		if (i[1] == 0 && *str_backup == NULL)
@@ -205,17 +208,17 @@ char	*get_next_line(int fd)
 			return (str_return);
 	}
 }
-// int main(int a, char **b)
-// {
-// 	int	fd;
+int main(int a, char **b)
+{
+	int	fd;
 	
-// 	fd = open("asd.txt", O_RDONLY);
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	close(fd);
-// }
+	fd = open("asd.txt", O_RDONLY);
+	printf("%s:",get_next_line(fd));
+	printf("%s:",get_next_line(fd));
+	printf("%s:",get_next_line(fd));
+	printf("%s:",get_next_line(fd));
+	printf("%s:",get_next_line(fd));
+	printf("%s:",get_next_line(fd));
+	close(fd);
+}
 
