@@ -57,31 +57,31 @@ static void	ft_join(char **str, char *back, int flag)
 	(*str)[i + j] = '\0';
 }
 
-static int	ft_move_str(char **str, int a)
+static int	ft_move_str(char ***str, int a)
 {
 	char	*tmp;
 	int		i;
 
 	i = 0;
-	tmp = malloc(sizeof(char) * ft_strlen(&((*str)[a])) + 1);
+	tmp = malloc(sizeof(char) * ft_strlen(&((**str)[a])) + 1);
 	if (!tmp)
 		return (-1);
-	while ((*str)[a + i] != '\0')
+	while ((**str)[a + i] != '\0')
 	{
-		tmp[i] = (*str)[a + i];
+		tmp[i] = (**str)[a + i];
 		i++;
 	}
 	tmp[i] = '\0';
-	free((*str));
-	(*str) = malloc(sizeof(char) * i + 1);
-	if (!(*str))
+	free((**str));
+	(**str) = malloc(sizeof(char) * i + 1);
+	if (!(**str))
 		return (-1);
-	ft_join(str, tmp, 2);
+	ft_join(*str, tmp, 2);
 	free(tmp);
 	return (1);
 }
 
-static char	*ft_str_return(char **str, int *k)
+static char	*ft_str_return(char ***str, int *k)
 {
 	char	*tmp;
 	int		i;
@@ -89,9 +89,9 @@ static char	*ft_str_return(char **str, int *k)
 
 	i = 0;
 	*k = -1;
-	while ((*str)[i] != '\0')
+	while ((**str)[i] != '\0')
 	{
-		if ((*str)[i] == '\n')
+		if ((**str)[i] == '\n')
 		{
 			j = i;
 			tmp = malloc(sizeof(char) * (i + 1) + 1);
@@ -99,11 +99,11 @@ static char	*ft_str_return(char **str, int *k)
 				return (NULL);
 			tmp[i + 1] = '\0';
 			while (i-- + 1 > 0)
-				tmp[i + 1] = (*str)[i + 1];
-			if ((*str)[j + 1] == '\0')
+				tmp[i + 1] = (**str)[i + 1];
+			if ((**str)[j + 1] == '\0')
 			{
-				free(*str);
-				*str = NULL;
+				free(**str);
+				**str = NULL;
 				return (tmp);
 			}
 			if (ft_move_str(str, j + 1) == -1)
@@ -115,17 +115,17 @@ static char	*ft_str_return(char **str, int *k)
 	*k = 0;
 	if (k[1] == 0)
 	{
-		tmp = malloc(sizeof(char) * ft_strlen(*str) + 1);
-		ft_join(&tmp, *str, 0);
-		free(*str);
-		*str=NULL;
+		tmp = malloc(sizeof(char) * ft_strlen(**str) + 1);
+		ft_join(&tmp, **str, 0);
+		free(**str);
+		**str=NULL;
 		*k=2;
 		return (tmp);
 	}
 	return (NULL);
 }
 
-static int	ft_read(int fd, char **str, char *buff, int size)
+static int	ft_read(int fd, char ***str, char *buff, int size)
 {
 	int		i;
 	char	*tmp;
@@ -134,20 +134,20 @@ static int	ft_read(int fd, char **str, char *buff, int size)
 	if (i <= 0)
 		return (0);
 	buff[i] = '\0';
-	if (*str == NULL)
+	if (**str == NULL)
 	{
-		*str = malloc(sizeof(char) * i + 1);
-		if (!(*str))
+		**str = malloc(sizeof(char) * i + 1);
+		if (!(**str))
 			return (-2);
-		ft_join(str, buff, 3);
+		ft_join(*str, buff, 3);
 		return (i);
 	}
-	tmp = malloc(sizeof(char) * ft_strlen(*str) + 1);
+	tmp = malloc(sizeof(char) * ft_strlen(**str) + 1);
 	if (!tmp)
 		return (-2);
-	ft_join(&tmp,*str, 4);
+	ft_join(&tmp,**str, 4);
 	free(*str);
-	*str = malloc(sizeof(char) * i + ft_strlen(tmp) + 1);
+	**str = malloc(sizeof(char) * i + ft_strlen(tmp) + 1);
 	if (!tmp)
 		return (-2);
 	ft_join(str, tmp, 5);
@@ -197,7 +197,7 @@ char	*get_next_line(int fd)
 	while (1)
 	{
 		if (i[0] == 0 || i[0] == 3)
-			i[1] = ft_read(fd, str_backup, buff, BUFFER_SIZE);
+			i[1] = ft_read(fd, &str_backup, buff, BUFFER_SIZE);
 		printf("%s\n",*str_backup);
 		if (i[1] == -2 || i[0] == -1)
 			return (NULL);
@@ -208,7 +208,7 @@ char	*get_next_line(int fd)
 			return (str_return);
 	}
 }
-int main()
+/*int main()
 {
 	int	fd;
 	
@@ -220,5 +220,5 @@ int main()
 	printf("%s:",get_next_line(fd));
 	printf("%s:",get_next_line(fd));
 	close(fd);
-}
+}*/
 
