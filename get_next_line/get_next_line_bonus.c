@@ -146,12 +146,12 @@ static int	ft_read(int fd, char ***str, char *buff, int size)
 	if (!tmp)
 		return (-2);
 	ft_join(&tmp,**str, 4);
-	free(*str);
+	free(**str);
 	**str = malloc(sizeof(char) * i + ft_strlen(tmp) + 1);
 	if (!tmp)
 		return (-2);
-	ft_join(str, tmp, 5);
-	ft_join(str, buff, 1);
+	ft_join(*str, tmp, 5);
+	ft_join(*str, buff, 1);
 	free(tmp);
 	return (i);
 }
@@ -203,12 +203,12 @@ char	*get_next_line(int fd)
 			return (NULL);
 		if (i[1] == 0 && *str_backup == NULL)
 			return (NULL);
-		str_return = ft_str_return(str_backup, &i[0]);
+		str_return = ft_str_return(&str_backup, &i[0]);
 		if (str_return != NULL)
 			return (str_return);
 	}
 }
-/*int main()
+int main()
 {
 	int	fd;
 	
@@ -220,5 +220,5 @@ char	*get_next_line(int fd)
 	printf("%s:",get_next_line(fd));
 	printf("%s:",get_next_line(fd));
 	close(fd);
-}*/
+}
 
