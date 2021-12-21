@@ -33,28 +33,34 @@ static int	ft_strlen(char *str)
 	return (i);
 }
 
-static void	ft_join(char **str, char *back, int flag)
+static void	ft_join(char ***str, char *back, int flag)
 {
 	int	i;
 	int	j;
-	static int k;
-
-	k++;
-
 
 	i = 0;
 	j = 0;
+	if (flag == 5)
+	{
+		while ((**str)[i] != '\0')
+		{
+			back[i] = (**str)[i];
+			i++;
+		}
+		back[i] = '\0';
+		return ;
+	}
 	if (flag == 1)
 	{
-		while ((*str)[i] != '\0')
+		while ((**str)[i] != '\0')
 			i++;
 	}
 	while (back[j] != '\0')
 	{
-		(*str)[i + j] = back[j];
+		(**str)[i + j] = back[j];
 		j++;
 	}
-	(*str)[i + j] = '\0';
+	(**str)[i + j] = '\0';
 }
 
 static int	ft_move_str(char ***str, int a)
@@ -76,7 +82,7 @@ static int	ft_move_str(char ***str, int a)
 	(**str) = malloc(sizeof(char) * i + 1);
 	if (!(**str))
 		return (-1);
-	ft_join(*str, tmp, 2);
+	ft_join(str, tmp, 0);
 	free(tmp);
 	return (1);
 }
@@ -116,7 +122,7 @@ static char	*ft_str_return(char ***str, int *k)
 	if (k[1] == 0)
 	{
 		tmp = malloc(sizeof(char) * ft_strlen(**str) + 1);
-		ft_join(&tmp, **str, 0);
+		ft_join(str, tmp, 5);
 		free(**str);
 		**str=NULL;
 		*k=2;
@@ -139,19 +145,19 @@ static int	ft_read(int fd, char ***str, char *buff, int size)
 		**str = malloc(sizeof(char) * i + 1);
 		if (!(**str))
 			return (-2);
-		ft_join(*str, buff, 3);
+		ft_join(str, buff, 0);
 		return (i);
 	}
 	tmp = malloc(sizeof(char) * ft_strlen(**str) + 1);
 	if (!tmp)
 		return (-2);
-	ft_join(&tmp,**str, 4);
+	ft_join(str,tmp, 5);
 	free(**str);
 	**str = malloc(sizeof(char) * i + ft_strlen(tmp) + 1);
 	if (!tmp)
 		return (-2);
-	ft_join(*str, tmp, 5);
-	ft_join(*str, buff, 1);
+	ft_join(str, tmp, 0);
+	ft_join(str, buff, 1);
 	free(tmp);
 	return (i);
 }
@@ -198,7 +204,6 @@ char	*get_next_line(int fd)
 	{
 		if (i[0] == 0 || i[0] == 3)
 			i[1] = ft_read(fd, &str_backup, buff, BUFFER_SIZE);
-		printf("%s\n",*str_backup);
 		if (i[1] == -2 || i[0] == -1)
 			return (NULL);
 		if (i[1] == 0 && *str_backup == NULL)
@@ -208,7 +213,7 @@ char	*get_next_line(int fd)
 			return (str_return);
 	}
 }
-int main()
+/*int main()
 {
 	int	fd;
 	
@@ -220,5 +225,5 @@ int main()
 	printf("%s:",get_next_line(fd));
 	printf("%s:",get_next_line(fd));
 	close(fd);
-}
+}*/
 
