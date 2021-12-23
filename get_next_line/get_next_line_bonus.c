@@ -67,7 +67,6 @@ static int	ft_move_str(char **str, int a)
 static void	ft_list_free(int fd, t_list **list)
 {
 	t_list	*save;
-	char	**savestr;
 
 	save = *list;
 	while((*list) != NULL)
@@ -83,6 +82,7 @@ static void	ft_list_free(int fd, t_list **list)
 		}
 		*list = (*list)->next;
 	}
+	*list = save;
 }
 static char	*ft_str_return(char **str, int *k, t_list **list, int fd)
 {
@@ -107,6 +107,7 @@ static char	*ft_str_return(char **str, int *k, t_list **list, int fd)
 			{
 				free(*str);
 				*str = NULL;
+				*k = 3;
 				return (tmp);
 			}
 			if (ft_move_str(str, j + 1) == -1)
@@ -121,7 +122,6 @@ static char	*ft_str_return(char **str, int *k, t_list **list, int fd)
 		tmp = malloc(sizeof(char) * ft_strlen(*str) + 1);
 		ft_join(&tmp, *str, 0);
 		free(*str);
-		ft_list_free(fd, list);
 		*str=NULL;
 		*k=2;
 		return (tmp);
@@ -207,7 +207,10 @@ char	*get_next_line(int fd)
 		if (i[1] == -2 || i[0] == -1)
 			return (NULL);
 		if (i[1] == 0 && *str_backup == NULL)
+		{
+			ft_list_free(fd, &list);
 			return (NULL);
+		}
 		str_return = ft_str_return(str_backup, &i[0], &list, fd);
 		if (str_return != NULL)
 			return (str_return);
