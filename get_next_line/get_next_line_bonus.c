@@ -213,16 +213,16 @@ char	*get_next_line(int fd)
 			return (str_return);
 	}
 }
-int main(int a, char **b)
-{
-	int	fd;
+// int main(int a, char **b)
+// {
+// 	int	fd;
 	
-	fd = open("asd.txt", O_RDONLY);
-	printf("%s:",get_next_line(fd));
-	printf("%s:",get_next_line(fd));
-	printf("%s:",get_next_line(fd));
-	printf("%s:",get_next_line(fd));
-	printf("%s:",get_next_line(fd));
-	printf("%s:",get_next_line(fd));
-	close(fd);
-}
+// 	fd = open("asd.txt", O_RDONLY);
+// 	printf("%s:",get_next_line(fd));
+// 	printf("%s:",get_next_line(fd));
+// 	printf("%s:",get_next_line(fd));
+// 	printf("%s:",get_next_line(fd));
+// 	printf("%s:",get_next_line(fd));
+// 	printf("%s:",get_next_line(fd));
+// 	close(fd);
+// }
