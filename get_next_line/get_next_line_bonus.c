@@ -207,6 +207,7 @@ char	*get_next_line(int fd)
 	str_backup = ft_list_fd(fd, &list);
 	while (1)
 	{
+		str_backup = ft_list
 		if (i[0] == 0 || i[0] == 3)
 			i[1] = ft_read(fd, str_backup, buff, BUFFER_SIZE);
 		if (i[1] == -2 || i[0] == -1)
@@ -218,7 +219,11 @@ char	*get_next_line(int fd)
 		}
 		str_return = ft_str_return(str_backup, &i[0]);
 		if (str_return != NULL)
+		{
+			if (*str_backup == NULL)
+				ft_list_free(fd, &list);
 			return (str_return);
+		}
 	}
 }
 /*
