@@ -60,7 +60,7 @@ static int	ft_move_str(char **str, int a)
 	(*str) = malloc(sizeof(char) * i + 1);
 	if (!(*str))
 		return (-1);
-	ft_join(str, tmp, 2);
+	ft_join(str, tmp, 0);
 	free(tmp);
 	return (1);
 }
@@ -123,38 +123,48 @@ static int	ft_read(int fd, char **str, char *buff, int size)
 		*str = malloc(sizeof(char) * i + 1);
 		if (!(*str))
 			return (-2);
-		ft_join(str, buff, 3);
+		ft_join(str, buff, 0);
 		return (i);
 	}
 	tmp = malloc(sizeof(char) * ft_strlen(*str) + 1);
 	if (!tmp)
 		return (-2);
-	ft_join(&tmp,*str, 4);
+	ft_join(&tmp,*str, 0);
 	free(*str);
 	*str = malloc(sizeof(char) * i + ft_strlen(tmp) + 1);
 	if (!tmp)
 		return (-2);
-	ft_join(str, tmp, 5);
+	ft_join(str, tmp, 0);
 	ft_join(str, buff, 1);
 	free(tmp);
 	return (i);
 }
 
-char	**ft_list_fd(int fd, t_list *list)
+char	**ft_list_fd(int fd, t_list **list)
 {
-	while(list->next != NULL)
+	t_list	*save;
+	char	**savestr;
+
+	save = *list;
+	while((*list) != NULL)
 	{
-		if (list->fd_list == fd)
-			return (list->str);
-		list = list->next;
+		if ((*list)->fd_list == fd)
+		{
+			savestr = (*list)->str;
+			*list = save;
+			return (savestr);
+		}
+		*list = (*list)->next;
 	}
-	if (list->fd_list == fd)
-		return (list->str);
-	list->next = malloc(sizeof(t_list));
-	list->str = malloc(sizeof(char *));
-	(list->next)->fd_list = fd;
-	(list->next)->next = NULL;
-	return ((list->next)->str);
+	*list = malloc(sizeof(t_list));
+	(*list)->str = malloc(sizeof(char *));
+	*((*list)->str) = NULL;
+	(*list)->fd_list = fd;
+	(*list)->next = NULL;
+	savestr = (*list)->str;
+	if (save != NULL)
+		*list = save;
+	return (savestr);
 }
 
 char	*get_next_line(int fd)
@@ -168,14 +178,7 @@ char	*get_next_line(int fd)
 	i[0] = 3;
 	if (fd < 0)
 		return (NULL);
-	if (list == NULL)
-	{
-		list = malloc(sizeof(t_list));
-		list->next = NULL;
-		list->str = malloc(sizeof(char *));
-		list->fd_list = fd;
-	}
-	str_backup = ft_list_fd(fd, list);
+	str_backup = ft_list_fd(fd, &list);
 	while (1)
 	{
 		if (i[0] == 0 || i[0] == 3)
