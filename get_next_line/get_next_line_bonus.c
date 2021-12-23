@@ -67,8 +67,10 @@ static int	ft_move_str(char **str, int a)
 static void	ft_list_free(int fd, t_list **list)
 {
 	t_list	*save;
+	int		i;
 
 	save = *list;
+	i = 0;
 	while((*list) != NULL)
 	{
 		if ((*list)->fd_list == fd)
@@ -77,14 +79,17 @@ static void	ft_list_free(int fd, t_list **list)
 			if ((*list)->next != NULL)
 				*list = (*list)->next;
 			free(*list);
-			*list = save;
+			*list = NULL;
+			if (i == 1)
+				*list = save;
 			return ;
 		}
 		*list = (*list)->next;
 	}
+	i = 1;
 	*list = save;
 }
-static char	*ft_str_return(char **str, int *k, t_list **list, int fd)
+static char	*ft_str_return(char **str, int *k)
 {
 	char	*tmp;
 	int		i;
@@ -211,21 +216,22 @@ char	*get_next_line(int fd)
 			ft_list_free(fd, &list);
 			return (NULL);
 		}
-		str_return = ft_str_return(str_backup, &i[0], &list, fd);
+		str_return = ft_str_return(str_backup, &i[0]);
 		if (str_return != NULL)
 			return (str_return);
 	}
 }
-// int main(int a, char **b)
-// {
-// 	int	fd;
+/*
+int main(int a, char **b)
+{
+ 	int	fd;
 	
-// 	fd = open("asd.txt", O_RDONLY);
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	close(fd);
-// }
+ 	fd = open("asd.txt", O_RDONLY);
+ 	printf("%s:",get_next_line(fd));
+ 	printf("%s:",get_next_line(fd));
+ 	printf("%s:",get_next_line(fd));
+ 	printf("%s:",get_next_line(fd));
+ 	printf("%s:",get_next_line(fd));
+ 	printf("%s:",get_next_line(fd));
+ 	close(fd);
+}*/
