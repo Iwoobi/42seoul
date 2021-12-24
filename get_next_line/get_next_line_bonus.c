@@ -64,31 +64,31 @@ static int	ft_move_str(char **str, int a)
 	free(tmp);
 	return (1);
 }
-static void	ft_list_free(int fd, t_list **list)
-{
-	t_list	*save;
-	int		i;
+// static void	ft_list_free(int fd, t_list **list)
+// {
+// 	t_list	*save;
+// 	int		i;
 
-	save = *list;
-	i = 0;
-	while((*list) != NULL)
-	{
-		if ((*list)->fd_list == fd)
-		{
-			free((*list)->str);
-			if ((*list)->next != NULL)
-				*list = (*list)->next;
-			free(*list);
-			*list = NULL;
-			if (i == 1)
-				*list = save;
-			return ;
-		}
-		*list = (*list)->next;
-	}
-	i = 1;
-	*list = save;
-}
+// 	save = *list;
+// 	i = 0;
+// 	while((*list) != NULL)
+// 	{
+// 		if ((*list)->fd_list == fd)
+// 		{
+// 			free((*list)->str);
+// 			if ((*list)->next != NULL)
+// 				*list = (*list)->next;
+// 			free(*list);
+// 			*list = NULL;
+// 			if (i == 1)
+// 				*list = save;
+// 			return ;
+// 		}
+// 		*list = (*list)->next;
+// 	}
+// 	i = 1;
+// 	*list = save;
+// }
 static char	*ft_str_return(char **str, int *k)
 {
 	char	*tmp;
@@ -164,21 +164,23 @@ static int	ft_read(int fd, char **str, char *buff, int size)
 	free(tmp);
 	return (i);
 }
-void	ft_list_add(t_list *list, t_list *add)
+void	ft_list_add(t_list **list, t_list *add)
 {
 	t_list	*save;
 
-	save = list;
-	while((list)->next != NULL)
-		list = (list)->next;
-	(list)->next = add;
-	list = save;
+	save = *list;
+	while((*list)->next != NULL)
+		*list = (*list)->next;
+	(*list)->next = add;
+	*list = save;
 }
 char	**ft_list_fd(int fd, t_list **list)
 {
 	t_list	*save;
 	char	**savestr;
-
+	t_list	**asd;
+	
+	asd = list;
 	save = *list;
 	while(*list != NULL)
 	{
@@ -198,7 +200,7 @@ char	**ft_list_fd(int fd, t_list **list)
 	savestr = (*list)->str;
 	if (save != NULL)
 	{
-		ft_list_add(save, *list);
+		ft_list_add(asd, *list);
 		*list = save;
 	}
 	return (savestr);
@@ -224,34 +226,34 @@ char	*get_next_line(int fd)
 			return (NULL);
 		if (i[1] == 0 && *str_backup == NULL)
 		{
-			ft_list_free(fd, &list);
+			//ft_list_free(fd, &list);
 			return (NULL);
 		}
 		str_return = ft_str_return(str_backup, &i[0]);
 		if (str_return != NULL)
 		{
-			if (*str_backup == NULL)
-				ft_list_free(fd, &list);
+			//if (*str_backup == NULL)
+				//ft_list_free(fd, &list);
 			return (str_return);
 		}
 	}
 }
 
-int main(int a, char **b)
-{
- 	int	fd,fd1;
+// int main(int a, char **b)
+// {
+//  	int	fd,fd1;
 	
- 	fd = open("asd.txt", O_RDONLY);
-	fd1 = open("asd1.txt", O_RDONLY);
- 	printf("%s:",get_next_line(fd1));
- 	printf("%s:",get_next_line(fd1));
- 	printf("%s:",get_next_line(fd));
- 	printf("%s:",get_next_line(fd1));
- 	printf("%s:",get_next_line(fd));
- 	printf("%s:",get_next_line(fd));
- 	printf("%s:",get_next_line(fd));
- 	printf("%s:",get_next_line(fd1));
- 	printf("%s:",get_next_line(fd));
- 	printf("%s:",get_next_line(fd1));
- 	close(fd);
-}
+//  	fd = open("asd.txt", O_RDONLY);
+// 	fd1 = open("asd1.txt", O_RDONLY);
+//  	printf("%s:",get_next_line(fd1));
+//  	printf("%s:",get_next_line(fd1));
+//  	printf("%s:",get_next_line(fd));
+//  	printf("%s:",get_next_line(fd1));
+//  	printf("%s:",get_next_line(fd));
+//  	printf("%s:",get_next_line(fd));
+//  	printf("%s:",get_next_line(fd));
+//  	printf("%s:",get_next_line(fd1));
+//  	printf("%s:",get_next_line(fd));
+//  	printf("%s:",get_next_line(fd1));
+//  	close(fd);
+// }
