@@ -164,14 +164,23 @@ static int	ft_read(int fd, char **str, char *buff, int size)
 	free(tmp);
 	return (i);
 }
+void	ft_list_add(t_list *list, t_list *add)
+{
+	t_list	*save;
 
+	save = list;
+	while((list)->next != NULL)
+		list = (list)->next;
+	(list)->next = add;
+	list = save;
+}
 char	**ft_list_fd(int fd, t_list **list)
 {
 	t_list	*save;
 	char	**savestr;
 
 	save = *list;
-	while((*list) != NULL)
+	while(*list != NULL)
 	{
 		if ((*list)->fd_list == fd)
 		{
@@ -188,7 +197,10 @@ char	**ft_list_fd(int fd, t_list **list)
 	(*list)->next = NULL;
 	savestr = (*list)->str;
 	if (save != NULL)
+	{
+		ft_list_add(save, *list);
 		*list = save;
+	}
 	return (savestr);
 }
 
@@ -201,13 +213,11 @@ char	*get_next_line(int fd)
 	int			i[3];
 
 	i[0] = 3;
-	i[2] = 0;
 	if (fd < 0)
 		return (NULL);
 	str_backup = ft_list_fd(fd, &list);
 	while (1)
 	{
-		str_backup = ft_list
 		if (i[0] == 0 || i[0] == 3)
 			i[1] = ft_read(fd, str_backup, buff, BUFFER_SIZE);
 		if (i[1] == -2 || i[0] == -1)
@@ -226,17 +236,22 @@ char	*get_next_line(int fd)
 		}
 	}
 }
-/*
+
 int main(int a, char **b)
 {
- 	int	fd;
+ 	int	fd,fd1;
 	
  	fd = open("asd.txt", O_RDONLY);
+	fd1 = open("asd1.txt", O_RDONLY);
+ 	printf("%s:",get_next_line(fd1));
+ 	printf("%s:",get_next_line(fd1));
+ 	printf("%s:",get_next_line(fd));
+ 	printf("%s:",get_next_line(fd1));
  	printf("%s:",get_next_line(fd));
  	printf("%s:",get_next_line(fd));
  	printf("%s:",get_next_line(fd));
+ 	printf("%s:",get_next_line(fd1));
  	printf("%s:",get_next_line(fd));
- 	printf("%s:",get_next_line(fd));
- 	printf("%s:",get_next_line(fd));
+ 	printf("%s:",get_next_line(fd1));
  	close(fd);
-}*/
+}
