@@ -207,12 +207,10 @@ char	*get_next_line(int fd)
 	int			i[3];
 
 	i[0] = 3;
-	if (fd < 0)
-		return (NULL);
 	str_backup = ft_list_fd(fd, &list);
 	while (1)
 	{
-		if (i[0] == 0 || i[0] == 3)
+		if (i[0]  == 0 || i[0]== 3)
 			i[1] = ft_read(fd, str_backup, buff, BUFFER_SIZE);
 		if (i[1] == -2 || i[0] == -1)
 			return (NULL);
