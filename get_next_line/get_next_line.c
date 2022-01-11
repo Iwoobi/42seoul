@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 23:44:07 by youhan            #+#    #+#             */
-/*   Updated: 2021/12/21 19:26:25 by youhan           ###   ########.fr       */
+/*   Updated: 2022/01/11 19:49:31 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,41 +16,7 @@
 #include <fcntl.h>
 #include "get_next_line.h"
 
-static int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-static void	ft_join(char **str, char *back, int flag)
-{
-	int	i;
-	int	j;
-	static int k;
-
-	k++;
-
-
-	i = 0;
-	j = 0;
-	if (flag == 1)
-	{
-		while ((*str)[i] != '\0')
-			i++;
-	}
-	while (back[j] != '\0')
-	{
-		(*str)[i + j] = back[j];
-		j++;
-	}
-	(*str)[i + j] = '\0';
-}
-
-static int	ft_move_str(char **str, int a)
+int	ft_move_str(char **str, int a)
 {
 	char	*tmp;
 	int		i;
@@ -74,7 +40,32 @@ static int	ft_move_str(char **str, int a)
 	return (1);
 }
 
-static char	*ft_str_return(char **str, int *k)
+char	*ft_str_return_fin(char **str, int *i, int *j)
+{
+	char	*tmp;
+
+	*j = *i;
+	tmp = malloc(sizeof(char) * (*i + 1) + 1);
+	if (!tmp)
+		return (NULL);
+	tmp[*i + 1] = '\0';
+	while (*i >= 0)
+	{
+		tmp[*i] = (*str)[*i];
+		*i = *i - 1;
+	}
+	if ((*str)[*j + 1] == '\0')
+	{
+		free(*str);
+		*str = NULL;
+		return (tmp);
+	}
+	if (ft_move_str(str, *j + 1) == -1)
+		return (NULL);
+	return (tmp);
+}
+
+char	*ft_str_return(char **str, int *k)
 {
 	char	*tmp;
 	int		i;
@@ -85,24 +76,7 @@ static char	*ft_str_return(char **str, int *k)
 	while ((*str)[i] != '\0')
 	{
 		if ((*str)[i] == '\n')
-		{
-			j = i;
-			tmp = malloc(sizeof(char) * (i + 1) + 1);
-			if (!tmp)
-				return (NULL);
-			tmp[i + 1] = '\0';
-			while (i-- + 1 > 0)
-				tmp[i + 1] = (*str)[i + 1];
-			if ((*str)[j + 1] == '\0')
-			{
-				free(*str);
-				*str = NULL;
-				return (tmp);
-			}
-			if (ft_move_str(str, j + 1) == -1)
-				return (NULL);
-			return (tmp);
-		}
+			return (ft_str_return_fin(str, &i, &j));
 		i++;
 	}
 	*k = 0;
@@ -111,14 +85,14 @@ static char	*ft_str_return(char **str, int *k)
 		tmp = malloc(sizeof(char) * ft_strlen(*str));
 		ft_join(&tmp, *str, 0);
 		free(*str);
-		*str=NULL;
-		*k=2;
+		*str = NULL;
+		*k = 2;
 		return (tmp);
 	}
 	return (NULL);
 }
 
-static int	ft_read(int fd, char **str, char *buff, int size)
+int	ft_read(int fd, char **str, char *buff, int size)
 {
 	int		i;
 	char	*tmp;
@@ -127,21 +101,14 @@ static int	ft_read(int fd, char **str, char *buff, int size)
 	if (i <= 0)
 		return (0);
 	buff[i] = '\0';
-	if (*str == NULL)
-	{
-		*str = malloc(sizeof(char) * i + 1);
-		if (!(*str))
-			return (-2);
-		ft_join(str, buff, 3);
-		return (i);
-	}
 	tmp = malloc(sizeof(char) * ft_strlen(*str) + 1);
 	if (!tmp)
 		return (-2);
-	ft_join(&tmp,*str, 4);
-	free(*str);
+	ft_join(&tmp, *str, 4);
+	if (*str != NULL)
+		free(*str);
 	*str = malloc(sizeof(char) * i + ft_strlen(tmp) + 1);
-	if (!tmp)
+	if (*str == NULL)
 		return (-2);
 	ft_join(str, tmp, 5);
 	ft_join(str, buff, 1);
@@ -172,17 +139,3 @@ char	*get_next_line(int fd)
 			return (str_return);
 	}
 }
-// int main(int a, char **b)
-// {
-// 	int	fd;
-	
-// 	fd = open("asd.txt", O_RDONLY);
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	printf("%s:",get_next_line(fd));
-// 	close(fd);
-// }
-
