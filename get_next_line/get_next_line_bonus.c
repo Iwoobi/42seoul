@@ -1,31 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/11 19:54:18 by youhan            #+#    #+#             */
+/*   Updated: 2022/01/11 19:54:18 by youhan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include "get_next_line_bonus.h"
 
-static int	ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 
 	i = 0;
+	if (str == NULL)
+		return (0);
 	while (str[i] != '\0')
 		i++;
 	return (i);
 }
-static void	ft_list_add(t_list *list, t_list *add)
+
+void	ft_list_add(t_list *list, t_list *add)
 {
-	while((list)->next != NULL)
+	while ((list)->next != NULL)
 		list = (list)->next;
 	(list)->next = add;
 }
-static void	ft_join(char **str, char *back, int flag)
+
+void	ft_join(char **str, char *back, int flag)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
+	if (back == NULL)
+	{
+		(*str)[0] = '\0';
+		return ;
+	}	
 	if (flag == 1)
 	{
 		while ((*str)[i] != '\0')
@@ -39,7 +60,7 @@ static void	ft_join(char **str, char *back, int flag)
 	(*str)[i + j] = '\0';
 }
 
-static int	ft_move_str(char **str, int a)
+int	ft_move_str(char **str, int a)
 {
 	char	*tmp;
 	int		i;
@@ -62,20 +83,19 @@ static int	ft_move_str(char **str, int a)
 	free(tmp);
 	return (1);
 }
-static void	ft_list_free(int fd, t_list **list)
+
+void	ft_list_free(int fd, t_list **list)
 {
 	t_list	*save;
 	t_list	*back;
-	int		i;
 
 	save = *list;
-	i = 0;
-	while((*list) != NULL)
+	while ((*list) != NULL)
 	{
 		if ((*list)->fd_list == fd)
 		{
 			free((*list)->str);
-			if (i == 1)
+			if (save != *list)
 				back->next = (*list)->next;
 			else
 			{
@@ -86,13 +106,38 @@ static void	ft_list_free(int fd, t_list **list)
 			}
 			free(*list);
 		}
-		i = 1;
 		back = *list;
 		*list = (*list)->next;
 	}
 	*list = save;
 }
-static char	*ft_str_return(char **str, int *k)
+
+char	*ft_str_return_fin(char **str, int *i, int *j)
+{
+	char	*tmp;
+
+	*j = *i;
+	tmp = malloc(sizeof(char) * (*i + 1) + 1);
+	if (!tmp)
+		return (NULL);
+	tmp[*i + 1] = '\0';
+	while (*i >= 0)
+	{
+		tmp[*i] = (*str)[*i];
+		*i = *i - 1;
+	}
+	if ((*str)[*j + 1] == '\0')
+	{
+		free(*str);
+		*str = NULL;
+		return (tmp);
+	}
+	if (ft_move_str(str, *j + 1) == -1)
+		return (NULL);
+	return (tmp);
+}
+
+char	*ft_str_return(char **str, int *k)
 {
 	char	*tmp;
 	int		i;
@@ -103,41 +148,25 @@ static char	*ft_str_return(char **str, int *k)
 	while ((*str)[i] != '\0')
 	{
 		if ((*str)[i] == '\n')
-		{
-			j = i;
-			tmp = malloc(sizeof(char) * (i + 1) + 1);
-			if (!tmp)
-				return (NULL);
-			tmp[i + 1] = '\0';
-			while (i-- + 1 > 0)
-				tmp[i + 1] = (*str)[i + 1];
-			if ((*str)[j + 1] == '\0')
-			{
-				free(*str);
-				*str = NULL;
-				*k = 3;
-				return (tmp);
-			}
-			if (ft_move_str(str, j + 1) == -1)
-				return (NULL);
-			return (tmp);
-		}
+			return (ft_str_return_fin(str, &i, &j));
 		i++;
 	}
 	*k = 0;
 	if (k[1] == 0)
 	{
-		tmp = malloc(sizeof(char) * ft_strlen(*str) + 1);
+		*k = 2;
+		tmp = malloc(sizeof(char) * ft_strlen(*str));
+		if (!tmp)
+			return (NULL);
 		ft_join(&tmp, *str, 0);
 		free(*str);
-		*str=NULL;
-		*k=2;
+		*str = NULL;
 		return (tmp);
 	}
 	return (NULL);
 }
 
-static int	ft_read(int fd, char **str, char *buff, int size)
+int	ft_read(int fd, char **str, char *buff, int size)
 {
 	int		i;
 	char	*tmp;
@@ -146,35 +175,28 @@ static int	ft_read(int fd, char **str, char *buff, int size)
 	if (i <= 0)
 		return (0);
 	buff[i] = '\0';
-	if (*str == NULL)
-	{
-		*str = malloc(sizeof(char) * i + 1);
-		if (!(*str))
-			return (-2);
-		ft_join(str, buff, 0);
-		return (i);
-	}
 	tmp = malloc(sizeof(char) * ft_strlen(*str) + 1);
 	if (!tmp)
 		return (-2);
-	ft_join(&tmp,*str, 0);
-	free(*str);
+	ft_join(&tmp, *str, 4);
+	if (*str != NULL)
+		free(*str);
 	*str = malloc(sizeof(char) * i + ft_strlen(tmp) + 1);
-	if (!tmp)
+	if (*str == NULL)
 		return (-2);
-	ft_join(str, tmp, 0);
+	ft_join(str, tmp, 5);
 	ft_join(str, buff, 1);
 	free(tmp);
 	return (i);
 }
 
-static char	**ft_list_fd(int fd, t_list **list)
+char	**ft_list_fd(int fd, t_list **list)
 {
 	t_list	*save;
 	char	**savestr;
 
 	save = *list;
-	while(*list != NULL)
+	while (*list != NULL)
 	{
 		if ((*list)->fd_list == fd)
 		{
@@ -200,21 +222,19 @@ static char	**ft_list_fd(int fd, t_list **list)
 
 char	*get_next_line(int fd)
 {
-	char		buff[BUFFER_SIZE + 1];
-	char		**str_backup;
+	char			buff[BUFFER_SIZE + 1];
+	char			**str_backup;
 	static t_list	*list;
-	char		*str_return;
-	int			i[3];
+	char			*str_return;
+	int				i[2];
 
 	i[0] = 3;
 	str_backup = ft_list_fd(fd, &list);
 	while (1)
 	{
-		if (i[0]  == 0 || i[0]== 3)
+		if (i[0] == 0 || i[0] == 3)
 			i[1] = ft_read(fd, str_backup, buff, BUFFER_SIZE);
-		if (i[1] == -2 || i[0] == -1)
-			return (NULL);
-		if (i[1] == 0 && *str_backup == NULL)
+		if (i[1] == 0 && *str_backup == NULL || i[1] == -2 || i[0] == -1)
 		{
 			ft_list_free(fd, &list);
 			return (NULL);
@@ -228,59 +248,3 @@ char	*get_next_line(int fd)
 		}
 	}
 }
-
-// int main(int a, char **b)
-// {
-//  	int	fd[4];
-	
-//  	fd[0] = open("asd.txt", O_RDWR);
-// 	char *ac;
-// 	/* 1 */ printf("%s",ac = get_next_line(1000));
-// 	free(ac);
-// 	/* 2 */ printf("%s",ac = get_next_line(fd[0]));
-// 	free(ac);
-// 	fd[1] = open("asd1.txt", O_RDWR);
-
-// 	/* 3 */ printf("%s",ac =get_next_line(1001));
-// 	free(ac);
-// 	/* 4 */ printf("%s",ac =get_next_line(fd[1]));
-// 	free(ac);
-// 	fd[2] = open("asd2.txt", O_RDWR);
-// 	/* 5 */ printf("%s",ac =get_next_line(1002));
-// 	free(ac);
-// 	/* 6 */ printf("%s",ac =get_next_line(fd[2]));
-// 	free(ac);
-
-// 	/* 7 */ printf("%s",ac =get_next_line(1003));
-// 	free(ac);
-// 	/* 8 */ printf("%s",ac =get_next_line(fd[0]));
-// 	free(ac);
-
-// 	/* 9 */ printf("%s",ac =get_next_line(1004));
-// 	free(ac);
-// 	/* 10 */ printf("%s",ac =get_next_line(fd[1]));
-// 	free(ac);
-
-// 	/* 11 */ printf("%s",ac =get_next_line(1005));
-// 	free(ac);
-// 	/* 12 */ printf("%s",ac =get_next_line(fd[2]));
-// 	free(ac);
-
-// 	/* 13 */ printf("%s",ac =get_next_line(fd[0]));
-// 	free(ac);
-// 	/* 14 */ printf("%s",ac =get_next_line(fd[1]));
-// 	free(ac);
-// 	/* 15 */ printf("%s",ac =get_next_line(fd[2]));
-// 	free(ac);
-
-// 	fd[3] = open("files/nl", O_RDWR);
-// 	/* 16 */ printf("%s",ac =get_next_line(1006));
-// 	free(ac);
-// 	/* 17 */ printf("%s",ac =get_next_line(fd[3]));
-// 	free(ac);
-// 	/* 18 */ printf("%s",ac =get_next_line(1007));
-// 	free(ac);
-// 	/* 19 */ printf("%s",ac =get_next_line(fd[3]));
-// 	free(ac);
-
-// }
