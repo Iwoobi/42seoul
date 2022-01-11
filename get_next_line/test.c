@@ -16,43 +16,6 @@
 #include <fcntl.h>
 #include "get_next_line.h"
 
-static int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (*str == NULL)
-		return (0);
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-static void	ft_join(char **str, char *back, int flag)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (back == NULL)
-	{
-		(*str)[0] = '\0';
-		return ; 
-	}	
-	if (flag == 1)
-	{
-		while ((*str)[i] != '\0')
-			i++;
-	}
-	while (back[j] != '\0')
-	{
-		(*str)[i + j] = back[j];
-		j++;
-	}
-	(*str)[i + j] = '\0';
-}
-
 static int	ft_move_str(char **str, int a)
 {
 	char	*tmp;
@@ -77,6 +40,28 @@ static int	ft_move_str(char **str, int a)
 	return (1);
 }
 
+static char	*ft_str_return_fin(char **str, int *k, int *i, int *j)
+{
+	char	*tmp;
+
+	*j = *i;
+	tmp = malloc(sizeof(char) * (*i + 1) + 1);
+	if (!tmp)
+		return (NULL);
+	tmp[*i + 1] = '\0';
+	while (*i-- + 1 > 0)
+		tmp[*i + 1] = (*str)[*i + 1];
+	if ((*str)[*j + 1] == '\0')
+	{
+		free(*str);
+		*str = NULL;
+		return (tmp);
+	}
+	if (ft_move_str(str, *j + 1) == -1)
+		return (NULL);
+	return (tmp);
+}
+
 static char	*ft_str_return(char **str, int *k)
 {
 	char	*tmp;
@@ -88,24 +73,7 @@ static char	*ft_str_return(char **str, int *k)
 	while ((*str)[i] != '\0')
 	{
 		if ((*str)[i] == '\n')
-		{
-			j = i;
-			tmp = malloc(sizeof(char) * (i + 1) + 1);
-			if (!tmp)
-				return (NULL);
-			tmp[i + 1] = '\0';
-			while (i-- + 1 > 0)
-				tmp[i + 1] = (*str)[i + 1];
-			if ((*str)[j + 1] == '\0')
-			{
-				free(*str);
-				*str = NULL;
-				return (tmp);
-			}
-			if (ft_move_str(str, j + 1) == -1)
-				return (NULL);
-			return (tmp);
-		}
+			return (ft_str_return_fin(str, k, &i, &j));
 		i++;
 	}
 	*k = 0;
