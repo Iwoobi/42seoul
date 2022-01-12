@@ -6,14 +6,10 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 23:44:07 by youhan            #+#    #+#             */
-/*   Updated: 2022/01/11 19:49:31 by youhan           ###   ########.fr       */
+/*   Updated: 2022/01/12 16:53:20 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
 #include "get_next_line.h"
 
 int	ft_move_str(char **str, int a)
@@ -82,7 +78,7 @@ char	*ft_str_return(char **str, int *k)
 	*k = 0;
 	if (k[1] == 0)
 	{
-		tmp = malloc(sizeof(char) * ft_strlen(*str));
+		tmp = malloc(sizeof(char) * ft_strlen(*str) + 1);
 		ft_join(&tmp, *str, 0);
 		free(*str);
 		*str = NULL;

@@ -1,7 +1,15 @@
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/12 15:02:31 by youhan            #+#    #+#             */
+/*   Updated: 2022/01/12 16:44:25 by youhan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line_bonus.h"
 
 char	*ft_str_return(char **str, int *k)
@@ -22,7 +30,7 @@ char	*ft_str_return(char **str, int *k)
 	if (k[1] == 0)
 	{
 		*k = 2;
-		tmp = malloc(sizeof(char) * ft_strlen(*str, NULL, NULL, 0));
+		tmp = malloc(sizeof(char) * ft_strlen(*str, NULL, NULL, 0) + 1);
 		if (!tmp)
 			return (NULL);
 		ft_join(&tmp, *str, 0);
