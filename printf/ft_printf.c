@@ -14,84 +14,108 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h>
-int	ft_flag_len(const char *str, int *printf_flag)
+
+/*
+0 : % %기호 출력
+1 : c 하나의 문자
+2 : s 문자열
+3 : p void 16진수
+4 : d 10진수 숫자
+5 : i 10진수 정수
+6 : u 10진수 정수
+7 : x 소문자 사용 16진수
+8 : X 대문자 사용 16진수
+
+*/
+
+int	ft_strlen(char *str)
 {
-	int		i;
+	int	strlen;
+
+	strlen = 0;
+	while (str[strlen])
+		strlen++;
+	return (strlen);
+}
+
+int	ft_atoi(const char *str)
+{
+	int	sign;
+	int	n;
+
+	n = 0;
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
+	if (*str == '-')
+	{
+		sign = -1;
+		str++;
+	}
+	else if (*str == '+')
+	{
+		sign = 1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+		n = n * 10 + *str++ - '0';
+	return (n * sign);
+}
+void	ft_printf_flag_print(int flag, va_list ap)
+{
+	int	buf;
+	if (flag == 0)
+		write(1, "%", 1);
+	else if (flag == 1)
+		write(1, va_arg(ap, int *), 1);
+	else if (flag == 2)
+		write(1, va_arg(ap, char *), ft_strlen(ap));
+	else if (flag == 3)
+		return ;
+}
+int	ft_flag_len(const char **str, va_list ap)
+{
 	int		flag_len;
-	char    *fin_flag;
+	char    *fin_flag; 
 
 	flag_len = 0;
 	fin_flag = "%cspdiuxX";
-	
-	while (*str)
+	(*str)++;
+	while(flag_len <= 8)
 	{
-		i = 8;
-		while(i >= 0)
+		if (**str == fin_flag[flag_len])
 		{
-			if (*str == fin_flag[i])
-			{
-				printf_flag[i] = 1; 
-				return (flag_len);
-			}
-			i--;
+			ft_printf_flag_print(flag_len, ap);
+			(*str)++;
+			return (flag_len);
 		}
-		str++;
 		flag_len++;
 	}
 	return (-1);
 }
-void	ft_arr_reset(int *arr, int len)
-{
-	int	i;
 
-	i = 0;
-	while (i < len)
-	{
-		arr[i] = 0;
-		i++;
-	}
-}
-/*
-0 : c
-1 : s
-2 : p
-3 : d
-4 : i
-5 : u
-6 : x
-7 : X
-8 : %
-9 : 0
-10: -
-11: +
-12:' '
-13: #
-14: . 
-*/
-int ft_printf(const char *str, ...)
+int	ft_printf(const char *str, ...)
 {
-	va_list ap;
-	int		printf_flag[15];
-
+	va_list	ap;
+	int		printf_flag[9];
+	int		i;
 	va_start(ap, str);
-	ft_arr_reset(printf_flag, 15);
 	while (*str)
 	{
 		if (*str == '%')
 		{
-			printf("len : %d",ft_flag_len(str, printf_flag));
-			int i = 0;
-			while(i < 15)
-			{
-				printf("\nflag : %d", printf_flag[i]);
-				i++;
-			}
+			if(ft_flag_len(&str, ap) == -1)
+				return(-1);
 		}
-		str++;
+		else
+		{
+			write(1, str, 1);
+			str++;
+		}
 	}
-	return 0;
+	return (0);
 }
-int main()
+
+int	main(void)
 {
-	ft_printf("%++--d");
+	ft_printf("12%c", 'a');
 }
