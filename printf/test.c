@@ -2,17 +2,20 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h>
-int test(char *str, ...)
+int	ft_strlen(char *str)
 {
-    va_list ap;
-    va_start(ap, str);
-    printf("%d\n", va_arg(ap,int));
-    printf("%d", va_arg(ap,int));
-    return (0);
+	int	strlen;
+
+	strlen = 0;
+	while (str[strlen])
+		strlen++;
+	return (strlen);
 }
 
 int main()
 {
-    test("b",'a',"a");
-    printf("%c","a");
+	char *a;
+
+	printf("%d",ft_strlen(a));
+    
 }
