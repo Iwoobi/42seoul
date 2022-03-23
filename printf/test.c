@@ -6,11 +6,13 @@ int test(char *str, ...)
 {
     va_list ap;
     va_start(ap, str);
-    write(1, va_arg(ap, int *), 1);
+    printf("%d\n", va_arg(ap,int));
+    printf("%d", va_arg(ap,int));
+    return (0);
 }
-va_arg(a, char *)
-|97||
+
 int main()
 {
-    test("a",'a');
+    test("b",'a',"a");
+    printf("%c","a");
 }

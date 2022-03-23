@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:56:34 by youhan            #+#    #+#             */
-/*   Updated: 2022/01/13 19:56:02 by youhan           ###   ########.fr       */
+/*   Updated: 2022/03/23 16:00:07 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,17 @@ int	ft_atoi(const char *str)
 		n = n * 10 + *str++ - '0';
 	return (n * sign);
 }
+
 void	ft_printf_flag_print(int flag, va_list ap)
 {
-	int	buf;
+	char	buf;
 	if (flag == 0)
 		write(1, "%", 1);
 	else if (flag == 1)
-		write(1, va_arg(ap, int *), 1);
+	{
+		buf = va_arg(ap, int);
+		write(1, &buf, 1);
+	}
 	else if (flag == 2)
 		write(1, va_arg(ap, char *), ft_strlen(ap));
 	else if (flag == 3)
@@ -117,5 +121,6 @@ int	ft_printf(const char *str, ...)
 
 int	main(void)
 {
-	ft_printf("12%c", 'a');
+	ft_printf("12%s", "aasdasd");
 }
+
