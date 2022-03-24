@@ -6,138 +6,55 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:56:34 by youhan            #+#    #+#             */
-/*   Updated: 2022/03/23 18:59:52 by youhan           ###   ########.fr       */
+/*   Updated: 2022/03/24 21:57:45 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdarg.h>
-#include <stdio.h>
+#include "ft_printf.h"
+
+void	ft_printf_write(char *buf, int *count, int free_nece)
+{
+	if (buf == NULL)
+	{
+		write(1, "(null)", 6);
+		*count = *count + 6;
+		return ;
+	}
+	write(1, buf, ft_strlen(buf));
+	*count = *count + ft_strlen(buf);
+	if (buf != NULL && free_nece == 0)
+		free(buf);
+}
 
 /*
-0 : % %기호 출력
-1 : c 하나의 문자
-2 : s 문자열
-3 : p void 16진수
-4 : d 10진수 숫자
-5 : i 10진수 정수
-6 : u 10진수 정수
-7 : x 소문자 사용 16진수
-8 : X 대문자 사용 16진수
-
+0:%
+1:c
+2:s
+3:p
+4:d
+5:i
+6:u
+7:x
+8:X
 */
-int	ft_atoi(const char *str)
-{
-	int	sign;
-	int	n;
-
-	n = 0;
-	while ((*str >= 9 && *str <= 13) || *str == 32)
-		str++;
-	if (*str == '-')
-	{
-		sign = -1;
-		str++;
-	}
-	else if (*str == '+')
-	{
-		sign = 1;
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-		n = n * 10 + *str++ - '0';
-	return (n * sign);
-}
-
-int	ft_strlen(char *str)
-{
-	int	strlen;
-
-	strlen = 0;
-	while (str[strlen])
-		strlen++;
-	return (strlen);
-}
-
-void	ft_malloc_count(long long n, int *sign, int *malloc_count, int base)
-{
-	*malloc_count = 1;
-	*sign = 1;
-	if (n < 0)
-	{
-		*sign = -1;
-		*malloc_count = *malloc_count + 1;
-		n = -1 * n;
-	}
-	while (n > 0)
-	{
-		n = n / base;
-		if (n == 0)
-			return ;
-		*malloc_count = *malloc_count + 1;
-	}
-	return ;
-}
-
-char	*ft_itoa_base(long n, int base, int mod)
-{
-	int		malloc_count;
-	int		sign;
-	char	*n_address;
-
-	ft_malloc_count(n, &sign, &malloc_count, base);
-	if (n < 0)
-		n = n * (-1);
-	n_address = malloc(sizeof(char) * malloc_count + 1);
-	if (!n_address)
-		return (NULL);
-	n_address[malloc_count] = '\0';
-	while (malloc_count >= 0)
-	{
-		malloc_count--;
-		if (n % base >= 10 && mod == 0)
-			n_address[malloc_count] = 'a' + n % base - 10;
-		else if (n % base >= 10 && mod == 1)
-			n_address[malloc_count] = 'A' + n % base - 10;
-		else
-			n_address[malloc_count] = '0' + n % base;
-		n = n / base;
-	}
-	if (sign == -1)
-		n_address[0] = '-';
-	return (n_address);
-}
 
 void	ft_printf_flag_print_2(int flag, va_list ap, int *i)
 {
-	char	*char_buf;
-
-	char_buf = ft_itoa_base(va_arg(ap, int), 10, 0);
 	if (flag == 4)
-		write(1, char_buf, ft_strlen(char_buf));
+		ft_printf_write(ft_itoa_base(va_arg(ap, int), 10, 0), i, 0);
 	else if (flag == 5)
-		write(1, char_buf, ft_strlen(char_buf));
+		ft_printf_write(ft_itoa_base(va_arg(ap, int), 10, 0), i, 0);
 	else if (flag == 6)
-		write(1, char_buf, ft_strlen(char_buf));
+		ft_printf_write(ft_itoa_base(va_arg(ap, unsigned int), 10, 0), i, 0);
 	else if (flag == 7)
-	{
-		char_buf = ft_itoa_base(va_arg(ap, int), 16, 0);
-		write(1, char_buf, ft_strlen(char_buf));
-	}
+		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned long long), 16, 0), i, 0);
 	else if (flag == 8)
-	{
-		char_buf = ft_itoa_base(va_arg(ap, int), 16, 1);
-		write(1, char_buf, ft_strlen(char_buf));
-	}
-	*i = *i + ft_strlen(char_buf);
+		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned long long), 16, 1), i, 0);
 }
 
 void	ft_printf_flag_print(int flag, va_list ap, int *i)
 {
-	char	buf;
-	long	long_buf;
-	char	*char_buf;
+	int	buf;
 
 	if (flag == 0)
 	{
@@ -151,18 +68,12 @@ void	ft_printf_flag_print(int flag, va_list ap, int *i)
 		*i = *i + 1;
 	}
 	else if (flag == 2)
-	{
-		char_buf = va_arg(ap, char *);
-		write(1, char_buf, ft_strlen(char_buf));
-		*i = *i + ft_strlen(char_buf);
-	}
+		ft_printf_write(va_arg(ap, char *), i, 1);
 	else if (flag == 3)
 	{
-		long_buf = va_arg(ap, long);
-		char_buf = ft_itoa_base(long_buf, 16, 0);
 		write(1, "0x", 2);
-		write(1, char_buf, ft_strlen(char_buf));
-		*i = *i + 2 + ft_strlen(char_buf);
+		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, long long), 16, 0), i, 0);
+		*i = *i + 2;
 	}
 	else
 		ft_printf_flag_print_2(flag, ap, i);
@@ -192,7 +103,6 @@ int	ft_flag_len(const char **str, va_list ap, int *i)
 int	ft_printf(const char *str, ...)
 {
 	va_list	ap;
-	int		printf_flag[9];
 	int		i;
 
 	i = 0;
@@ -211,9 +121,12 @@ int	ft_printf(const char *str, ...)
 			i++;
 		}
 	}
+	va_end(ap);
 	return (i);
 }
+#include <stdio.h>
 int main()
 {
-	ft_printf("%s", NULL);
+	printf("%lx\n",9223372036854775807LL);
+	ft_printf("%x",9223372036854775807LL);
 }

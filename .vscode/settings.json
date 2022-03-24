@@ -4,7 +4,8 @@
         "libft.h": "c",
         "get_next_line.h": "c",
         "stdlib.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "ft_printf.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
