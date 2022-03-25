@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 19:36:06 by youhan            #+#    #+#             */
-/*   Updated: 2022/03/24 21:32:13 by youhan           ###   ########.fr       */
+/*   Updated: 2022/03/25 15:36:27 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int		ft_strlen(char *str);
 void	ft_malloc_count(long long n, int *sign, int *malloc_count, int base);
-char	*ft_itoa_base(long n, int base, int mod);
+char	*ft_itoa_base(long long n, int base, int mod);
 void	ft_printf_write(char *buf, int *count, int free_nece);
 void	ft_printf_flag_print_2(int flag, va_list ap, int *i);
 void	ft_printf_flag_print(int flag, va_list ap, int *i);

@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 19:37:26 by youhan            #+#    #+#             */
-/*   Updated: 2022/03/24 21:47:41 by youhan           ###   ########.fr       */
+/*   Updated: 2022/03/25 15:36:27 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_malloc_count(long long n, int *sign, int *malloc_count, int base)
 	return ;
 }
 
-char	*ft_itoa_base(long n, int base, int mod)
+char	*ft_itoa_base(long long n, int base, int mod)
 {
 	int		malloc_count;
 	int		sign;
