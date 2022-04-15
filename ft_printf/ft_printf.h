@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 19:36:06 by youhan            #+#    #+#             */
-/*   Updated: 2022/03/25 15:36:27 by youhan           ###   ########.fr       */
+/*   Updated: 2022/04/15 18:50:53 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_printf_flag_print(int flag, va_list ap, int *i);
 int		ft_flag_len(const char **str, va_list ap, int *i);
 int		ft_printf(const char *str, ...);
 char	*ft_itoa_base_hexad(unsigned long long n, int base, int mod);
-void	ft_malloc_count_hexad(unsigned long long n, int *sign, int *malloc_count, int base);
+void	ft_malloc_count_hexad(unsigned long long n, int *sign,
+			int *malloc_count, int base);
 
 #endif

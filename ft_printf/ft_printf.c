@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:56:34 by youhan            #+#    #+#             */
-/*   Updated: 2022/03/25 16:24:24 by youhan           ###   ########.fr       */
+/*   Updated: 2022/04/15 19:41:20 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ void	ft_printf_flag_print_2(int flag, va_list ap, int *i)
 	else if (flag == 6)
 		ft_printf_write(ft_itoa_base(va_arg(ap, unsigned int), 10, 0), i, 0);
 	else if (flag == 7)
-		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned int), 16, 0), i, 0);
+		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned int), 16, 0), i,
+			0);
 	else if (flag == 8)
-		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned int), 16, 1), i, 0);
+		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned int), 16, 1), i,
+			0);
 }
 
 void	ft_printf_flag_print(int flag, va_list ap, int *i)
@@ -72,7 +74,8 @@ void	ft_printf_flag_print(int flag, va_list ap, int *i)
 	else if (flag == 3)
 	{
 		write(1, "0x", 2);
-		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned long), 16, 0), i, 0);
+		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned long), 16, 0), i,
+			0);
 		*i = *i + 2;
 	}
 	else

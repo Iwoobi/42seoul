@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 19:37:26 by youhan            #+#    #+#             */
-/*   Updated: 2022/03/25 15:36:27 by youhan           ###   ########.fr       */
+/*   Updated: 2022/04/15 19:27:38 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	ft_strlen(char *str)
 	return (strlen);
 }
 
-void	ft_malloc_count_hexad(unsigned long long n, int *sign, int *malloc_count, int base)
+void	ft_malloc_count_hexad(unsigned long long n, int *sign,
+int *malloc_count, int base)
 {
 	*malloc_count = 1;
 	*sign = 1;
-
 	while (n > 0)
 	{
 		n = n / base;
@@ -112,4 +112,3 @@ char	*ft_itoa_base(long long n, int base, int mod)
 		n_address[0] = '-';
 	return (n_address);
 }
-
