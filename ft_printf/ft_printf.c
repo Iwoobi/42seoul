@@ -6,11 +6,12 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 16:56:34 by youhan            #+#    #+#             */
-/*   Updated: 2022/04/15 19:41:20 by youhan           ###   ########.fr       */
+/*   Updated: 2022/04/19 20:08:11 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
 void	ft_printf_write(char *buf, int *count, int free_nece)
 {
@@ -20,23 +21,16 @@ void	ft_printf_write(char *buf, int *count, int free_nece)
 		*count = *count + 6;
 		return ;
 	}
+	if (ft_strlen(buf) == -1)
+	{
+		*count = -1;
+		return ;
+	}
 	write(1, buf, ft_strlen(buf));
 	*count = *count + ft_strlen(buf);
 	if (buf != NULL && free_nece == 0)
 		free(buf);
 }
-
-/*
-0:%
-1:c
-2:s
-3:p
-4:d
-5:i
-6:u
-7:x
-8:X
-*/
 
 void	ft_printf_flag_print_2(int flag, va_list ap, int *i)
 {
@@ -47,10 +41,10 @@ void	ft_printf_flag_print_2(int flag, va_list ap, int *i)
 	else if (flag == 6)
 		ft_printf_write(ft_itoa_base(va_arg(ap, unsigned int), 10, 0), i, 0);
 	else if (flag == 7)
-		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned int), 16, 0), i,
+		ft_printf_write(ft_itoa_base(va_arg(ap, unsigned int), 16, 0), i,
 			0);
 	else if (flag == 8)
-		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned int), 16, 1), i,
+		ft_printf_write(ft_itoa_base(va_arg(ap, unsigned int), 16, 1), i,
 			0);
 }
 
@@ -74,8 +68,8 @@ void	ft_printf_flag_print(int flag, va_list ap, int *i)
 	else if (flag == 3)
 	{
 		write(1, "0x", 2);
-		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned long), 16, 0), i,
-			0);
+		ft_printf_write(ft_itoa_base_hexad(va_arg(ap, unsigned long long),
+				16, 0), i, 0);
 		*i = *i + 2;
 	}
 	else
@@ -95,6 +89,8 @@ int	ft_flag_len(const char **str, va_list ap, int *i)
 		if (**str == fin_flag[flag_len])
 		{
 			ft_printf_flag_print(flag_len, ap, i);
+			if (*i == -1)
+				return (-1);
 			(*str)++;
 			return (flag_len);
 		}

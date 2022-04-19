@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 19:37:26 by youhan            #+#    #+#             */
-/*   Updated: 2022/04/15 19:27:38 by youhan           ###   ########.fr       */
+/*   Updated: 2022/04/19 20:06:55 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,14 @@ int	ft_strlen(char *str)
 
 	strlen = 0;
 	while (str[strlen])
+	{
+		if (strlen == 2147483646)
+		{
+			if (str[strlen + 1])
+				return (-1);
+		}
 		strlen++;
+	}
 	return (strlen);
 }
 
