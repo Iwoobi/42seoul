@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 21:45:15 by youhan            #+#    #+#             */
-/*   Updated: 2022/04/22 19:23:37 by youhan           ###   ########.fr       */
+/*   Updated: 2022/04/22 20:29:08 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+
+typedef struct s_list
+{
+	int				val;
+	struct s_list	*before;
+	struct s_list	*next;
+}	t_list;
 
 int	ft_atoi(char *input)
 {
@@ -41,8 +48,5 @@ int	ft_atoi(char *input)
 
 int	main(int argc, char **argv)
 {
-	if (argc == 1)
-		return (-1);
-	if (ft_intput_test = -1)
-		return (-1);
+	if (argc =)
 }
