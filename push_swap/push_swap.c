@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 21:45:15 by youhan            #+#    #+#             */
-/*   Updated: 2022/03/25 21:45:15 by youhan           ###   ########.fr       */
+/*   Updated: 2022/04/22 19:23:37 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 int	ft_atoi(char *input)
 {
 	int	sign;
-	int	num;
+	int	n;
 
 	sign = 1;
-	num = 0;
+	n = 0;
 	while ((*str >= 9 && *str <= 13) || *str == 32)
 		str++;
 	if (*str == '-')
@@ -41,5 +41,8 @@ int	ft_atoi(char *input)
 
 int	main(int argc, char **argv)
 {
-	
+	if (argc == 1)
+		return (-1);
+	if (ft_intput_test = -1)
+		return (-1);
 }
