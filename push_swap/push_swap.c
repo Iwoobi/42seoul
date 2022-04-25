@@ -14,12 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-typedef struct s_list
-{
-	int				val;
-	struct s_list	*before;
-	struct s_list	*next;
-}	t_list;
+
 void	ft_swap(int *a, int *b)
 {
 	int	temp;
@@ -157,22 +152,28 @@ int	ft_input_number_index(int *arr, char **argv, int len, int i)
 	j = 0;
 	while (j < len)
 	{
-		if (arr[i] == ft_atoi(argv[1 + j]))
+		if (arr[j] == ft_atoi(argv[1 + i]))
 			return (1 + j);
 		j++;
 	}
 	return (-1);
 }
 
-t_list	*ft_make_stack(t_list **stack_n, int *arr, char **argv ,int len)
+t_list	*ft_make_stack(t_list **stack_n, int *arr, char **argv, int len)
 {
-	int	i;
+	int		i;
 	t_list	*save_add;
 
 	save_add = *stack_n;
 	i = 0;
 	while (i < len)
 	{
+		if (i == len - 1)
+		{
+			(*stack_n)->next = NULL;
+			(*stack_n)->val = ft_input_number_index(arr, argv, len, i);
+			return (save_add);
+		}
 		(*stack_n)->next = malloc(sizeof(t_list));
 		if ((*stack_n)->next == NULL)
 			return (NULL);
@@ -185,13 +186,30 @@ t_list	*ft_make_stack(t_list **stack_n, int *arr, char **argv ,int len)
 	}
 	return (save_add);
 }
+
+void	ft_free_list(t_list **stack)
+{
+	while ((*stack)->next != NULL)
+		*stack = (*stack)->next;
+	*stack = (*stack)->before;
+	while ((*stack)->before == NULL)
+	{
+		free((*stack)->next);
+		(*stack)->next = NULL;
+		*stack = (*stack)->before;
+	}
+	free(*stack);
+	*stack = NULL;
+}
+
 void	ft_printf_list(t_list *stack)
 {
 	while (stack->next != NULL)
 	{
-		printf("%d\n",stack->val);
+		printf("%d\n", stack->val);
 		stack = stack->next;
 	}
+	printf("%d\n", stack->val);
 }
 
 int	main(int argc, char **argv)
@@ -213,6 +231,5 @@ int	main(int argc, char **argv)
 
 	stack_a = ft_make_stack(&stack_a, sort_arr, argv, argc - 1);
 	ft_printf_list(stack_a);
-
-
+	ft_free_list(&stack_a);
 }
