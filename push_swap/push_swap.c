@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 21:45:15 by youhan            #+#    #+#             */
-/*   Updated: 2022/04/28 07:45:21 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/02 20:55:37 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,6 +331,8 @@ void	ft_push_b(t_stack_list *stack)
 	if (stack->stack_b != NULL)
 		(save_stack->next)->before = save_stack;
 	stack->stack_b = save_stack;
+	(stack->size_b)++;
+	(stack->size_a)--;
 }
 
 void	ft_push_a(t_stack_list *stack)
@@ -345,14 +347,194 @@ void	ft_push_a(t_stack_list *stack)
 	if (save_stack->next != NULL)
 		(save_stack->next)->before = save_stack;
 	stack->stack_a = save_stack;
+	(stack->size_a)++;
+	(stack->size_b)--;
 }
 
-void	ft_push_n(t_stack_list *stack, int a)
+void	ft_push_n(t_stack_list *stack, int mod)
 {
-	if (a == 0)
+	if (mod == 1)
 		ft_push_a(stack);
-	else
+	if (mod == 2)
 		ft_push_b(stack);
+}
+
+void	ft_swap_a(t_stack_list *stack)
+{
+	int	tmp;
+	
+	if (stack->stack_a == NULL)
+	{
+		printf("error swap a\n");
+		exit(0);
+	}
+
+	if ((stack->stack_a)->next == NULL)
+	{
+		printf("error swap a\n");
+		exit(0);
+	}
+	tmp = (stack->stack_a)->val;
+	(stack->stack_a)->val = ((stack->stack_a)->next)->val;
+	((stack->stack_a)->next)->val = tmp;
+}
+
+void	ft_swap_b(t_stack_list *stack)
+{
+	int	tmp;
+	
+	if (stack->stack_b == NULL)
+	{
+		printf("error swap b\n");
+		exit(0);
+	}
+
+	if ((stack->stack_b)->next == NULL)
+	{
+		printf("error swap b\n");
+		exit(0);
+	}
+	tmp = (stack->stack_b)->val;
+	(stack->stack_b)->val = ((stack->stack_b)->next)->val;
+	((stack->stack_b)->next)->val = tmp;
+}
+
+void	ft_swap_n(t_stack_list *stack, int mod)
+{
+	if (mod == 0)
+	{
+		ft_swap_a(stack);
+		ft_swap_b(stack);
+	}
+	else if (mod == 1)
+		ft_swap_a(stack);
+	else if (mod == 2)
+		ft_swap_b(stack);
+}
+
+void	ft_rotate_a(t_stack_list *stack)
+{
+	t_list	*save;
+
+	if (stack->stack_a == NULL)
+	{
+		printf("error rotate_a");
+		exit(0);
+	}
+	if ((stack->stack_a)->next == NULL)
+	{
+		printf("error rotate_a next");
+		exit(0);
+	}
+	save = stack->stack_a;
+	((stack->stack_a)->next)->before = NULL;
+	stack->stack_a = (stack->stack_a)->next;
+	while ((stack->stack_a)->next != NULL)
+		stack->stack_a = (stack->stack_a)->next;
+	save->before = (stack->stack_a);
+	save->next = NULL;
+	(stack->stack_a)->next = save;
+	while ((stack->stack_a)->before != NULL)
+		stack->stack_a = (stack->stack_a)->before;
+}
+
+void	ft_rotate_b(t_stack_list *stack)
+{
+	t_list	*save;
+	
+	if (stack->stack_b == NULL)
+	{
+		printf("error rotate_b");
+		exit(0);
+	}
+	if ((stack->stack_b)->next == NULL)
+	{
+		printf("error rotate_b next");
+		exit(0);
+	}
+	save = stack->stack_b;
+	((stack->stack_b)->next)->before = NULL;
+	stack->stack_b = (stack->stack_b)->next;
+	while ((stack->stack_b)->next != NULL)
+		stack->stack_b = (stack->stack_b)->next;
+	save->before = (stack->stack_b);
+	save->next = NULL;
+	(stack->stack_b)->next = save;
+	while ((stack->stack_b)->before != NULL)
+		stack->stack_b = (stack->stack_b)->before;
+}
+
+void	ft_rotate_n(t_stack_list *stack, int mod)
+{
+	if (mod == 0)
+	{
+		ft_rotate_a(stack);
+		ft_rotate_b(stack);
+	}
+	if (mod == 1)
+		ft_rotate_a(stack);
+	if (mod == 2)
+		ft_rotate_b(stack);
+}
+
+void	ft_r_rotate_a(t_stack_list *stack)
+{
+	t_list	*save;
+
+	if (stack->stack_a == NULL)
+	{
+		printf("error rotate_a");
+		exit(0);
+	}
+	if ((stack->stack_a)->next == NULL)
+	{
+		printf("error rotate_a next");
+		exit(0);
+	}
+
+	save = stack->stack_a;
+	while ((stack->stack_a)->next != NULL)
+		stack->stack_a = (stack->stack_a)->next;
+	((stack->stack_a)->before)->next = NULL;
+	(stack->stack_a)->before = NULL;
+	save->before = stack->stack_a;
+	(stack->stack_a)->next = save;
+}
+
+void	ft_r_rotate_b(t_stack_list *stack)
+{
+	t_list *save;
+
+	if (stack->stack_b == NULL)
+	{
+		printf("error rotate_b");
+		exit(0);
+	}
+	if ((stack->stack_b)->next == NULL)
+	{
+		printf("error rotate_b next");
+		exit(0);
+	}
+	save = stack->stack_b;
+	while ((stack->stack_b)->next != NULL)
+		stack->stack_b = (stack->stack_b)->next;
+	((stack->stack_b)->before)->next = NULL;
+	(stack->stack_b)->before = NULL;
+	save->before = stack->stack_b;
+	(stack->stack_b)->next = save;
+}
+
+void	ft_r_rotate_n(t_stack_list *stack, int mod)
+{
+	if (mod == 0)
+	{
+		ft_r_rotate_a(stack);
+		ft_r_rotate_b(stack);
+	}
+	if (mod == 1)
+		ft_r_rotate_a(stack);
+	if (mod == 2)
+		ft_r_rotate_b(stack);
 }
 
 void	ft_printf_use(t_list *stack)
@@ -379,11 +561,18 @@ int	main(int argc, char **argv)
 	ps_stack->stack_a = ft_make_num_stack(&(ps_stack->stack_a), sort_arr, argv, argc - 1);
 	// ft_stack_a_remain(ps_stack->stack_a, argc - 1, ps_stack);
 	// ft_printf_use(ps_stack->stack_a);
-	printf("start\n");
-	ft_printf_list(ps_stack->stack_a);
-	printf("\npa\n");	
-	printf("a\n\n");
-	ft_printf_list(ps_stack->stack_a);
-	printf("\n\nb\n\n");
-	ft_printf_list(ps_stack->stack_b);
+	// ft_push_n(ps_stack, 2);
+	// ft_push_n(ps_stack, 2);
+	// ft_push_n(ps_stack, 2);
+	// ft_push_n(ps_stack, 2);
+	// printf("start\n");
+	// ft_printf_list(ps_stack->stack_a);
+	// printf("\n\nb\b\b");
+	// ft_printf_list(ps_stack->stack_b);
+	// printf("\nsa\n");	
+	// printf("a\n\n");
+	// ft_r_rotate_n(ps_stack, 0);
+	// ft_printf_list(ps_stack->stack_a);
+	// printf("\n\nb\n\n");
+	// ft_printf_list(ps_stack->stack_b);
 }
