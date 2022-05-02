@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 21:45:15 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/02 20:55:37 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/02 22:15:40 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -522,6 +522,38 @@ void	ft_r_rotate_b(t_stack_list *stack)
 	(stack->stack_b)->before = NULL;
 	save->before = stack->stack_b;
 	(stack->stack_b)->next = save;
+}
+
+void	ft_find_min_count(t_stack_list *stack, int *count_a, int *count_b)
+{
+
+}
+
+void	ft_a_b_rotate(t_stack_list *stack, int *count_a, int *count_b)
+{
+
+}
+
+void	ft_a_or_b_rotate(t_stack_list *stack, int *count_a, int *count_b)
+{
+
+}
+
+
+void	ft_greedy_a_to_b(t_stack_list *stack)
+{
+	int	count_a;
+	int	count_b;
+	
+	while (stack->size_a)
+	{
+		count_a = 0;
+		count_b = 0;
+		ft_find_min_count();
+		ft_a_b_rotate(stack, &a, &b);
+		ft_a_or_b_rotate(stack, &a, &b);
+		ft_push_b();
+	}
 }
 
 void	ft_r_rotate_n(t_stack_list *stack, int mod)
