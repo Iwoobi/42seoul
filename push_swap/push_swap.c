@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 21:45:15 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/02 22:15:40 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/03 22:46:31 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -524,35 +524,74 @@ void	ft_r_rotate_b(t_stack_list *stack)
 	(stack->stack_b)->next = save;
 }
 
-void	ft_find_min_count(t_stack_list *stack, int *count_a, int *count_b)
+int	ft_find_min_count_b(int val, t_stack_list stack)
 {
-
-}
-
-void	ft_a_b_rotate(t_stack_list *stack, int *count_a, int *count_b)
-{
-
-}
-
-void	ft_a_or_b_rotate(t_stack_list *stack, int *count_a, int *count_b)
-{
-
-}
-
-
-void	ft_greedy_a_to_b(t_stack_list *stack)
-{
-	int	count_a;
+	int	diff;
+	int	i;
 	int	count_b;
-	
-	while (stack->size_a)
+
+	diff = stack.size_a + stack.size_b;
+	i = 0;
+	if (stack.stack_b == NULL)
+		return (0);
+	while (stack.stack_b->next != NULL)
 	{
-		count_a = 0;
-		count_b = 0;
-		ft_find_min_count();
-		ft_a_b_rotate(stack, &a, &b);
-		ft_a_or_b_rotate(stack, &a, &b);
-		ft_push_b();
+		if (val - stack.stack_b->val < 0 && diff > stack.stack_b->val - val)
+		{
+			diff = - val + stack.stack_b->val;
+			count_b = i;
+		}
+		i++;
+		stack.stack_b = stack.stack_b->next;
+	}
+	if (diff == stack.size_a + stack.size_b)
+		return (0);
+	if (count_b > stack.size_b / 2)
+		return ((stack.size_b - count_b) * -1);
+	else
+		return (count_b);
+}
+int	ft_abs_n(int a)
+{
+	if (a < 0)
+		return (-1 * a);
+	return (a);
+}
+int	ft_a_b_set_count(int a, int b)
+{
+	if (a * b < 0)
+	{
+		return (ft_abs_n(a) + ft_abs_n(b));
+	}
+	else
+	{
+		if (ft_abs_n(a) > ft_abs_n(b))
+			return (ft_abs_n(a));
+		return (ft_abs_n(b));
+	}
+
+}
+void	ft_find_min_count(t_stack_list stack, int *count_a, int *count_b)
+{
+	int	i;
+	int	now_a;
+	int	now_b;
+
+	i = 0;
+	while (stack.stack_a->next != NULL)
+	{
+		now_b = ft_find_min_count_b(stack.stack_a->val, stack);
+		if (i > stack.size_a / 2)
+			now_a = (stack.size_a - i) * -1;
+		else
+			now_a = i;
+		if (ft_a_b_set_count(now_b,now_b) < ft_a_b_set_count(*count_a, *count_b) || i == 0)
+		{
+			*count_a = now_a;
+			*count_b = now_b;
+		}
+		stack.stack_a = stack.stack_a->next;
+		i++;
 	}
 }
 
@@ -568,6 +607,113 @@ void	ft_r_rotate_n(t_stack_list *stack, int mod)
 	if (mod == 2)
 		ft_r_rotate_b(stack);
 }
+
+
+void	ft_rotate_n_loop(t_stack_list *stack, int loop, int mod)
+{
+	int	i;
+
+	i = 0;
+	while (i < loop)
+	{
+		ft_rotate_n(stack, mod);
+		i++;
+	}
+}
+
+void	ft_r_rotate_n_loop(t_stack_list *stack, int loop, int mod)
+{
+	int	i;
+
+	i = 0;
+	while (i < loop)
+	{
+		ft_r_rotate_n(stack, mod);
+		i++;
+	}
+}
+
+void	ft_rotate_pa_pb(t_stack_list *stack, int *count_a, int *count_b)
+{
+	if (*count_a > *count_b)
+	{
+		ft_rotate_n_loop(stack, *count_b, 0);
+		ft_rotate_n_loop(stack, *count_a - *count_b, 1);
+	}
+	else
+	{
+		ft_rotate_n_loop(stack, *count_a, 0);
+		ft_rotate_n_loop(stack, *count_b - *count_a, 2);
+	}
+}
+
+void	ft_rotate_pa_mb(t_stack_list *stack, int *count_a, int *count_b)
+{
+	ft_rotate_n_loop(stack, *count_a, 1);
+	ft_r_rotate_n_loop(stack, ft_abs_n(*count_b), 2);
+}
+
+void	ft_rotate_ma_pb(t_stack_list *stack, int *count_a, int *count_b)
+{
+	ft_rotate_n_loop(stack, *count_b, 2);
+	ft_r_rotate_n_loop(stack, ft_abs_n(*count_a), 1);
+}
+
+void	ft_rotate_ma_mb(t_stack_list *stack, int *count_a, int *count_b)
+{
+{
+	if (ft_abs_n(*count_a) > ft_abs_n(*count_b))
+	{
+		ft_r_rotate_n_loop(stack, ft_abs_n(*count_b), 0);
+		ft_r_rotate_n_loop(stack, *count_b - *count_a, 1);
+	}
+	else
+	{
+		ft_r_rotate_n_loop(stack, ft_abs_n(*count_a), 0);
+		ft_rotate_n_loop(stack, *count_a - *count_b, 2);
+	}
+}
+}
+
+void	ft_a_b_rotate(t_stack_list *stack, int *count_a, int *count_b)
+{
+	if (*count_a > 0)
+	{
+		if (*count_b > 0)
+			ft_rotate_pa_pb(stack, count_a, count_b);
+		else
+			ft_rotate_pa_mb(stack, count_a, count_b);
+	}
+	else
+	{
+		if (*count_b > 0)
+			ft_rotate_ma_pb(stack, count_a, count_b);
+		else
+			ft_rotate_ma_mb(stack, count_a, count_b);
+	}
+}
+
+// void	ft_a_or_b_rotate(t_stack_list *stack, int *count_a, int *count_b)
+// {
+
+// }
+
+void	ft_greedy_a_to_b(t_stack_list *stack)
+{
+	int	count_a;
+	int	count_b;
+	
+	while (stack->size_a)
+	{
+		count_a = 0;
+		count_b = 0;
+		ft_find_min_count(*stack, &count_a, &count_b);
+		printf("\na,b:%d , %d\n",count_a, count_b);
+		ft_a_b_rotate(stack, &count_a, &count_b);
+		ft_push_n(stack, 2);
+	}
+}
+
 
 void	ft_printf_use(t_list *stack)
 {
@@ -591,20 +737,26 @@ int	main(int argc, char **argv)
 	ft_quicksort(sort_arr, 0, argc - 2);
 	ft_make_stack(&ps_stack, argc - 1);
 	ps_stack->stack_a = ft_make_num_stack(&(ps_stack->stack_a), sort_arr, argv, argc - 1);
+
+
+	
 	// ft_stack_a_remain(ps_stack->stack_a, argc - 1, ps_stack);
 	// ft_printf_use(ps_stack->stack_a);
 	// ft_push_n(ps_stack, 2);
 	// ft_push_n(ps_stack, 2);
 	// ft_push_n(ps_stack, 2);
-	// ft_push_n(ps_stack, 2);
-	// printf("start\n");
-	// ft_printf_list(ps_stack->stack_a);
-	// printf("\n\nb\b\b");
-	// ft_printf_list(ps_stack->stack_b);
-	// printf("\nsa\n");	
-	// printf("a\n\n");
-	// ft_r_rotate_n(ps_stack, 0);
-	// ft_printf_list(ps_stack->stack_a);
-	// printf("\n\nb\n\n");
-	// ft_printf_list(ps_stack->stack_b);
+	// // ft_push_n(ps_stack, 2);
+	printf("start\n");
+	ft_printf_list(ps_stack->stack_a);
+	
+	printf("\n\nb\n");
+	ft_printf_list(ps_stack->stack_b);
+
+	ft_greedy_a_to_b(ps_stack);
+	
+	printf("\n\n\ntest\n");
+	printf("a\n");
+	ft_printf_list(ps_stack->stack_a);
+	printf("\n\nb\n\n");
+	ft_printf_list(ps_stack->stack_b);
 }
