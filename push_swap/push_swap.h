@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 19:58:31 by youhan            #+#    #+#             */
-/*   Updated: 2022/04/28 07:24:23 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/04 21:26:56 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,48 @@ typedef	struct m_list
 	t_list	*stack_b;
 	t_list	*head_b;
 }	t_stack_list;
+
+void	ft_swap(int *a, int *b);
+void	ft_quicksort(int *arr, int L, int R);
+long long	ft_atoi(char *str);
+int	ft_check_input_number(int argc, char **argv);
+int	ft_input_unique(int *arr, int argc);
+int	ft_input_number_push(int argc, char **argv, int **sort_arr);
+int	ft_input_number_index(int *arr, char **argv, int len, int i);
+t_list	*ft_make_num_stack(t_list **stack_n, int *arr, char **argv, int len);
+void	ft_free_list(t_list **stack);
+void	ft_printf_list(t_list *stack);
+void	ft_make_stack(t_stack_list **stack, int size);
+void	ft_stack_a_remain_max(t_list *stack_a, int *remain_size, int *remain_val, t_stack_list *stack);
+void	ft_stack_init_use(t_stack_list *stack, int val_pa);
+void	ft_stack_use_init(t_list *stack_a, int val_pa, t_stack_list *stack);
+void	ft_stack_a_remain(t_list *stack_a, t_stack_list *stack);
+void	ft_push_b(t_stack_list *stack);
+void	ft_push_a(t_stack_list *stack);
+void	ft_push_n(t_stack_list *stack, int mod);
+void	ft_swap_a(t_stack_list *stack);
+void	ft_swap_b(t_stack_list *stack);
+void	ft_swap_n(t_stack_list *stack, int mod);
+void	ft_rotate_a(t_stack_list *stack);
+void	ft_rotate_b(t_stack_list *stack);
+void	ft_rotate_n(t_stack_list *stack, int mod);
+void	ft_r_rotate_a(t_stack_list *stack);
+void	ft_r_rotate_b(t_stack_list *stack);
+int	ft_find_all_min_b(int a_val, t_stack_list stack);
+int	ft_find_min_count_b(int a_val, t_stack_list stack);
+int	ft_abs_n(int a);
+int	ft_a_b_set_count(int a, int b);
+void	ft_find_min_count(t_stack_list stack, int *count_a, int *count_b);
+void	ft_r_rotate_n(t_stack_list *stack, int mod);
+void	ft_rotate_n_loop(t_stack_list *stack, int loop, int mod);
+void	ft_r_rotate_n_loop(t_stack_list *stack, int loop, int mod);
+void	ft_rotate_pa_pb(t_stack_list *stack, int *count_a, int *count_b);
+void	ft_rotate_pa_mb(t_stack_list *stack, int *count_a, int *count_b);
+void	ft_rotate_ma_pb(t_stack_list *stack, int *count_a, int *count_b);
+void	ft_rotate_ma_mb(t_stack_list *stack, int *count_a, int *count_b);
+void	ft_a_b_rotate(t_stack_list *stack, int *count_a, int *count_b);
+int	ft_sort_a(t_stack_list stack);
+void	ft_greedy_a_to_b(t_stack_list *stack);
+void	ft_printf_use(t_list *stack);
 
 #endif

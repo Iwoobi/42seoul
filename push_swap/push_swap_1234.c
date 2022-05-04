@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 21:45:15 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/04 22:07:51 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/04 21:55:33 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -543,29 +543,6 @@ void	ft_r_rotate_b(t_stack_list *stack)
 	save->before = stack->stack_b;
 	(stack->stack_b)->next = save;
 }
-int	ft_find_all_min_a(int b_val, t_stack_list stack)
-{
-	int	diff;
-	int	i;
-	int count_a;
-	
-	diff = 0;
-	i = 0;
-	while (stack.size_a > i)
-	{
-		if (diff < stack.stack_a->val - b_val)
-		{
-			diff = stack.stack_a->val - b_val;
-			count_a = i;
-		}
-		i++;
-		stack.stack_a = stack.stack_a->next;
-	}
-	if (count_a > stack.size_a / 2)
-		return ((stack.size_a - count_a) * -1);
-	else
-		return (count_a);
-}
 int	ft_find_all_min_b(int a_val, t_stack_list stack)
 {
 	int	diff;
@@ -589,6 +566,7 @@ int	ft_find_all_min_b(int a_val, t_stack_list stack)
 	else
 		return (count_b);
 }
+
 int	ft_find_min_count_b(int a_val, t_stack_list stack)
 {
 	int	diff;
@@ -618,37 +596,6 @@ int	ft_find_min_count_b(int a_val, t_stack_list stack)
 	else
 		return (count_b);
 }
-
-int	ft_find_min_count_a(int b_val, t_stack_list stack)
-{
-	int	diff;
-	int	i;
-	int	count_a;
-	t_stack_list save;
-
-	save = stack;
-	diff = stack.size_a + stack.size_b;
-	i = 0;
-	if (stack.stack_a == NULL)
-		return (0);
-	while (stack.size_a > i)
-	{
-		if (b_val - stack.stack_a->val < 0 && diff > stack.stack_a->val - b_val)
-		{
-			diff = stack.stack_a->val - b_val;
-			count_a = i;
-		}
-		i++;
-		stack.stack_a = stack.stack_a->next;
-	}
-	if (diff == stack.size_a + stack.size_b)
-		return (ft_find_all_min_a(b_val, save));
-	if (count_a > stack.size_a / 2)
-		return ((stack.size_a - count_a) * -1);
-	else
-		return (count_a);
-}
-
 int	ft_abs_n(int a)
 {
 	if (a < 0)
@@ -670,7 +617,7 @@ int	ft_a_b_set_count(int a, int b)
 
 }
 
-int	ft_use_init_count_a(t_stack_list stack)
+int	ft_use_init_count(t_stack_list stack)
 {
 	int i;
 	int count;
@@ -688,7 +635,7 @@ int	ft_use_init_count_a(t_stack_list stack)
 
 }
 
-int	ft_use_init_val_a(t_stack_list stack, int n)
+int	ft_use_init_val(t_stack_list stack, int n)
 {
 	int i;
 	int count;
@@ -709,7 +656,7 @@ int	ft_use_init_val_a(t_stack_list stack, int n)
 	return (-1);
 }
 
-int	ft_use_init_index_a(t_stack_list stack, int n)
+int	ft_use_init_index(t_stack_list stack, int n)
 {
 	int i;
 	int count;
@@ -730,51 +677,26 @@ int	ft_use_init_index_a(t_stack_list stack, int n)
 	return (-1);
 }
 
-void	ft_find_min_count_b_to_a(t_stack_list stack, int *count_a, int *count_b)
+void	ft_find_min_count(t_stack_list stack, int *count_a, int *count_b)
 {
 	int	i;
 	int	now_a;
 	int	now_b;
 
 	i = 0;
-	while (stack.size_b > i)
-	{
-		if (i > stack.size_b / 2)
-			now_b = (stack.size_b - i) * -1;
-		else
-			now_b = i;
-		now_a = ft_find_min_count_a(stack.stack_b->val, stack);
-		if (ft_a_b_set_count(now_b, now_b) < ft_a_b_set_count(*count_a, *count_b) || i == 0)
-		{
-			*count_a = now_a;
-			*count_b = now_b;
-		}
-		stack.stack_b = stack.stack_b->next;
-		i++;
-	}
-}
-
-void	ft_find_min_count(t_stack_list stack, int *count_a, int *count_b)
-{
-	int	i;
-	int	now_a;
-	int	now_b; 
-	int	loop_n;
-
-	i = 0;
-	loop_n = ft_use_init_count_a(stack);
-	while (loop_n > i)
+	while (stack.size_a > i)
 	{
 		if (i > stack.size_a / 2)
-			now_a = (stack.size_a - ft_use_init_index_a(stack, i)) * -1;
+			now_a = (stack.size_a - i) * -1;
 		else
-			now_a = ft_use_init_index_a(stack, i);
-		now_b = ft_find_min_count_b(ft_use_init_val_a(stack, i), stack);
+			now_a = i;
+		now_b = ft_find_min_count_b(stack.stack_a->val, stack);
 		if (ft_a_b_set_count(now_b, now_b) < ft_a_b_set_count(*count_a, *count_b) || i == 0)
 		{
 			*count_a = now_a;
 			*count_b = now_b;
 		}
+		stack.stack_a = stack.stack_a->next;
 		i++;
 	}
 }
@@ -884,21 +806,21 @@ void	ft_a_b_rotate(t_stack_list *stack, int *count_a, int *count_b)
 	}
 }
 
-int	ft_sort_a(t_stack_list stack)
+int	ft_sort_b(t_stack_list stack)
 {
 	int	i;
 
 	i = 0;
-	while (stack.size_a > i)
+	while (stack.size_b > i)
 	{
-		if ((stack.stack_a)->val == 1)
+		if ((stack.stack_b)->val == stack.size_b)
 		{
-			if (i > (stack.size_a) / 2)
-				return (((stack.size_a) - i) * -1);
+			if (i > (stack.size_b) / 2)
+				return (((stack.size_b) - i) * -1);
 			else
 				return (i);
 		}
-		stack.stack_a = (stack.stack_a)->next;
+		stack.stack_b = (stack.stack_b)->next;
 		i++;
 	}
 	return (i);
@@ -908,56 +830,22 @@ void	ft_greedy_a_to_b(t_stack_list *stack)
 {
 	int	count_a;
 	int	count_b;
-
-	int i;	
-	while (ft_use_init_count_a(*stack))
-	{
-		i = ft_use_init_index_a(*stack, 0);
-		while (i > 0)
-		{
-			ft_rotate_n(stack, 1);
-			i--;
-		}
-		ft_push_n(stack, 2);
-		// printf("\n\nstart\n");
-		// ft_printf_list(stack->stack_a);
-
-		// printf("\n\nb\n");
-		// ft_printf_list(stack->stack_b);
-
-	}
-
-
-	// while (ft_use_init_count_a(*stack))
-	// {
-	// 	count_a = 0;
-	// 	count_b = 0;
-	// 	ft_find_min_count(*stack, &count_a, &count_b);
-	// 	ft_a_b_rotate(stack, &count_a, &count_b);
-	// 	ft_push_n(stack, 2);
-	// }
-
-
-
-
-
-	// printf("\n\nstart\n");
-	// ft_printf_list(stack->stack_a);
 	
-	// printf("\n\nb\n");
-	// ft_printf_list(stack->stack_b);
-	while (stack->size_b)
+
+	while (stack->size_a)
 	{
 		count_a = 0;
 		count_b = 0;
-		ft_find_min_count_b_to_a(*stack, &count_a, &count_b);
+		ft_find_min_count(*stack, &count_a, &count_b);
 		ft_a_b_rotate(stack, &count_a, &count_b);
-		ft_push_n(stack, 1);
+		ft_push_n(stack, 2);
 	}
-	if (ft_sort_a(*stack) > 0)
-		ft_rotate_n_loop(stack, ft_sort_a(*stack), 1);
+	if (ft_sort_b(*stack) > 0)
+		ft_rotate_n_loop(stack, ft_sort_b(*stack), 2);
 	else
-		ft_r_rotate_n_loop(stack, ft_abs_n(ft_sort_a(*stack)), 1);
+		ft_r_rotate_n_loop(stack, ft_abs_n(ft_sort_b(*stack)), 2);
+	while (stack->size_b)
+		ft_push_n(stack, 1);
 }
 
 
@@ -986,10 +874,12 @@ int	main(int argc, char **argv)
 
 
 	
-	ft_stack_a_remain(ps_stack->stack_a, ps_stack);
+	// ft_stack_a_remain(ps_stack->stack_a, ps_stack);
 	// ft_printf_use(ps_stack->stack_a);
-
-
+	// ft_push_n(ps_stack, 2);
+	// ft_push_n(ps_stack, 2);
+	// ft_push_n(ps_stack, 2);
+	// // ft_push_n(ps_stack, 2);
 	// printf("start\n");
 	// ft_printf_list(ps_stack->stack_a);
 	
