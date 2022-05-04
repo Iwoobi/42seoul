@@ -5,7 +5,8 @@
         "get_next_line.h": "c",
         "stdlib.h": "c",
         "unistd.h": "c",
-        "ft_printf.h": "c"
+        "ft_printf.h": "c",
+        "typeinfo": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

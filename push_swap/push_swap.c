@@ -685,7 +685,6 @@ int	ft_use_init_count_a(t_stack_list stack)
 		stack.stack_a = stack.stack_a->next;
 	}
 	return (count);
-
 }
 
 int	ft_use_init_val_a(t_stack_list stack, int n)
@@ -904,30 +903,63 @@ int	ft_sort_a(t_stack_list stack)
 	return (i);
 }
 
+void	ft_rough_sort_a_to_b(t_stack_list *stack, int pivot_low, int pivot_high)
+{
+	int	a_val;
+
+	a_val = (stack->stack_a)->val;
+	if (a_val <= pivot_high)
+	{
+		ft_push_n(stack, 2);
+		if (a_val <= pivot_low)
+		{
+			if ((stack->stack_a)->val >= pivot_high)
+			{
+				if (stack->size_b >= 2 && stack->size_a >= 2)
+					ft_rotate_n(stack, 0);
+			}
+		}
+	}
+	else
+		ft_rotate_n(stack, 1);
+}
+void	ft_rough_sort(t_stack_list *stack)
+{
+	int	pivot_low;
+	int	pivot_high;
+
+	pivot_low = ((stack->size_a) / 3);
+	pivot_high = stack->size_a - pivot_low;
+	if (stack->size_a <= 3)
+		return;
+	while (stack->size_a >= pivot_low + 1 && stack->size_a > 3)
+	{
+		ft_rough_sort_a_to_b(stack, pivot_low, pivot_high);
+	}
+	ft_rough_sort(stack);
+}
+
 void	ft_greedy_a_to_b(t_stack_list *stack)
 {
 	int	count_a;
 	int	count_b;
 
-	int i;	
-	while (ft_use_init_count_a(*stack))
-	{
-		i = ft_use_init_index_a(*stack, 0);
-		while (i > 0)
-		{
-			ft_rotate_n(stack, 1);
-			i--;
-		}
-		ft_push_n(stack, 2);
-		// printf("\n\nstart\n");
-		// ft_printf_list(stack->stack_a);
+	ft_rough_sort(stack);
+	printf("asd");
 
-		// printf("\n\nb\n");
-		// ft_printf_list(stack->stack_b);
+	//그냥 넘기기
+	// while (ft_use_init_count_a(*stack))
+	// {
+	// 	i = ft_use_init_index_a(*stack, 0);
+	// 	while (i > 0)
+	// 	{
+	// 		ft_rotate_n(stack, 1);
+	// 		i--;
+	// 	}
+	// 	ft_push_n(stack, 2);
+	// }
 
-	}
-
-
+	//greedy a to b
 	// while (ft_use_init_count_a(*stack))
 	// {
 	// 	count_a = 0;
@@ -941,23 +973,22 @@ void	ft_greedy_a_to_b(t_stack_list *stack)
 
 
 
-	// printf("\n\nstart\n");
-	// ft_printf_list(stack->stack_a);
-	
-	// printf("\n\nb\n");
-	// ft_printf_list(stack->stack_b);
-	while (stack->size_b)
-	{
-		count_a = 0;
-		count_b = 0;
-		ft_find_min_count_b_to_a(*stack, &count_a, &count_b);
-		ft_a_b_rotate(stack, &count_a, &count_b);
-		ft_push_n(stack, 1);
-	}
-	if (ft_sort_a(*stack) > 0)
-		ft_rotate_n_loop(stack, ft_sort_a(*stack), 1);
-	else
-		ft_r_rotate_n_loop(stack, ft_abs_n(ft_sort_a(*stack)), 1);
+	printf("start\n");
+	ft_printf_list(stack->stack_a);
+	printf("\n\nb\n");
+	ft_printf_list(stack->stack_b);
+	// while (stack->size_b)
+	// {
+	// 	count_a = 0;
+	// 	count_b = 0;
+	// 	ft_find_min_count_b_to_a(*stack, &count_a, &count_b);
+	// 	ft_a_b_rotate(stack, &count_a, &count_b);
+	// 	ft_push_n(stack, 1);
+	// }
+	// if (ft_sort_a(*stack) > 0)
+	// 	ft_rotate_n_loop(stack, ft_sort_a(*stack), 1);
+	// else
+	// 	ft_r_rotate_n_loop(stack, ft_abs_n(ft_sort_a(*stack)), 1);
 }
 
 
@@ -986,15 +1017,15 @@ int	main(int argc, char **argv)
 
 
 	
-	ft_stack_a_remain(ps_stack->stack_a, ps_stack);
+	// ft_stack_a_remain(ps_stack->stack_a, ps_stack);
 	// ft_printf_use(ps_stack->stack_a);
 
 
-	// printf("start\n");
-	// ft_printf_list(ps_stack->stack_a);
+	printf("start\n");
+	ft_printf_list(ps_stack->stack_a);
 	
-	// printf("\n\nb\n");
-	// ft_printf_list(ps_stack->stack_b);
+	printf("\n\nb\n");
+	ft_printf_list(ps_stack->stack_b);
 
 	ft_greedy_a_to_b(ps_stack);
 	
