@@ -1,12 +1,6 @@
 {
-    "files.associations": {
-        "stdio.h": "c",
-        "libft.h": "c",
-        "get_next_line.h": "c",
-        "stdlib.h": "c",
-        "unistd.h": "c",
-        "ft_printf.h": "c",
-        "typeinfo": "c"
-    },
-    "C_Cpp.errorSquiggles": "Disabled"
+	"files.associations": {
+		"push_swap.h": "c",
+		"stdlib.h": "c"
+	}
 }

@@ -6,11 +6,12 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 21:45:15 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/05 21:47:02 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/05 21:56:40 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdlib.h>
 
 void	ft_free_list(t_list **stack)
 {
