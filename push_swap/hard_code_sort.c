@@ -14,28 +14,28 @@
 
 void	ft_hard_code_sort_3(t_stack_list *stack)
 {
-	int	val_1[3];
+	int	val[3];
+	int	diff;
 
-	val_1[0] = (stack->stack_a)->val;
-	val_1[1] = ((stack->stack_a)->next)->val;
-	val_1[2] = (((stack->stack_a)->next)->next)->val;
-	ft_quicksort(val_1, 0, 2);
-
-	if (((stack->stack_a)->next)->val - (stack->stack_a)->val == val_1[2] - val_1[0]
-		|| ((stack->stack_a)->next)->val - (stack->stack_a)->val == val_1[0]- val_1[1]
-		|| ((stack->stack_a)->next)->val - (stack->stack_a)->val == val_1[1] - val_1[2])
+	val[0] = (stack->stack_a)->val;
+	val[1] = ((stack->stack_a)->next)->val;
+	val[2] = (((stack->stack_a)->next)->next)->val;
+	ft_quicksort(val, 0, 2);
+	diff = (stack->stack_a)->next)->val - (stack->stack_a)->val;
+	if (diff == val[2] - val[0] || diff == val[0] - val[1]
+		|| diff == val[1] - val[2])
 		ft_swap_n(stack, 1);
-	if ((stack->stack_a)->val == val_1[1])
+	if ((stack->stack_a)->val == val[1])
 		ft_r_rotate_n(stack, 1);
-	else if ((stack->stack_a)->val == val_1[2])
+	else if ((stack->stack_a)->val == val[2])
 		ft_rotate_n(stack, 1);
 }
-#include <stdio.h>
+
 void	ft_hard_code_sort_5(t_stack_list *stack)
 {
 	int	count_a;
 	int	count_b;
-	
+
 	ft_push_n(stack, 2);
 	ft_push_n(stack, 2);
 	ft_hard_code_sort_3(stack);

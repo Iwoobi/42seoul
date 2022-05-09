@@ -80,7 +80,7 @@ int	ft_input_unique(int *arr, int argc)
 	return (1);
 }
 
-int ft_input_sort(t_list *stack, int argc)
+int	ft_input_sort(t_list *stack, int argc)
 {
 	int		top_val;
 	int		i;

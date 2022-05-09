@@ -12,6 +12,14 @@
 
 #include "push_swap.h"
 
+void	ft_rough_sort_a_to_b_2(t_stack_list *stack, int *save_top)
+{
+	if (*save_top == 0)
+		*save_top = (stack->stack_a)->val;
+	if (stack->size_a >= 2)
+		ft_rotate_n(stack, 1);
+}
+
 void	ft_rough_sort_a_to_b(t_stack_list *stack, int pivot_low, int *save_top)
 {
 	int	a_val;
@@ -22,7 +30,8 @@ void	ft_rough_sort_a_to_b(t_stack_list *stack, int pivot_low, int *save_top)
 		ft_push_n(stack, 2);
 		if (a_val < pivot_low)
 		{
-			if ((stack->stack_a)->val > 2 * pivot_low && *save_top != (stack->stack_a)->val)
+			if ((stack->stack_a)->val > 2 * pivot_low
+				&& *save_top != (stack->stack_a)->val)
 			{
 				if (*save_top == 0)
 					*save_top = (stack->stack_a)->val;
@@ -34,12 +43,7 @@ void	ft_rough_sort_a_to_b(t_stack_list *stack, int pivot_low, int *save_top)
 		}
 	}
 	else
-	{
-		if (*save_top == 0)
-			*save_top = (stack->stack_a)->val;
-		if (stack->size_a >= 2)
-			ft_rotate_n(stack, 1);
-	}
+		ft_rough_sort_a_to_b_2(stack, save_top);
 }
 
 void	ft_rough_sort(t_stack_list *stack)

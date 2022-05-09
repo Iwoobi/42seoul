@@ -72,7 +72,7 @@ static int	ft_malloc_free(char **arr, int b)
 
 static int	ft_skipstr(const char *str, char set)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (*str)
