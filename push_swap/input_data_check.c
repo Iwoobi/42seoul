@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 20:45:28 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/05 21:45:02 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/09 18:54:08 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_check_input_number(int argc, char **argv)
 	while (i < argc)
 	{
 		j = 0;
-		if (argv[i][0] == '-')
+		if (argv[i][0] == '-' || argv[i][0] == '+')
 			j++;
 		while (argv[i][j])
 		{
@@ -78,4 +78,22 @@ int	ft_input_unique(int *arr, int argc)
 		i++;
 	}
 	return (1);
+}
+
+int ft_input_sort(t_list *stack, int argc)
+{
+	int		top_val;
+	int		i;
+
+	top_val = stack->val;
+	i = 0;
+	while (i < argc - 1)
+	{
+		if (i == 0 || top_val + i == stack->val)
+			stack = stack->next;
+		else
+			return (1);
+		i++;
+	}
+	return (-1);
 }

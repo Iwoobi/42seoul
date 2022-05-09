@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/27 23:46:41 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/09 21:27:25 by youhan           ###   ########.fr       */
+/*   Created: 2022/05/09 21:27:08 by youhan            #+#    #+#             */
+/*   Updated: 2022/05/09 22:39:10 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
 static void	ft_strncpy(char *dest, const char *src, unsigned int n)
 {
@@ -98,20 +98,20 @@ char	**ft_split(const char *s, char c)
 	b = 0;
 	i = 0;
 	a = count_str(s, c, 0, 0);
-	arr = (char **)malloc(sizeof(char *) * (a + 1));
+	arr = (char **)malloc(sizeof(char *) * a + 2);
 	if (!arr)
 		return (NULL);
 	while (b < a)
 	{
 		s += ft_skipstr(s, c);
 		i = count_str(s, c, 1, 1);
-		arr[b] = (char *)malloc(sizeof(char) * i + 1);
-		if (ft_malloc_free(arr, b) == -1)
+		arr[b + 1] = (char *)malloc(sizeof(char) * i + 1);
+		if (ft_malloc_free(arr, b + 1) == -1)
 			return (NULL);
-		ft_strncpy(arr[b], s, i);
+		ft_strncpy(arr[b + 1], s, i);
 		s = s + i;
 		b++;
 	}
-	arr[a] = NULL;
+	arr[b + 1] = NULL;
 	return (arr);
 }

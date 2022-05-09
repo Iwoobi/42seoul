@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 23:44:07 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/09 20:36:34 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/09 18:31:47 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	ft_read(int fd, char **str, char *buff, int size)
 
 char	*get_next_line(int fd)
 {
-	char		buff[BUFFER_SIZE + 1];
+	char		buff[5];
 	static char	*str_backup;
 	char		*str_return;
 	int			i[3];
@@ -125,7 +125,7 @@ char	*get_next_line(int fd)
 	while (1)
 	{
 		if (i[0] == 0 || i[0] == 3)
-			i[1] = ft_read(fd, &str_backup, buff, BUFFER_SIZE);
+			i[1] = ft_read(fd, &str_backup, buff, 4);
 		if (i[1] == -2 || i[0] == -1)
 			return (NULL);
 		if (i[1] == 0 && str_backup == NULL)

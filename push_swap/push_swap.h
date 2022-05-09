@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 19:58:31 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/05 21:54:36 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/09 22:33:50 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PUSH_SWAP_H
 
 # include <unistd.h>
-
+# include <stdlib.h>
 typedef struct s_list
 {
 	int				val;
@@ -30,11 +30,17 @@ typedef struct s_list_big
 	t_list	*stack_b;
 }	t_stack_list;
 
+
+int			ft_strlen(char *str);
+char		**ft_split(const char *s, char c);
+char		*ft_strjoin(char **s1, char const *s2);
+void		ft_make_arg(int *argc, char ***argv);
 void		ft_swap(int *a, int *b);
 void		ft_quicksort(int *arr, int L, int R);
 long long	ft_atoi(char *str);
 int			ft_check_input_number(int argc, char **argv);
 int			ft_input_unique(int *arr, int argc);
+int			ft_input_sort(t_list *stack, int argc);
 int			ft_input_number_push(int argc, char **argv, int **sort_arr);
 int			ft_input_number_index(int *arr, char **argv, int len, int i);
 t_list		*ft_make_num_stack(t_list **stack_n, int *arr, char **argv,
@@ -69,6 +75,9 @@ void		ft_rotate_ma_mb(t_stack_list *stack, int *count_a, int *count_b);
 void		ft_a_b_rotate(t_stack_list *stack, int *count_a, int *count_b);
 int			ft_sort_a(t_stack_list stack);
 void		ft_rough_sort(t_stack_list *stack);
+void		ft_hard_code_sort_3(t_stack_list *stack);
+void		ft_hard_code_sort_5(t_stack_list *stack);
+void		ft_hard_code_sort(t_stack_list *stack);
 void		ft_greedy_a_to_b(t_stack_list *stack);
 
 #endif

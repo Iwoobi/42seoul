@@ -6,26 +6,71 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 21:45:15 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/05 21:56:40 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/09 22:43:12 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdlib.h>
 
-void	ft_free_list(t_list **stack)
+int	ft_strlen(char *str)
 {
-	while ((*stack)->next != NULL)
-		*stack = (*stack)->next;
-	*stack = (*stack)->before;
-	while ((*stack)->before != NULL)
+	int	i;
+
+	i = 0;
+	if (str == NULL)
+		return (0);
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strjoin(char **s1, char const *s2)
+{
+	char	*str;
+	int		i;
+	int		j;
+	int		k;
+
+	j = 0;
+	i = ft_strlen(*s1);
+	while (s2[j] != '\0')
+		j++;
+	str = malloc((i + j) * sizeof(char) + 2);
+	if (!str)
+		return (NULL);
+	k = 0;
+	while (k < i + j)
 	{
-		free((*stack)->next);
-		(*stack)->next = NULL;
-		*stack = (*stack)->before;
+		if (k < i)
+			str[k] = (*s1)[k];
+		if (k < j)
+			str[k + i] = s2[k];
+		k++;
 	}
-	free(*stack);
-	*stack = NULL;
+	str[i + j] = ' ';
+	str[i + j + 1] = '\0';
+	if ((*s1) != NULL)
+		free(*s1);
+	return (str);
+}
+
+void	ft_make_arg(int *argc, char ***argv)
+{
+	int		i;
+	char	*tmp;
+
+	i = 1;
+	tmp = 0;
+	while (i < *argc)
+	{
+		tmp = ft_strjoin(&tmp, (*argv)[i]);
+		i++;
+	}
+	*argv = ft_split(tmp, ' ');
+	i = 1;
+	while ((*argv)[i])
+		i++;
+	*argc = i;
 }
 
 int	main(int argc, char **argv)
@@ -33,6 +78,7 @@ int	main(int argc, char **argv)
 	int				*sort_arr;
 	t_stack_list	*ps_stack;
 
+	ft_make_arg(&argc, &argv);
 	if (argc < 3)
 		return (-1);
 	if (ft_input_number_push(argc, argv, &sort_arr) == -1)
@@ -41,5 +87,10 @@ int	main(int argc, char **argv)
 	ft_make_stack(&ps_stack, argc - 1);
 	ps_stack->stack_a
 		= ft_make_num_stack(&(ps_stack->stack_a), sort_arr, argv, argc - 1);
-	ft_greedy_a_to_b(ps_stack);
+	if (ft_input_sort(ps_stack->stack_a, argc) == -1)
+		return (-1);
+	if (argc == 4 || argc == 6)
+		ft_hard_code_sort(ps_stack);
+	else
+		ft_greedy_a_to_b(ps_stack);
 }
