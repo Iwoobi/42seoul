@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 21:04:47 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/05 21:47:39 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 19:21:08 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_push_b(t_stack_list *stack)
 {
 	t_list	*save_stack;
 
+	if (stack->size_a == 0)
+		return ;
 	save_stack = stack->stack_a;
 	if ((stack->stack_a)->next != NULL)
 		((stack->stack_a)->next)->before = NULL;
@@ -33,6 +35,8 @@ void	ft_push_a(t_stack_list *stack)
 {
 	t_list	*save_stack;
 
+	if (stack->size_b == 0)
+		return ;
 	save_stack = stack->stack_b;
 	if ((stack->stack_b)->next != NULL)
 		((stack->stack_b)->next)->before = NULL;

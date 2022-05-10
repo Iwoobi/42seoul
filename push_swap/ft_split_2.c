@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   ft_split_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 19:53:55 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/09 21:58:13 by youhan           ###   ########.fr       */
+/*   Created: 2022/05/10 19:30:41 by youhan            #+#    #+#             */
+/*   Updated: 2022/05/10 19:42:47 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
-void	ft_join(char **str, char *back, int flag)
+void	count_str_2(int *count, int *a)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (back == NULL)
-	{
-		(*str)[0] = '\0';
-		return ;
-	}	
-	if (flag == 1)
-	{
-		while ((*str)[i] != '\0')
-			i++;
-	}
-	while (back[j] != '\0')
-	{
-		(*str)[i + j] = back[j];
-		j++;
-	}
-	(*str)[i + j] = '\0';
+	if (*a == 0)
+		count[0] += 1;
+	else
+		count[1] += 1;
+	*a = 1;
 }

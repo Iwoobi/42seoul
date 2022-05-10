@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:27:08 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/10 12:08:26 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 19:34:11 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,12 @@ static int	count_str(const char *str, char set, int q, int a)
 
 	count[0] = 0;
 	count[1] = 0;
+	if (!str)
+		return (0);
 	while (*str)
 	{
 		if (*str != set)
-		{
-			if (a == 0)
-				count[0] += 1;
-			else
-				count[1] += 1;
-			a = 1;
-		}
+			count_str_2(count, &a);
 		else
 		{
 			if (q == 1 && a == 1)

@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 19:58:31 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/10 12:08:50 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 20:52:33 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ typedef struct s_list_big
 	t_list	*stack_b;
 }	t_stack_list;
 
+void		ft_check_input_number_2(char **argv, int i, int *j, int *check);
+void		count_str_2(int *count, int *a);
+int			ft_error_printf(void);
 void		ft_free_2(char ***argv);
-void		ft_free(t_stack_list **stack, int **sort_arr, char ***argv);
+int			ft_free(t_stack_list **stack, int **sort_arr, char ***argv);
 int			ft_strlen(char *str);
 char		**ft_split(const char *s, char c);
 char		*ft_strjoin(char **s1, char *s2);
@@ -41,7 +44,7 @@ void		ft_quicksort(int *arr, int L, int R);
 long long	ft_atoi(char *str);
 int			ft_check_input_number(int argc, char **argv);
 int			ft_input_unique(int *arr, int argc);
-int			ft_input_sort(t_list *stack, int argc);
+int			ft_input_sort(t_list *stack, int size);
 int			ft_input_number_push(int argc, char **argv, int **sort_arr);
 int			ft_input_number_index(int *arr, char **argv, int len, int i);
 t_list		*ft_make_num_stack(t_list **stack_n, int *arr, char **argv,

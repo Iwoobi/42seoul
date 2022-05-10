@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 21:02:25 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/05 21:48:26 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 19:19:42 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	ft_r_rotate_a(t_stack_list *stack)
 	t_list	*save;
 
 	if (stack->stack_a == NULL)
-		exit(0);
+		return ;
 	if ((stack->stack_a)->next == NULL)
-		exit(0);
+		return ;
 	save = stack->stack_a;
 	while ((stack->stack_a)->next != NULL)
 		stack->stack_a = (stack->stack_a)->next;
@@ -35,9 +35,9 @@ void	ft_r_rotate_b(t_stack_list *stack)
 	t_list	*save;
 
 	if (stack->stack_b == NULL)
-		exit(0);
+		return ;
 	if ((stack->stack_b)->next == NULL)
-		exit(0);
+		return ;
 	save = stack->stack_b;
 	while ((stack->stack_b)->next != NULL)
 		stack->stack_b = (stack->stack_b)->next;

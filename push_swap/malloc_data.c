@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 21:05:52 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/10 11:58:12 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 13:50:24 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_input_number_push(int argc, char **argv, int **sort_arr)
 		return (-1);
 	*sort_arr = (int *)malloc(sizeof(int) * (argc - 1));
 	if (!(*sort_arr))
-		return (-1);
+		exit(1);
 	i = 0;
 	while (i < argc - 1)
 	{

@@ -6,40 +6,42 @@
 #    By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/04 19:03:58 by youhan            #+#    #+#              #
-#    Updated: 2022/05/10 12:06:22 by youhan           ###   ########.fr        #
+#    Updated: 2022/05/10 21:31:27 by youhan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC = gcc
 TARGET = push_swap
-BOUNOS = checker
+BONUS_TARGET = checker
 CFLAGS = -Wall -Wextra -Werror
-SRCS = push_swap.c greedy.c greedy_2.c input_data_check.c loop_rotate.c malloc_data.c math.c push.c quick_sort.c r_rotate.c rotate.c rotate_sign_a_b.c sort_init_a_to_b.c swap.c hard_code_sort.c ft_split.c free.c
-BOUNS_SRCS = 
-BONUS_OBJS = ${BONUS_SRCS:.c=.o}
+SRCS = push_swap.c greedy.c ft_split_2.c greedy_2.c input_data_check.c loop_rotate.c malloc_data.c math.c push.c quick_sort.c r_rotate.c rotate.c rotate_sign_a_b.c sort_init_a_to_b.c swap.c hard_code_sort.c ft_split.c free.c argv_change.c error_printf.c 
+BOUNS_NEED_SRCS = ft_split_2.c greedy.c greedy_2.c input_data_check.c loop_rotate.c malloc_data.c math.c push.c quick_sort.c r_rotate.c rotate.c rotate_sign_a_b.c sort_init_a_to_b.c swap.c hard_code_sort.c ft_split.c free.c argv_change.c error_printf.c 
+BOUNS_NEED_OBJS = ${BOUNS_NEED_SRCS:.c=.o}
+BOUNS_SRCS = push_swap_bonus.c check_bonus.c get_next_line.c get_next_line_utils.c
+BONUS_OBJS = ${addprefix bonus/, ${BOUNS_SRCS:.c=.o}}
 OBJS = ${SRCS:.c=.o}
 
 .o : .c
-	${CC} ${CFLAGS} -c $< -o ${OBJS}
+	${CC} -fsanitize=address ${CFLAGS} -c $< -o $@
 
 ${TARGET} :	${OBJS}
-	${CC} ${CFLAGS} ${OBJS} -o ${TARGET} 
+	${CC} ${CFLAGS} ${OBJS} -o ${TARGET}
 
-${BONUS_OBJS} : 
+all : ${TARGET} ${BONUS_TARGET}
 
+${BONUS_TARGET} : ${BONUS_OBJS} ${BOUNS_NEED_OBJS}
+	${CC} ${CFLAGS} ${BONUS_OBJS} ${BOUNS_NEED_OBJS} -o ${BONUS_TARGET}
 
-all :	${TARGET}
-
-bonus : ${BONUS_OBJS}
-	${CC} ${CFLAGS} -o ${BONUS} ${BONUS_OBJS}
-
+bonus : ${BONUS_OBJS} ${OBJS}
+	${CC} ${CFLAGS} ${BONUS_OBJS} ${BOUNS_NEED_OBJS} -o ${BONUS_TARGET}
+	
 clean : 
-	rm -f ${OBJS} 
+	rm -f ${OBJS} ${BONUS_OBJS}
 
 fclean: clean 
-	rm -f ${TARGET}
+	rm -f ${TARGET} ${BOUNS_TARGET}
 
 re: fclean all
 
-.PHONY : all clean fclean re bonus
+.PHONY : all clean fclean re bonus 

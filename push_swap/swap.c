@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 21:03:44 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/05 21:51:05 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 19:18:33 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	ft_swap_a(t_stack_list *stack)
 	int	tmp;
 
 	if (stack->stack_a == NULL)
-		exit(0);
+		return ;
 	if ((stack->stack_a)->next == NULL)
-		exit(0);
+		return ;
 	tmp = (stack->stack_a)->val;
 	(stack->stack_a)->val = ((stack->stack_a)->next)->val;
 	((stack->stack_a)->next)->val = tmp;
@@ -31,9 +31,9 @@ void	ft_swap_b(t_stack_list *stack)
 	int	tmp;
 
 	if (stack->stack_b == NULL)
-		exit(0);
+		return ;
 	if ((stack->stack_b)->next == NULL)
-		exit(0);
+		return ;
 	tmp = (stack->stack_b)->val;
 	(stack->stack_b)->val = ((stack->stack_b)->next)->val;
 	((stack->stack_b)->next)->val = tmp;

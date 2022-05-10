@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap_bonus.c                                  :+:      :+:    :+:   */
+/*   check_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/09 17:16:09 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/09 21:20:30 by youhan           ###   ########.fr       */
+/*   Created: 2022/05/10 14:11:34 by youhan            #+#    #+#             */
+/*   Updated: 2022/05/10 20:56:45 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include "../push_swap.h"
-
+#include "push_swap_bonus.h"
 
 int	ft_command_check_4(t_stack_list *stack, char *cmd)
 {
@@ -82,42 +80,17 @@ int	ft_command_check(t_stack_list *stack, char *cmd)
 int	ft_checker(t_stack_list	*stack)
 {
 	char	*command;
-	
+
 	command = get_next_line(0);
 	while (command != NULL)
 	{
 		if (ft_command_check(stack, command) == -1)
+		{
+			free(command);
 			return (-1);
+		}
+		free(command);
 		command = get_next_line(0);
 	}
 	return (1);
-}
-
-int	ft_error_printf(void)
-{
-	write(2, "Error\n", 6);
-	exit(1);
-}
-
-int	main(int argc, char **argv)
-{
-	int				*sort_arr;
-	t_stack_list	*ps_stack;
-
-	if (argc < 3)
-		return (ft_error_printf());
-	if (ft_input_number_push(argc, argv, &sort_arr) == -1)
-		return (-1);
-	ft_quicksort(sort_arr, 0, argc - 2);
-	ft_make_stack(&ps_stack, argc - 1);
-	ps_stack->stack_a
-		= ft_make_num_stack(&(ps_stack->stack_a), sort_arr, argv, argc - 1);
-	if (ft_input_sort(ps_stack->stack_a, argc) == -1)
-		ft_error_printf();
-	if (ft_checker(ps_stack) == -1)
-		ft_error_printf();
-	if (ft_input_sort(ps_stack->stack_a, argc) == -1)
-		write(1, "OK\n", 3);
-	else
-		write(1, "KO\n", 3);
 }

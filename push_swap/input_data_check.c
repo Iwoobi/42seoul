@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 20:45:28 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/09 18:54:08 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 20:51:54 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,32 @@ long long	ft_atoi(char *str)
 	return (n * sign);
 }
 
+void	ft_check_input_number_2(char **argv, int i, int *j, int *check)
+{
+	if (!(argv[i][*j] >= '0' && argv[i][*j] <= '9'))
+		ft_error_printf();
+	else
+		*check = 1;
+	*j = *j + 1;
+}
+
 int	ft_check_input_number(int argc, char **argv)
 {
 	int	i;
 	int	j;
+	int	check;
 
 	i = 1;
+	check = 0;
 	while (i < argc)
 	{
 		j = 0;
 		if (argv[i][0] == '-' || argv[i][0] == '+')
 			j++;
 		while (argv[i][j])
-		{
-			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
-				return (-1);
-			j++;
-		}
+			ft_check_input_number_2(argv, i, &j, &check);
+		if (check == 0)
+			return (-1);
 		if (j > 11)
 			return (-1);
 		i++;
@@ -80,14 +89,14 @@ int	ft_input_unique(int *arr, int argc)
 	return (1);
 }
 
-int	ft_input_sort(t_list *stack, int argc)
+int	ft_input_sort(t_list *stack, int size)
 {
 	int		top_val;
 	int		i;
 
 	top_val = stack->val;
 	i = 0;
-	while (i < argc - 1)
+	while (i < size)
 	{
 		if (i == 0 || top_val + i == stack->val)
 			stack = stack->next;

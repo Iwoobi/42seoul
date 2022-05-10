@@ -2,6 +2,8 @@
 	"files.associations": {
 		"push_swap.h": "c",
 		"get_next_line_bonus.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"push_swap_bonus.h": "c",
+		"get_next_line.h": "c"
 	}
 }

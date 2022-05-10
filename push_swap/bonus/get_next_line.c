@@ -6,11 +6,12 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 23:44:07 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/09 18:31:47 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 14:50:03 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "../push_swap.h"
 
 int	ft_move_str(char **str, int a)
 {

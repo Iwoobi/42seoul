@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 12:04:47 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/10 12:05:25 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 20:34:28 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,26 @@ void	ft_free_2(char ***argv)
 	free((*argv));
 }
 
-void	ft_free(t_stack_list **stack, int **sort_arr, char ***argv)
+int	ft_free(t_stack_list **stack, int **sort_arr, char ***argv)
 {
-	int	i;
-
-	i = 0;
 	free(*sort_arr);
 	free((*stack)->stack_b);
-	while ((*stack)->size_a - 2 > i)
+	if ((*stack)->size_a > 1)
 	{
-		i++;
-		(*stack)->stack_a = ((*stack)->stack_a)->next;
-	}
-	while (i > -1)
-	{
-		i--;
-		(((*stack)->stack_a)->next)->before = NULL;
-		free((((*stack)->stack_a)->next));
-		if (i != -1)
+		while (((*stack)->stack_a)->next != NULL)
+			(*stack)->stack_a = ((*stack)->stack_a)->next;
+		(*stack)->stack_a = ((*stack)->stack_a)->before;
+		while ((*stack)->size_a > 1)
+		{
+			(((*stack)->stack_a)->next)->before = NULL;
+			free((((*stack)->stack_a)->next));
+			(*stack)->size_a -= 1;
+			if ((*stack)->size_a > 1)
 			(*stack)->stack_a = ((*stack)->stack_a)->before;
+		}
 	}
 	free((*stack)->stack_a);
 	free((*stack));
 	ft_free_2(argv);
+	return (1);
 }
