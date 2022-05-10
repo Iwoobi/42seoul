@@ -6,11 +6,12 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:27:08 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/09 22:39:10 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 12:08:26 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdlib.h>
 
 static void	ft_strncpy(char *dest, const char *src, unsigned int n)
 {
@@ -98,7 +99,7 @@ char	**ft_split(const char *s, char c)
 	b = 0;
 	i = 0;
 	a = count_str(s, c, 0, 0);
-	arr = (char **)malloc(sizeof(char *) * a + 2);
+	arr = (char **)malloc(sizeof(char *) * (a + 1) + 1);
 	if (!arr)
 		return (NULL);
 	while (b < a)
@@ -112,6 +113,6 @@ char	**ft_split(const char *s, char c)
 		s = s + i;
 		b++;
 	}
-	arr[b + 1] = NULL;
+	arr[a + 1] = NULL;
 	return (arr);
 }

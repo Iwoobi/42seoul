@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 19:58:31 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/09 22:33:50 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 12:08:50 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PUSH_SWAP_H
 
 # include <unistd.h>
-# include <stdlib.h>
+
 typedef struct s_list
 {
 	int				val;
@@ -30,10 +30,11 @@ typedef struct s_list_big
 	t_list	*stack_b;
 }	t_stack_list;
 
-
+void		ft_free_2(char ***argv);
+void		ft_free(t_stack_list **stack, int **sort_arr, char ***argv);
 int			ft_strlen(char *str);
 char		**ft_split(const char *s, char c);
-char		*ft_strjoin(char **s1, char const *s2);
+char		*ft_strjoin(char **s1, char *s2);
 void		ft_make_arg(int *argc, char ***argv);
 void		ft_swap(int *a, int *b);
 void		ft_quicksort(int *arr, int L, int R);
@@ -45,7 +46,6 @@ int			ft_input_number_push(int argc, char **argv, int **sort_arr);
 int			ft_input_number_index(int *arr, char **argv, int len, int i);
 t_list		*ft_make_num_stack(t_list **stack_n, int *arr, char **argv,
 				int len);
-void		ft_free_list(t_list **stack);
 void		ft_make_stack(t_stack_list **stack, int size);
 void		ft_push_b(t_stack_list *stack);
 void		ft_push_a(t_stack_list *stack);

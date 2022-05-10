@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 21:05:52 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/09 15:08:27 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 11:58:12 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_input_number_index(int *arr, char **argv, int len, int i)
 			return (1 + j);
 		j++;
 	}
-	return (-1);
+	exit(1);
 }
 
 t_list	*ft_make_num_stack(t_list **stack_n, int *arr, char **argv, int len)

@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 15:24:05 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/09 16:52:35 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 10:38:07 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	ft_hard_code_sort_3(t_stack_list *stack)
 	val[1] = ((stack->stack_a)->next)->val;
 	val[2] = (((stack->stack_a)->next)->next)->val;
 	ft_quicksort(val, 0, 2);
-	diff = (stack->stack_a)->next)->val - (stack->stack_a)->val;
-	if (diff == val[2] - val[0] || diff == val[0] - val[1]
-		|| diff == val[1] - val[2])
+	diff = ((stack->stack_a)->next)->val - (stack->stack_a)->val;
+	if (diff == val[1] - val[2] || diff == val[2] - val[0]
+		|| diff == val[0] - val[1])
 		ft_swap_n(stack, 1);
 	if ((stack->stack_a)->val == val[1])
 		ft_r_rotate_n(stack, 1);
