@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:16:09 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/10 21:34:01 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/10 21:39:40 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,15 @@ int	main(int argc, char **argv)
 		return (1);
 	ft_make_arg(&argc, &argv);
 	if (ft_input_number_push(argc, argv, &sort_arr) == -1)
-		ft_error_printf();	
+		ft_error_printf();
 	ft_quicksort(sort_arr, 0, argc - 2);
 	ft_make_stack(&ps_stack, argc - 1);
 	ps_stack->stack_a
 		= ft_make_num_stack(&(ps_stack->stack_a), sort_arr, argv, argc - 1);
 	if (ft_checker(ps_stack) == -1)
 		ft_error_printf();
-	if (ft_input_sort(ps_stack->stack_a, ps_stack->size_a) == -1 && ps_stack->size_b == 0)
+	if (ft_input_sort(ps_stack->stack_a, ps_stack->size_a) == -1
+		&& ps_stack->size_b == 0)
 		write(1, "OK\n", 3);
 	else
 		write(1, "KO\n", 3);
