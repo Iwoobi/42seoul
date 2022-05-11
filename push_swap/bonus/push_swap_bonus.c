@@ -6,20 +6,11 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:16:09 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/10 21:39:40 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/11 14:45:38 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap_bonus.h"
-
-void	free_init(t_stack_list *stack)
-{
-	int	i;
-
-	i = 0;
-	while (stack->size_b)
-		ft_push_a(stack);
-}
 
 int	main(int argc, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 19:58:31 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/10 20:52:33 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/11 14:45:25 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_list_big
 	t_list	*stack_b;
 }	t_stack_list;
 
+void		free_init(t_stack_list *stack);
 void		ft_check_input_number_2(char **argv, int i, int *j, int *check);
 void		count_str_2(int *count, int *a);
 int			ft_error_printf(void);
