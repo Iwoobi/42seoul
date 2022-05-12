@@ -4,6 +4,9 @@
 		"get_next_line_bonus.h": "c",
 		"stdlib.h": "c",
 		"push_swap_bonus.h": "c",
-		"get_next_line.h": "c"
+		"get_next_line.h": "c",
+		"fcntl.h": "c",
+		"ft_fdf.h": "c",
+		"__locale": "c"
 	}
 }

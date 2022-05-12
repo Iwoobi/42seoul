@@ -6,13 +6,14 @@
 #    By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/04 19:03:58 by youhan            #+#    #+#              #
-#    Updated: 2022/05/10 21:31:27 by youhan           ###   ########.fr        #
+#    Updated: 2022/05/12 17:15:09 by youhan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC = gcc
 TARGET = push_swap
+LEAK_FLAG = -fsanitize=address 
 BONUS_TARGET = checker
 CFLAGS = -Wall -Wextra -Werror
 SRCS = push_swap.c greedy.c ft_split_2.c greedy_2.c input_data_check.c loop_rotate.c malloc_data.c math.c push.c quick_sort.c r_rotate.c rotate.c rotate_sign_a_b.c sort_init_a_to_b.c swap.c hard_code_sort.c ft_split.c free.c argv_change.c error_printf.c 
@@ -23,7 +24,7 @@ BONUS_OBJS = ${addprefix bonus/, ${BOUNS_SRCS:.c=.o}}
 OBJS = ${SRCS:.c=.o}
 
 .o : .c
-	${CC} -fsanitize=address ${CFLAGS} -c $< -o $@
+	${CC} ${CFLAGS} -c $< -o $@
 
 ${TARGET} :	${OBJS}
 	${CC} ${CFLAGS} ${OBJS} -o ${TARGET}
