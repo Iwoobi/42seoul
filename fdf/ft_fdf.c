@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:09:53 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/12 22:59:18 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/13 05:10:57 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ void	print_arr(t_list *data)
 		j = 0;
 		while (j < data->arr_size[i])
 		{
-			printf("(%f, %f, %f)", (data->arr)[i][j][0], (data->arr)[i][j][1], (data->arr)[i][j][2]);
+			printf("(%f, %f, %f)", floor((data->arr)[i][j][0]), floor((data->arr)[i][j][1]), (data->arr)[i][j][2]);
 			if (j == data->arr_size[i] - 1)
 				printf("\n");
 			else
@@ -300,35 +300,39 @@ double	ft_radian(int a)
 {
 	return ((double)(a * M_PI) / 180);
 }
-void	point_rotate(t_list *data, t_center_list *data_center)
+void	point_rotate(t_list *data, double theta, double alpha)
 {
 	int	i;
 	int	j;
-	double	a;
-	double	b;
-	double	c;
-
-	a = data->arr[i][j][0] = data_center->n_veter[0] * data_center->n_veter[3] + data_center->n_veter[1] * data_center->n_veter[3] + data_center->n_veter[2];
-	b = data->arr[i][j][1] = data_center->n_veter[1] - data_center->n_veter[3];
-	b = data->arr[i][j][2] = data_center->n_veter[3] - data_center->n_veter[0] * data_center->n_veter[2] - data_center->n_veter[1] * data_center->n_veter[2];
-
+	double	x;
+	double	y;
+	double	z;
+	
 	i = 0;
 	while (i < data->row)
 	{
 		j = 0;
 		while (j < data->col)
 		{
-			(data->arr)[i][j][0] * a + (data->arr)[i][j][1] * b + (data->arr)[i][j][2] * c; 
-			j++; /// 회전부분
+			x = (data->arr)[i][j][0];
+			y = (data->arr)[i][j][1];
+			z = (data->arr)[i][j][2];
+			(data->arr)[i][j][0] = cos(theta) * cos(alpha) * x + sin(theta) * cos(alpha) * y - sin(alpha) * z;  
+			(data->arr)[i][j][1] = -sin(theta) * x + cos(theta);
+			(data->arr)[i][j][2] = sin(alpha) * cos(theta) * x + sin(alpha) * sin(theta) * y + cos(alpha) * z;
+			j++;
 		}
 		i++;
 	}
 
 }
-void	find_point(t_list *data, t_center_list *data_center)
+void	find_point(t_list *data, t_center_list *data_c)
 {
 	int	i;
 	int	j;
+	double	x;
+	double	y;
+	double	z;
 
 	i = 0;
 	while (i < data->row)
@@ -336,9 +340,12 @@ void	find_point(t_list *data, t_center_list *data_center)
 		j = 0;
 		while (j < data->col)
 		{
-			(data->arr)[i][j][0] = (data_center->n_veter[0]) * (data->arr)[i][j][3] + (data->arr)[i][j][0];
-			(data->arr)[i][j][0] = (data_center->n_veter[1]) * (data->arr)[i][j][3] + (data->arr)[i][j][1];
-			(data->arr)[i][j][0] = (data_center->n_veter[2]) * (data->arr)[i][j][3] + (data->arr)[i][j][2];
+			x = (data->arr)[i][j][0];
+			y = (data->arr)[i][j][1];
+			z = (data->arr)[i][j][2];
+			(data->arr)[i][j][0] = data_c->n[0] * (data->arr)[i][j][3] + x;
+			(data->arr)[i][j][1] = data_c->n[1] * (data->arr)[i][j][3] + y;
+			(data->arr)[i][j][2] = data_c->n[2] * (data->arr)[i][j][3] + z;
 			j++;
 		}
 		i++;
@@ -346,46 +353,138 @@ void	find_point(t_list *data, t_center_list *data_center)
 }
 void	ft_fdf(t_list *data)
 {
-	t_center_list	*data_center;
+	t_center_list	*data_c;
 	int				i;
 	int				j;
 
-	i = 0;
-	data_center = (t_center_list *)malloc(sizeof(t_center_list));
-	if (data_center == NULL)
+	data_c = (t_center_list *)malloc(sizeof(t_center_list));
+	if (data_c == NULL)
 		exit(1);
-	data_center->mid_x = 0;
-	data_center->mid_y = 0;
-	data_center->mid_z = 0;
-	data_center->theta = 45;
-	data_center->alpha = 45;
-	data_center->n_veter[0] = cos(ft_radian(data_center->theta));
-	data_center->n_veter[1] = sin(ft_radian(data_center->theta));
-	data_center->n_veter[2] = sin(ft_radian(data_center->alpha));
-	data_center->n_veter[3] = cos(ft_radian(data_center->alpha));
-	translation_x_y_z(data, -(data->col)/2 - data_center->mid_x, -(data->row)/2 - data_center->mid_y, -(data->max_val - data->min_val)/2 + data_center->mid_z);
+	data_c->mid_x = 0;
+	data_c->mid_y = 0;
+	data_c->mid_z = 0;
+	data_c->theta = 45;
+	data_c->alpha = 45;
+	data_c->n[0] = sin(ft_radian(data_c->theta)) * cos(ft_radian(data_c->alpha));
+	data_c->n[1] = sin(ft_radian(data_c->theta)) * sin(ft_radian(data_c->alpha));
+	data_c->n[2] = cos(ft_radian(data_c->theta));
+	translation_x_y_z(data, -(data->col)/2 - data_c->mid_x, -(data->row)/2 - data_c->mid_y, -(data->max_val - data->min_val)/2 + data_c->mid_z);
+	i = 0;
 	while (i < data->row)
 	{
 		j = 0;
 		while (j < data->col)
 		{
 			(data->arr)[i][j][3] = -1 * ((data->arr)[i][j][0]
-				* data_center->n_veter[0] + (data->arr)[i][j][1]
-				* data_center->n_veter[1] + (data->arr)[i][j][2]
-				* data_center->n_veter[2])
-				/ (1 + data_center->n_veter[2] * data_center->n_veter[2]);
+				* data_c->n[0] + (data->arr)[i][j][1]
+				* data_c->n[1] + (data->arr)[i][j][2]
+				* data_c->n[2]);
 			j++;
 		}
 		i++;
 	}
-	find_point(data, data_center);
-	point_rotate(data, data_center);
-	print_arr(data);
+	find_point(data, data_c);
+	point_rotate(data, ft_radian(data_c->theta), ft_radian(data_c->alpha));
 }
 
+// void	draw_line(int *start, int *fin, t_mlx *my_mlx)
+// {
+// 	int	w;
+// 	int	h;
+// 	int	d;
+// 	int	x;
+// 	int	y;
+	
+// 	x = start[0];
+// 	y = start[1];
+// 	w = abs(start[0] - fin[0]);
+// 	h = abs(start[1] - fin[1]);
+// 	if (w > h)
+// 	{
+// 		d = (2 * h) - w;
+//  		while (x != fin[0])
+// 		{
+// 			if (d < 0)
+// 				d += 2 * h;
+// 			else
+// 			{
+// 				y++;
+// 				if (fin[0] - fin[1] > 0)
+// 					y -= 2;
+// 				d += (2 * h - 2 * w);
+// 			}
+// 			my_mlx->img.data[y * 800 + x] = 0xFFFFFF;
+// 		}
+// 	}
+// 	else
+// 	{
+// 		d = (2 * w) - h;
+//  		while (y != fin[1])
+// 		{
+//   			if (d < 0)
+// 				d += 2 * w;
+// 			else
+// 			{
+// 				x++;
+// 				if (start[0] - start[1] > 0)
+// 					x -= 2;
+// 				d += (2 * w - 2 * h);
+// 			}
+// 			my_mlx->img.data[y * 800 + x] = 0xFFFFFF;
+// 		}
+// 	}
+// }
+
+// void	draw_lines(t_list *data, t_mlx *my_mlx)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = 0;
+// 	while (i < data->row)
+// 	{
+// 		j = 0;
+// 		while (j < data->col)
+// 		{
+// 			if (j != data->col - 1)
+// 				draw_line((int *)(data->arr)[i][j], (int *)(data->arr)[i][j + 1], my_mlx);
+// 			if (i != data->row - 1)
+// 				draw_line((int *)(data->arr)[i][j], (int *)(data->arr)[i + 1][j], my_mlx);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
+
+// void	ft_mlx_init(t_mlx *my_mlx, int	size)
+// {
+// 	my_mlx->mlx = mlx_init();
+// 	my_mlx->win = mlx_new_window(my_mlx->mlx, size, size, "FDF");
+// 	my_mlx->img.img = mlx_new_image(my_mlx->mlx, size, size);
+// 	my_mlx->img.data = (int *)mlx_get_data_addr(my_mlx->img.img, &my_mlx->img.bpp, &my_mlx->img.size_l, &my_mlx->img.endian);
+// }
+
+// int 	ft_close(void)
+// {
+// 		exit(0);
+// }
+
+// int		deal_key(int key_code)
+// {
+// 	if (key_code == 53)
+// 		exit(0);
+// 	return (0);
+// }
+// int		main_loop(t_list *data, t_mlx *my_mlx)
+// {
+// 	draw_lines(data, my_mlx);
+// 	mlx_put_image_to_window(my_mlx->mlx, my_mlx->win, my_mlx->img.img, 0, 0);
+// 	return (0);
+// }
 int	main(int argc, char **argv)
 {
-	t_list *data;
+	t_list	*data;
+	// t_mlx	my_mlx;
 
 	data = (t_list *)malloc(sizeof(t_list));
 	if (data == NULL)
@@ -395,7 +494,13 @@ int	main(int argc, char **argv)
 	if (open_file(argv[1], data) == -1)
 		exit(1);
 	inputdata_push(data);
-	print_arr(data);
 	ft_fdf(data);
-	
+	arr_multiplication(data, 100, 100, 100);
+	translation_x_y_z(data, 500, 500, 0);
+	print_arr(data);
+	// ft_mlx_init(&my_mlx, 1000);
+	// mlx_hook(my_mlx.win, 2, 0, &deal_key, &my_mlx);
+	// mlx_hook(my_mlx.win, 17, 0, &ft_close, &my_mlx);
+	// mlx_loop_hook(my_mlx.mlx, &main_loop, &my_mlx);
+	// mlx_loop(my_mlx.mlx);
 }
