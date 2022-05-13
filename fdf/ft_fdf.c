@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:09:53 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/13 05:10:57 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/13 22:34:49 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include "ft_fdf.h"
 #include <math.h>
+#include "./mlx/mlx.h"
 
 int	ft_strlen(char *str)
 {
@@ -317,9 +318,9 @@ void	point_rotate(t_list *data, double theta, double alpha)
 			x = (data->arr)[i][j][0];
 			y = (data->arr)[i][j][1];
 			z = (data->arr)[i][j][2];
-			(data->arr)[i][j][0] = cos(theta) * cos(alpha) * x + sin(theta) * cos(alpha) * y - sin(alpha) * z;  
-			(data->arr)[i][j][1] = -sin(theta) * x + cos(theta);
-			(data->arr)[i][j][2] = sin(alpha) * cos(theta) * x + sin(alpha) * sin(theta) * y + cos(alpha) * z;
+			(data->arr)[i][j][0] = cos(theta) * cos(alpha) * x + cos(theta) * sin(alpha) * y - sin(theta) * z;  
+			(data->arr)[i][j][1] = -sin(alpha) * x + cos(alpha) * y;
+			(data->arr)[i][j][2] = sin(theta) * cos(alpha) * x + sin(theta) * sin(alpha) * y + cos(theta) * z;
 			j++;
 		}
 		i++;
@@ -351,6 +352,30 @@ void	find_point(t_list *data, t_center_list *data_c)
 		i++;
 	}
 }
+
+void	rotate_point(t_list *data, double theta)
+{
+	int	i;
+	int	j;
+	double	x;
+	double	y;
+
+	i = 0;
+	while (i < data->row)
+	{
+		j = 0;
+		while (j < data->col)
+		{
+			x = (data->arr)[i][j][0];
+			y = (data->arr)[i][j][1];
+			(data->arr)[i][j][0] = cos(theta) * x - sin(theta) * y;
+			(data->arr)[i][j][1] = sin(theta) * x + cos(theta) * y;
+			j++;
+		}
+		i++;
+	}
+
+}
 void	ft_fdf(t_list *data)
 {
 	t_center_list	*data_c;
@@ -363,8 +388,8 @@ void	ft_fdf(t_list *data)
 	data_c->mid_x = 0;
 	data_c->mid_y = 0;
 	data_c->mid_z = 0;
-	data_c->theta = 45;
-	data_c->alpha = 45;
+	data_c->theta = 60;
+	data_c->alpha = -45;
 	data_c->n[0] = sin(ft_radian(data_c->theta)) * cos(ft_radian(data_c->alpha));
 	data_c->n[1] = sin(ft_radian(data_c->theta)) * sin(ft_radian(data_c->alpha));
 	data_c->n[2] = cos(ft_radian(data_c->theta));
@@ -385,106 +410,113 @@ void	ft_fdf(t_list *data)
 	}
 	find_point(data, data_c);
 	point_rotate(data, ft_radian(data_c->theta), ft_radian(data_c->alpha));
+	rotate_point(data, ft_radian(90));
 }
 
-// void	draw_line(int *start, int *fin, t_mlx *my_mlx)
-// {
-// 	int	w;
-// 	int	h;
-// 	int	d;
-// 	int	x;
-// 	int	y;
-	
-// 	x = start[0];
-// 	y = start[1];
-// 	w = abs(start[0] - fin[0]);
-// 	h = abs(start[1] - fin[1]);
-// 	if (w > h)
-// 	{
-// 		d = (2 * h) - w;
-//  		while (x != fin[0])
-// 		{
-// 			if (d < 0)
-// 				d += 2 * h;
-// 			else
-// 			{
-// 				y++;
-// 				if (fin[0] - fin[1] > 0)
-// 					y -= 2;
-// 				d += (2 * h - 2 * w);
-// 			}
-// 			my_mlx->img.data[y * 800 + x] = 0xFFFFFF;
-// 		}
-// 	}
-// 	else
-// 	{
-// 		d = (2 * w) - h;
-//  		while (y != fin[1])
-// 		{
-//   			if (d < 0)
-// 				d += 2 * w;
-// 			else
-// 			{
-// 				x++;
-// 				if (start[0] - start[1] > 0)
-// 					x -= 2;
-// 				d += (2 * w - 2 * h);
-// 			}
-// 			my_mlx->img.data[y * 800 + x] = 0xFFFFFF;
-// 		}
-// 	}
-// }
+void	draw_line(double *start, double *fin, t_mlx *my_mlx)
+{
+	int	w;
+	int	h;
+	int	d;
+	int	x;
+	int	y;
 
-// void	draw_lines(t_list *data, t_mlx *my_mlx)
-// {
-// 	int	i;
-// 	int	j;
+	x = (int)(start[0]);
+	y = (int)(start[1]);
+	w = fabs(start[0] - fin[0]);
+	h = fabs(start[1] - fin[1]);
+	if (w > h)
+	{
+		d = (2 * h) - w;
+ 		while (x != (int)(fin[0]))
+		{
+			if (d < 0)
+				d += 2 * h;
+			else
+			{
+				y++;
+				if (start[1] - fin[1] > 0)
+					y -= 2;
+				d += (2 * h - 2 * w);
+			}
+			my_mlx->img.data[y * 900 + x] = 0xFFFFFF;
+			x++;
+			if (start[0] - fin[0]> 0)
+				x -= 2;
+		}
+	}
+	else
+	{
+		d = (2 * w) - h;
+ 		while (y != (int)fin[1])
+		{
+  			if (d < 0)
+				d += 2 * w;
+			else
+			{
+				x++;
+				if (start[0] - fin[0]> 0)
+					x -= 2;
+				d += (2 * w - 2 * h);
+			}
+			my_mlx->img.data[y * 900 + x] = 0xFFFFFF;
+			y++;
+			if (start[1] - fin[1] > 0)
+				y -= 2;
+		}
+	}
+}
 
-// 	i = 0;
-// 	while (i < data->row)
-// 	{
-// 		j = 0;
-// 		while (j < data->col)
-// 		{
-// 			if (j != data->col - 1)
-// 				draw_line((int *)(data->arr)[i][j], (int *)(data->arr)[i][j + 1], my_mlx);
-// 			if (i != data->row - 1)
-// 				draw_line((int *)(data->arr)[i][j], (int *)(data->arr)[i + 1][j], my_mlx);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
+void	draw_lines(t_list *data, t_mlx *my_mlx)
+{
+	int	i;
+	int	j;
 
-// void	ft_mlx_init(t_mlx *my_mlx, int	size)
-// {
-// 	my_mlx->mlx = mlx_init();
-// 	my_mlx->win = mlx_new_window(my_mlx->mlx, size, size, "FDF");
-// 	my_mlx->img.img = mlx_new_image(my_mlx->mlx, size, size);
-// 	my_mlx->img.data = (int *)mlx_get_data_addr(my_mlx->img.img, &my_mlx->img.bpp, &my_mlx->img.size_l, &my_mlx->img.endian);
-// }
+	i = 0;
+	while (i < data->row)
+	{
+		j = 0;
+		while (j < data->col)
+		{
+			if (j != data->col - 1)
+				draw_line((data->arr)[i][j], (data->arr)[i][j + 1], my_mlx);
+			if (i != data->row - 1)
+				draw_line((data->arr)[i][j], (data->arr)[i + 1][j], my_mlx);
+			j++;
+		}
+		i++;
+	}
+}
 
-// int 	ft_close(void)
-// {
-// 		exit(0);
-// }
+void	ft_mlx_init(t_mlx *my_mlx, int	size)
+{
+	my_mlx->mlx = mlx_init();
+	my_mlx->win = mlx_new_window(my_mlx->mlx, size, size, "FDF");
+	my_mlx->img.img = mlx_new_image(my_mlx->mlx, size - 100, size - 100);
+	my_mlx->img.data = (int *)mlx_get_data_addr(my_mlx->img.img, &my_mlx->img.bpp, &my_mlx->img.size_l, &my_mlx->img.endian);
+}
 
-// int		deal_key(int key_code)
-// {
-// 	if (key_code == 53)
-// 		exit(0);
-// 	return (0);
-// }
-// int		main_loop(t_list *data, t_mlx *my_mlx)
-// {
-// 	draw_lines(data, my_mlx);
-// 	mlx_put_image_to_window(my_mlx->mlx, my_mlx->win, my_mlx->img.img, 0, 0);
-// 	return (0);
-// }
+int 	ft_close(void)
+{
+		exit(0);
+}
+
+int		deal_key(int key_code)
+{
+	if (key_code == 53)
+		exit(0);
+	return (0);
+}
+int		main_loop(t_mlx *my_mlx)
+{
+	draw_lines(my_mlx->data, my_mlx);
+	mlx_put_image_to_window(my_mlx->mlx, my_mlx->win, my_mlx->img.img, 0, 0);
+	return (0);
+}
 int	main(int argc, char **argv)
 {
 	t_list	*data;
-	// t_mlx	my_mlx;
+	t_mlx	my_mlx;
 
 	data = (t_list *)malloc(sizeof(t_list));
 	if (data == NULL)
@@ -495,12 +527,13 @@ int	main(int argc, char **argv)
 		exit(1);
 	inputdata_push(data);
 	ft_fdf(data);
-	arr_multiplication(data, 100, 100, 100);
-	translation_x_y_z(data, 500, 500, 0);
 	print_arr(data);
-	// ft_mlx_init(&my_mlx, 1000);
-	// mlx_hook(my_mlx.win, 2, 0, &deal_key, &my_mlx);
-	// mlx_hook(my_mlx.win, 17, 0, &ft_close, &my_mlx);
-	// mlx_loop_hook(my_mlx.mlx, &main_loop, &my_mlx);
-	// mlx_loop(my_mlx.mlx);
+	arr_multiplication(data, 40, 40, 40);
+	translation_x_y_z(data, 500, 500, 0);
+	my_mlx.data = data;
+	ft_mlx_init(&my_mlx, 1000);
+	mlx_hook(my_mlx.win, 2, 0, &deal_key, &my_mlx);
+	mlx_hook(my_mlx.win, 17, 0, &ft_close, &my_mlx);
+	mlx_loop_hook(my_mlx.mlx, &main_loop, &my_mlx);
+	mlx_loop(my_mlx.mlx);
 }

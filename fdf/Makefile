@@ -6,7 +6,7 @@
 #    By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/12 17:13:58 by youhan            #+#    #+#              #
-#    Updated: 2022/05/13 05:09:16 by youhan           ###   ########.fr        #
+#    Updated: 2022/05/13 17:16:52 by youhan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,13 @@
 
 CC = gcc
 TARGET = fdf
-CFLAGS = 
+CFLAG = -Wall -Werror -Wextra
+CFLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
 SRCS = ft_fdf.c get_next_line_utils.c get_next_line.c ft_split_2.c ft_split.c
 OBJS = ${SRCS:.c=.o}
 
-.o : .c
-	${CC} ${CFLAGS} -c $< -o $@
-
 ${TARGET} :	${OBJS}
-	${CC} ${CFLAGS} ${OBJS} -o ${TARGET}
+	${CC} ${CFLAGS} -o ${TARGET} ${OBJS} 
 
 all : ${TARGET}
 

@@ -3,6 +3,17 @@
 
 #define _USE_MATH_DEFINES
 
+
+typedef struct s_center_list
+{
+	double 	theta;
+	double	alpha;
+	double	mid_x;
+	double	mid_y;
+	double	mid_z;
+	double	n[3];
+}	t_center_list;
+
 typedef struct s_list
 {
 	int			col;
@@ -11,18 +22,10 @@ typedef struct s_list
 	double		max_val;
 	int 		*arr_size;
 	double		***arr;
+	double		***arr_copy;
 	char		**input_data;
+	t_center_list	data_c;
 }	t_list;
-
-typedef struct s_center_list
-{
-	int 	theta;
-	int		alpha;
-	int		mid_x;
-	int		mid_y;
-	int		mid_z;
-	double	n[3];
-}	t_center_list;
 
 typedef struct	s_img
 {
@@ -39,7 +42,7 @@ typedef struct	s_mlx
 	void	*mlx;
 	void	*win;
 	t_img	img;
-
+	t_list	*data;
 }	t_mlx;
 
 int		ft_strlen(char *str);
