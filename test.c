@@ -1,9 +1,10 @@
 
 #include <fcntl.h>
-#include <unistd.h>
+#include <stdio.h>
 int main()
 {
-	char a[100];
-	int fd = open("test.fdf", O_RDONLY);
-	read(fd, a, 100);
+	double a[2];
+	a[0] = -150.45646;
+	a[1]= 150.12124;
+	printf("%d",a[1]);
 }

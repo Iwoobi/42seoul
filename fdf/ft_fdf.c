@@ -1083,20 +1083,20 @@ int 	ft_close(void)
 		exit(0);
 }
 
-void	rotate_d_theta(t_mlx *my_mlx, int mod)
+void	rotate_d_theta(t_mlx *my_mlx)
 {
-	double	angle;
-	double	save;
+	double	n_1;
+	double	sin_a;
+	double	cos_a;
+	double	cos_t;
 
-	save = my_mlx->data->data_c.alpha;
-	if (mod == 1)
-		my_mlx->data->data_c.theta += 1;
-	else
-		my_mlx->data->data_c.theta -= 1;
-	my_mlx->data->data_c.alpha = (180 * asin(my_mlx->data->k / sin(ft_radian(my_mlx->data->data_c.theta)))) / M_PI;
-	printf("\n%f, %f\n", my_mlx->data->data_c.theta, my_mlx->data->data_c.alpha );
-	
-	
+	n_1 = my_mlx->data->data_c.n[0];
+	sin_a = sin(ft_radian(my_mlx->data->data_c.alpha));
+	cos_a = cos(ft_radian(my_mlx->data->data_c.alpha));
+	cos_t = cos(ft_radian(my_mlx->data->data_c.theta));
+	my_mlx->data->data_c.theta = 180 * acos(cos(ft_radian(my_mlx->data->data_c.t)) * cos_t) / M_PI;
+	my_mlx->data->data_c.alpha = 180 * acos(((cos(ft_radian(my_mlx->data->data_c.t)) * n_1 + sin_a * sin(ft_radian(my_mlx->data->data_c.t)))) / sin(ft_radian(my_mlx->data->data_c.theta))) / M_PI;
+	printf("\n%f, %f, %f\n", my_mlx->data->data_c.t, my_mlx->data->data_c.theta, my_mlx->data->data_c.alpha);
 }
 int		deal_key(int key_code, t_mlx *my_mlx)
 {
@@ -1114,15 +1114,15 @@ int		deal_key(int key_code, t_mlx *my_mlx)
 	}
 	if (key_code == 125)
 	{
-		// rotate_d_theta(my_mlx, 0);
 		my_mlx->data->data_c.alpha -= 1;
+		// rotate_d_theta(my_mlx);
 		ft_mlx_img_clear(my_mlx);
 	}
 	if (key_code == 126)
 	{
-		ft_mlx_img_clear(my_mlx);
 		my_mlx->data->data_c.alpha += 1;
-		// rotate_d_theta(my_mlx, 1);
+		ft_mlx_img_clear(my_mlx);
+		// rotate_d_theta(my_mlx);
 	}
 	
 	return (0);
@@ -1166,8 +1166,9 @@ void	ft_fdf_init(t_list *data)
 	data_c.mid_x = 0;
 	data_c.mid_y = 0;
 	data_c.mid_z = 0;
-	data_c.theta = 0;
+	data_c.theta = 30;
 	data_c.alpha = 0;
+	data_c.t = 0;
 	data->k = sin(ft_radian(data_c.theta)) * sin(ft_radian(data_c.alpha));
 	data->data_c = data_c;
 }

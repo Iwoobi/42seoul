@@ -8,6 +8,7 @@ typedef struct s_center_list
 {
 	double 	theta;
 	double	alpha;
+	double	t;
 	double	mid_x;
 	double	mid_y;
 	double	mid_z;
