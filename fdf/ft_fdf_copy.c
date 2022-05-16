@@ -607,7 +607,7 @@ void	str_data_num_check(char *data)
 		i++;
 	while (data[i])
 	{
-		if (!((data[i] >= '0' && data[i] <= '9') || data[i] == '\n' || data[i] == ' '))
+		if (!((data[i] >= '0' && data[i] <= '9') || data[i] == '\n'))
 	 		exit(1);
 		else
 			check = 1;
@@ -695,35 +695,6 @@ void	find_max_z(t_list *data)
 	data->min_val = min_val;
 }
 
-void	input_data_copy(t_list *data)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	data->arr_copy = (double ***)malloc(sizeof(double **) * data->row);
-	if (data->arr_copy == NULL)
-		exit(1);
-	while (i < data->row)
-	{
-		j = 0;
-		(data->arr_copy)[i] = (double **)malloc(sizeof(double *) * data->col);
-		if (data->arr_copy[i] == NULL)
-			exit(1);
-		while (j < data->col)
-		{
-			(data->arr_copy)[i][j] = (double *)malloc(sizeof(double) * 3);
-			if ((data->arr_copy)[i][j] == NULL)
-				exit(1);
-			data->arr_copy[i][j][0] = data->arr[i][j][0];
-			data->arr_copy[i][j][1] = data->arr[i][j][1];
-			data->arr_copy[i][j][2] = data->arr[i][j][2];
-			j++;
-		}
-		i++;
-	}
-}
-
 void	inputdata_push(t_list *data)
 {
 	char	**split_data;
@@ -741,7 +712,6 @@ void	inputdata_push(t_list *data)
 	}
 	row_col_count_check(data);
 	find_max_z(data);
-	input_data_copy(data);
 }
 
 void	row_count(int fd, t_list *data)
@@ -977,24 +947,9 @@ void	ft_fdf(t_list *data)
 	ft_fdf_n_vector_t(data, &(data->data_c));
 	find_point(data, &(data->data_c));
 	point_rotate(data, ft_radian((data->data_c).theta), ft_radian((data->data_c).alpha));
+	
 }
-void	ft_mlx_img_clear(t_mlx *my_mlx)
-{
-	int i;
-	int j;
 
-	i = 0;
-	while (i < 900)
-	{
-		j = 0;
-		while (j < 900)
-		{
-			my_mlx->img.data[i * 900 + j] = 0x000000;
-			j++;
-		}
-		i++;
-	}
-}
 void	draw_line(double *start, double *fin, t_mlx *my_mlx)
 {
 	int	w;
@@ -1083,78 +1038,14 @@ int 	ft_close(void)
 		exit(0);
 }
 
-void	rotate_d_theta(t_mlx *my_mlx, int mod)
-{
-	double	angle;
-	double	save;
-
-	save = my_mlx->data->data_c.alpha;
-	if (mod == 1)
-		my_mlx->data->data_c.theta += 1;
-	else
-		my_mlx->data->data_c.theta -= 1;
-	my_mlx->data->data_c.alpha = (180 * asin(my_mlx->data->k / sin(ft_radian(my_mlx->data->data_c.theta)))) / M_PI;
-	printf("\n%f, %f\n", my_mlx->data->data_c.theta, my_mlx->data->data_c.alpha );
-	
-	
-}
-int		deal_key(int key_code, t_mlx *my_mlx)
+int		deal_key(int key_code)
 {
 	if (key_code == 53)
 		exit(0);
-	if (key_code == 123)
-	{
-		ft_mlx_img_clear(my_mlx);
-		my_mlx->data->data_c.theta += 1;
-	}
-	if (key_code == 124)
-	{
-		ft_mlx_img_clear(my_mlx);
-		my_mlx->data->data_c.theta -= 1;
-	}
-	if (key_code == 125)
-	{
-		// rotate_d_theta(my_mlx, 0);
-		my_mlx->data->data_c.alpha -= 1;
-		ft_mlx_img_clear(my_mlx);
-	}
-	if (key_code == 126)
-	{
-		ft_mlx_img_clear(my_mlx);
-		my_mlx->data->data_c.alpha += 1;
-		// rotate_d_theta(my_mlx, 1);
-	}
-	
 	return (0);
 }
-
-void	input_data_init(t_list *data)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < data->row)
-	{
-		j = 0;
-		while (j < data->col)
-		{
-			data->arr[i][j][0] = data->arr_copy[i][j][0];
-			data->arr[i][j][1] = data->arr_copy[i][j][1];
-			data->arr[i][j][2] = data->arr_copy[i][j][2];
-			j++;
-		}
-		i++;
-	}
-	
-}
-
 int		main_loop(t_mlx *my_mlx)
 {
-	input_data_init(my_mlx->data);
-	ft_fdf(my_mlx->data);
-	arr_multiplication(my_mlx->data, 40, 40, 40);
-	translation_x_y_z(my_mlx->data, 500, 500, 0);
 	draw_lines(my_mlx->data, my_mlx);
 	mlx_put_image_to_window(my_mlx->mlx, my_mlx->win, my_mlx->img.img, 0, 0);
 	return (0);
@@ -1166,9 +1057,8 @@ void	ft_fdf_init(t_list *data)
 	data_c.mid_x = 0;
 	data_c.mid_y = 0;
 	data_c.mid_z = 0;
-	data_c.theta = 0;
-	data_c.alpha = 0;
-	data->k = sin(ft_radian(data_c.theta)) * sin(ft_radian(data_c.alpha));
+	data_c.theta = 60;
+	data_c.alpha = -45;
 	data->data_c = data_c;
 }
 int	main(int argc, char **argv)
@@ -1185,7 +1075,9 @@ int	main(int argc, char **argv)
 		exit(1);
 	inputdata_push(data);
 	ft_fdf_init(data);
+	printf("\n\nx,y,z,t,a:%f, %f, %f, %f, %f\n\n ", data->data_c.mid_x, data->data_c.mid_y, data->data_c.mid_z, data->data_c.theta, data->data_c.alpha  );
 	ft_fdf(data);
+	
 	arr_multiplication(data, 40, 40, 40);
 	translation_x_y_z(data, 500, 500, 0);
 	my_mlx.data = data;

@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:27:08 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/12 20:12:35 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/16 16:15:30 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	ft_skipstr(const char *str, char set)
 	}
 	return (i);
 }
-#include <stdio.h>
+
 char	**ft_split(const char *s, char c)
 {
 	char	**arr;
