@@ -25,8 +25,9 @@ typedef struct s_list
 	double		***arr;
 	double		***arr_copy;
 	char		**input_data;
-	double		k;
 	double		len;
+	double		mul;
+	double		k;
 	t_center_list	data_c;
 }	t_list;
 
@@ -47,6 +48,15 @@ typedef struct	s_mlx
 	t_img	img;
 	t_list	*data;
 }	t_mlx;
+
+typedef struct	s_line
+{
+	int			w;
+	int			h;
+	int			d;
+	int			x;
+	int			y;
+}	t_line;
 
 int		ft_strlen(char *str);
 char	**ft_split(const char *s, char c);

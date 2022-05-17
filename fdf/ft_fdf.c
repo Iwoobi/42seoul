@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:09:53 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/17 22:32:20 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/18 03:10:09 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	error_data_wrong(void)
 	write(2, "worng input data\n", 16);
 	exit(1);
 }
+
 void	str_data_num_check(char *data)
 {
 	int	i;
@@ -69,8 +70,9 @@ void	str_data_num_check(char *data)
 		i++;
 	while (data[i])
 	{
-		if (!((data[i] >= '0' && data[i] <= '9') || data[i] == '\n' || data[i] == ' '))
-	 		exit(1);
+		if (!((data[i] >= '0' && data[i] <= '9') || data[i] == '\n'\
+			|| data[i] == ' '))
+			exit(1);
 		else
 			check = 1;
 		i++;
@@ -78,6 +80,7 @@ void	str_data_num_check(char *data)
 	if (check == 0)
 		exit(1);
 }
+
 void	split_data_check(char **data)
 {
 	int	i;
@@ -95,7 +98,7 @@ void	split_data_check(char **data)
 void	split_data_push(t_list *data, char **split_data, int row)
 {
 	int	col;
-	
+
 	col = 0;
 	while (split_data[col])
 		col++;
@@ -115,6 +118,7 @@ void	split_data_push(t_list *data, char **split_data, int row)
 		col++;
 	}
 }
+
 void	row_col_count_check(t_list *data)
 {
 	int	i;
@@ -130,6 +134,7 @@ void	row_col_count_check(t_list *data)
 	}
 	data->col = val;
 }
+
 void	find_max_z(t_list *data)
 {
 	int		i;
@@ -198,7 +203,7 @@ void	inputdata_push(t_list *data)
 		if (!split_data)
 			error_data_wrong();
 		split_data_check(split_data);
-		split_data_push(data ,split_data, i);
+		split_data_push(data, split_data, i);
 		i++;
 	}
 	row_col_count_check(data);
@@ -208,7 +213,7 @@ void	inputdata_push(t_list *data)
 
 void	row_count(int fd, t_list *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (get_next_line(fd))
@@ -219,7 +224,7 @@ void	row_count(int fd, t_list *data)
 int	open_file(char *file_name, t_list *data)
 {
 	int	fd;
-	int i;
+	int	i;
 
 	i = 0;
 	fd = open(file_name, O_RDONLY);
@@ -237,14 +242,14 @@ int	open_file(char *file_name, t_list *data)
 		return (-1);
 	while (i < data->row)
 	{
-		(data->input_data)[i] = get_next_line(fd); 
+		(data->input_data)[i] = get_next_line(fd);
 		i++;
 	}
 	close(fd);
-	return(1);
+	return (1);
 }
 
-void	print_arr(t_list *data)
+/*void	print_arr(t_list *data)
 {
 	int	i;
 	int	j;
@@ -265,8 +270,10 @@ void	print_arr(t_list *data)
 		}
 		i++;
 	}
-}
-void	translation_x_y_z(t_list *data ,double x_val, double y_val, double z_val)
+}*/
+
+void	translation_x_y_z(t_list *data, double x_val,
+	double y_val, double z_val)
 {
 	int	i;
 	int	j;
@@ -285,7 +292,9 @@ void	translation_x_y_z(t_list *data ,double x_val, double y_val, double z_val)
 		i++;
 	}
 }
-void	arr_multiplication(t_list *data, double x_val, double y_val, double z_val)
+
+void	arr_multiplication(t_list *data, double x_val,
+	double y_val, double z_val)
 {
 	int	i;
 	int	j;
@@ -304,6 +313,7 @@ void	arr_multiplication(t_list *data, double x_val, double y_val, double z_val)
 		i++;
 	}
 }
+
 void	printf_t(t_list *data)
 {
 	int	i;
@@ -325,20 +335,21 @@ void	printf_t(t_list *data)
 		}
 		i++;
 	}
-
 }
+
 double	ft_radian(int a)
 {
 	return ((double)(a * M_PI) / 180);
 }
+
 void	point_rotate(t_list *data, double theta, double alpha)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	double	x;
 	double	y;
 	double	z;
-	
+
 	i = 0;
 	while (i < data->row)
 	{
@@ -348,19 +359,21 @@ void	point_rotate(t_list *data, double theta, double alpha)
 			x = (data->arr)[i][j][0];
 			y = (data->arr)[i][j][1];
 			z = (data->arr)[i][j][2];
-			(data->arr)[i][j][0] = cos(theta) * cos(alpha) * x + cos(theta) * sin(alpha) * y - sin(theta) * z;  
+			(data->arr)[i][j][0] = cos(theta) * cos(alpha) * x
+				+ cos(theta) * sin(alpha) * y - sin(theta) * z;
 			(data->arr)[i][j][1] = -sin(alpha) * x + cos(alpha) * y;
-			(data->arr)[i][j][2] = sin(theta) * cos(alpha) * x + sin(theta) * sin(alpha) * y + cos(theta) * z;
+			(data->arr)[i][j][2] = sin(theta) * cos(alpha) * x
+				+ sin(theta) * sin(alpha) * y + cos(theta) * z;
 			j++;
 		}
 		i++;
 	}
-
 }
+
 void	find_point(t_list *data, t_center_list *data_c)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	double	x;
 	double	y;
 	double	z;
@@ -385,8 +398,8 @@ void	find_point(t_list *data, t_center_list *data_c)
 
 void	rotate_point(t_list *data, double theta)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	double	x;
 	double	y;
 
@@ -404,8 +417,8 @@ void	rotate_point(t_list *data, double theta)
 		}
 		i++;
 	}
-
 }
+
 void	ft_fdf_n_vector_t(t_list *data, t_center_list *data_c)
 {
 	int	i;
@@ -426,24 +439,31 @@ void	ft_fdf_n_vector_t(t_list *data, t_center_list *data_c)
 		i++;
 	}
 }
+
 void	ft_fdf_n_vector(t_list *data, t_center_list *data_c)
 {
-	data_c->n[0] = sin(ft_radian(data_c->theta)) * cos(ft_radian(data_c->alpha));
-	data_c->n[1] = sin(ft_radian(data_c->theta)) * sin(ft_radian(data_c->alpha));
+	data_c->n[0] = sin(ft_radian(data_c->theta))
+		* cos(ft_radian(data_c->alpha));
+	data_c->n[1] = sin(ft_radian(data_c->theta))
+		* sin(ft_radian(data_c->alpha));
 	data_c->n[2] = cos(ft_radian(data_c->theta));
-	translation_x_y_z(data, -(data->col)/2, -(data->row)/2, -(data->max_val + data->min_val)/2);
+	translation_x_y_z(data, -(data->col) / 2, -(data->row) / 2,
+		-(data->max_val + data->min_val) / 2);
 }
+
 void	ft_fdf(t_list *data)
 {
 	ft_fdf_n_vector(data, &(data->data_c));
 	ft_fdf_n_vector_t(data, &(data->data_c));
 	find_point(data, &(data->data_c));
-	point_rotate(data, ft_radian((data->data_c).theta), ft_radian((data->data_c).alpha));
+	point_rotate(data, ft_radian((data->data_c).theta),
+		ft_radian((data->data_c).alpha));
 }
+
 void	ft_mlx_img_clear(t_mlx *my_mlx)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < 1000)
@@ -457,60 +477,65 @@ void	ft_mlx_img_clear(t_mlx *my_mlx)
 		i++;
 	}
 }
+
+void	draw_line_more_w(t_mlx *my_mlx,
+	t_line *line, double *start, double *fin)
+{
+	line->d = (2 * line->h) - line->w;
+	while (line->x != (int)(fin[0]))
+	{
+		if (line->d < 0)
+			line->d += 2 * line->h;
+		else
+		{
+			line->y++;
+			if (start[1] - fin[1] > 0)
+				line->y -= 2;
+			line->d += (2 * line->h - 2 * line->w);
+		}
+		if (line->x < 1000 && line->y < 1000 && line->x >= 0 && line->y >= 0)
+			my_mlx->img.data[line->y * 1000 + line->x] = 0xFFFFFF;
+		line->x++;
+		if (start[0] - fin[0] > 0)
+			line->x -= 2;
+	}	
+}
+
+void	draw_line_more_h(t_mlx *my_mlx,
+	t_line *line, double *start, double *fin)
+{
+	line->d = (2 * line->w) - line->h;
+	while (line->y != (int)fin[1])
+	{
+		if (line->d < 0)
+			line->d += 2 * line->w;
+		else
+		{
+			line->x++;
+			if (start[0] - fin[0] > 0)
+				line->x -= 2;
+			line->d += (2 * line->w - 2 * line->h);
+		}
+		if (line->x < 1000 && line->y < 1000 && line->x >= 0 && line->y >= 0)
+			my_mlx->img.data[line->y * 1000 + line->x] = 0xFFFFFF;
+		line->y++;
+		if (start[1] - fin[1] > 0)
+			line->y -= 2;
+	}
+}
+
 void	draw_line(double *start, double *fin, t_mlx *my_mlx)
 {
-	int	w;
-	int	h;
-	int	d;
-	int	x;
-	int	y;
+	t_line	line;
 
-	x = (int)(start[0]);
-	y = (int)(start[1]);
-	w = fabs(start[0] - fin[0]);
-	h = fabs(start[1] - fin[1]);
-	if (w > h)
-	{
-		d = (2 * h) - w;
- 		while (x != (int)(fin[0]))
-		{
-			if (d < 0)
-				d += 2 * h;
-			else
-			{
-				y++;
-				if (start[1] - fin[1] > 0)
-					y -= 2;
-				d += (2 * h - 2 * w);
-			}
-			if (x < 1000 && y < 1000 && x >= 0 && y >= 0)
-				my_mlx->img.data[y * 1000 + x] = 0x164751;
-			x++;
-			if (start[0] - fin[0]> 0)
-				x -= 2;
-		}
-	}
+	line.x = (int)(start[0]);
+	line.y = (int)(start[1]);
+	line.w = fabs(start[0] - fin[0]);
+	line.h = fabs(start[1] - fin[1]);
+	if (line.w > line.h)
+		draw_line_more_w(my_mlx, &line, start, fin);
 	else
-	{
-		d = (2 * w) - h;
- 		while (y != (int)fin[1])
-		{
-  			if (d < 0)
-				d += 2 * w;
-			else
-			{
-				x++;
-				if (start[0] - fin[0]> 0)
-					x -= 2;
-				d += (2 * w - 2 * h);
-			}
-			if (x < 1000 && y < 1000 && x >= 0 && y >= 0)
-				my_mlx->img.data[y * 1000 + x] = 0x164751; 
-			y++;
-			if (start[1] - fin[1] > 0)
-				y -= 2;
-		}
-	}
+		draw_line_more_h(my_mlx, &line, start, fin);
 }
 
 void	draw_lines(t_list *data, t_mlx *my_mlx)
@@ -534,17 +559,18 @@ void	draw_lines(t_list *data, t_mlx *my_mlx)
 	}
 }
 
-void	ft_mlx_init(t_mlx *my_mlx, int	size)
+void	ft_mlx_init(t_mlx *my_mlx, int size)
 {
 	my_mlx->mlx = mlx_init();
 	my_mlx->win = mlx_new_window(my_mlx->mlx, size, size, "FDF");
 	my_mlx->img.img = mlx_new_image(my_mlx->mlx, size, size);
-	my_mlx->img.data = (int *)mlx_get_data_addr(my_mlx->img.img, &my_mlx->img.bpp, &my_mlx->img.size_l, &my_mlx->img.endian);
+	my_mlx->img.data = (int *)mlx_get_data_addr(my_mlx->img.img,
+		&my_mlx->img.bpp, &my_mlx->img.size_l, &my_mlx->img.endian);
 }
 
-int 	ft_close(void)
+int	ft_close(void)
 {
-		exit(0);
+	exit(0);
 }
 
 void	rotate_d_theta(t_mlx *my_mlx)
@@ -558,11 +584,17 @@ void	rotate_d_theta(t_mlx *my_mlx)
 	sin_a = sin(ft_radian(my_mlx->data->data_c.alpha));
 	cos_a = cos(ft_radian(my_mlx->data->data_c.alpha));
 	cos_t = cos(ft_radian(my_mlx->data->data_c.theta));
-	my_mlx->data->data_c.theta = 180 * acos(cos(ft_radian(my_mlx->data->data_c.t)) * cos_t) / M_PI;
-	my_mlx->data->data_c.alpha = 180 * acos(((cos(ft_radian(my_mlx->data->data_c.t)) * n_1 + sin_a * sin(ft_radian(my_mlx->data->data_c.t)))) / sin(ft_radian(my_mlx->data->data_c.theta))) / M_PI;
-	printf("\n%f, %f, %f\n", my_mlx->data->data_c.t, my_mlx->data->data_c.theta, my_mlx->data->data_c.alpha);
+	my_mlx->data->data_c.theta = 180 * acos(
+		cos(ft_radian(my_mlx->data->data_c.t)) * cos_t) / M_PI;
+	my_mlx->data->data_c.alpha = 180 * acos(
+		((cos(ft_radian(my_mlx->data->data_c.t))
+		* n_1 + sin_a * sin(ft_radian(my_mlx->data->data_c.t))))
+		/ sin(ft_radian(my_mlx->data->data_c.theta))) / M_PI;
+	printf("\n%f, %f, %f\n", my_mlx->data->data_c.t,
+	my_mlx->data->data_c.theta, my_mlx->data->data_c.alpha);
 }
-int		deal_key(int key_code, t_mlx *my_mlx)
+
+int	deal_key(int key_code, t_mlx *my_mlx)
 {
 	if (key_code == 53)
 		exit(0);
@@ -579,7 +611,6 @@ int		deal_key(int key_code, t_mlx *my_mlx)
 	if (key_code == 125)
 	{
 		my_mlx->data->data_c.alpha -= 3;
-
 		ft_mlx_img_clear(my_mlx);
 	}
 	if (key_code == 126)
@@ -587,7 +618,7 @@ int		deal_key(int key_code, t_mlx *my_mlx)
 		my_mlx->data->data_c.alpha += 3;
 		ft_mlx_img_clear(my_mlx);
 	}
-		if (key_code == 12)
+	if (key_code == 12)
 	{
 		ft_mlx_img_clear(my_mlx);
 		my_mlx->data->data_c.mid_x += 0.3 * my_mlx->data->len;
@@ -600,12 +631,21 @@ int		deal_key(int key_code, t_mlx *my_mlx)
 	if (key_code == 14)
 	{
 		my_mlx->data->data_c.mid_y -= 0.3 * my_mlx->data->len;
-
 		ft_mlx_img_clear(my_mlx);
 	}
 	if (key_code == 15)
 	{
 		my_mlx->data->data_c.mid_y += 0.3 * my_mlx->data->len;
+		ft_mlx_img_clear(my_mlx);
+	}
+	if (key_code == 16)
+	{
+		my_mlx->data->mul += 0.1;
+		ft_mlx_img_clear(my_mlx);
+	}
+	if (key_code == 17)
+	{
+		my_mlx->data->mul -= 0.1;
 		ft_mlx_img_clear(my_mlx);
 	}
 	return (0);
@@ -629,10 +669,9 @@ void	input_data_init(t_list *data)
 		}
 		i++;
 	}
-	
 }
 
-int		main_loop(t_mlx *my_mlx)
+int	main_loop(t_mlx *my_mlx)
 {
 	double	a[3];
 	double	b[3];
@@ -640,13 +679,16 @@ int		main_loop(t_mlx *my_mlx)
 	input_data_init(my_mlx->data);
 	ft_fdf(my_mlx->data);
 	rotate_point(my_mlx->data, ft_radian(90));
-	arr_multiplication(my_mlx->data, my_mlx->data->len, my_mlx->data->len, my_mlx->data->len);
-	translation_x_y_z(my_mlx->data, my_mlx->data->len * (my_mlx->data->col) + my_mlx->data->data_c.mid_x, my_mlx->data->len * (my_mlx->data->row) + my_mlx->data->data_c.mid_y, 0);
-	// print_arr(my_mlx->data);
+	arr_multiplication(my_mlx->data, my_mlx->data->mul * my_mlx->data->len,
+		my_mlx->data->mul * my_mlx->data->len, my_mlx->data->mul
+		* my_mlx->data->len);
+	translation_x_y_z(my_mlx->data, 500 + my_mlx->data->data_c.mid_x,
+		500 + my_mlx->data->data_c.mid_y, 0);
 	draw_lines(my_mlx->data, my_mlx);
 	mlx_put_image_to_window(my_mlx->mlx, my_mlx->win, my_mlx->img.img, 0, 0);
 	return (0);
 }
+
 void	ft_fdf_init(t_list *data)
 {
 	t_center_list	data_c;
@@ -659,8 +701,11 @@ void	ft_fdf_init(t_list *data)
 	data_c.t = 0;
 	data->k = sin(ft_radian(data_c.theta)) * sin(ft_radian(data_c.alpha));
 	data->data_c = data_c;
-	data->len = 500 / sqrt(pow(data->row / 2, 2) + pow(data->col / 2, 2) + pow((data->max_val - data->min_val) / 2, 2));
+	data->len = 500 / sqrt(pow(data->row / 2, 2) + pow(data->col / 2, 2)
+			+ pow((data->max_val - data->min_val) / 2, 2));
+	data->mul = 1;
 }
+
 int	main(int argc, char **argv)
 {
 	t_list	*data;
@@ -675,10 +720,6 @@ int	main(int argc, char **argv)
 		exit(1);
 	inputdata_push(data);
 	ft_fdf_init(data);
-	ft_fdf(data);
-	rotate_point(data, ft_radian(90));
-	translation_x_y_z(data, data->len * (data->col) / 2, data->len * (data->row) / 2, 0);
-	arr_multiplication(data, data->len, data->len, data->len);
 	my_mlx.data = data;
 	ft_mlx_init(&my_mlx, 1000);
 	mlx_hook(my_mlx.win, 2, 0, &deal_key, &my_mlx);
@@ -686,4 +727,3 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(my_mlx.mlx, &main_loop, &my_mlx);
 	mlx_loop(my_mlx.mlx);
 }
-
