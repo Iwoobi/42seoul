@@ -26,6 +26,7 @@ typedef struct s_list
 	double		***arr_copy;
 	char		**input_data;
 	double		k;
+	double		len;
 	t_center_list	data_c;
 }	t_list;
 
