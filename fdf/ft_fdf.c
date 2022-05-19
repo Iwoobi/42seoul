@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:09:53 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/18 03:10:09 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/19 13:55:29 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -697,7 +697,7 @@ void	ft_fdf_init(t_list *data)
 	data_c.mid_y = 0;
 	data_c.mid_z = 0;
 	data_c.theta = 180 * acos(1 / sqrt(3)) / M_PI;
-	data_c.alpha = 135;
+	data_c.alpha = 45;
 	data_c.t = 0;
 	data->k = sin(ft_radian(data_c.theta)) * sin(ft_radian(data_c.alpha));
 	data->data_c = data_c;
