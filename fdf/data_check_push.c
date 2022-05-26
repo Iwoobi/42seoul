@@ -23,12 +23,13 @@ void	str_data_num_check(char *data)
 		i++;
 	while (data[i])
 	{
-		if (!((data[i] >= '0' && data[i] <= '9') || data[i] == '\n'\
-			|| data[i] == ' '))
+		if (!((data[i] >= '0' && data[i] <= '9') || data[i] == '\n'
+				|| data[i] == ' '))
 			exit(1);
 		else
 			check = 1;
-		i++;
+		if (data[i] != '\n')
+			i++;
 	}
 	if (check == 0)
 		exit(1);
@@ -40,7 +41,7 @@ void	split_data_check(char **data)
 
 	i = 0;
 	if (data == NULL)
-		exit(1);
+		error_data_wrong();
 	while (data[i])
 	{
 		str_data_num_check(data[i]);
