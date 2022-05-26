@@ -78,9 +78,9 @@ void	ft_fdf_n_vector_t(t_list *data, t_center_list *data_c)
 		while (j < data->col)
 		{
 			(data->arr)[i][j][3] = -1 * ((data->arr)[i][j][0]
-				* data_c->n[0] + (data->arr)[i][j][1]
-				* data_c->n[1] + (data->arr)[i][j][2]
-				* data_c->n[2]);
+					* data_c->n[0] + (data->arr)[i][j][1]
+					* data_c->n[1] + (data->arr)[i][j][2]
+					* data_c->n[2]);
 			j++;
 		}
 		i++;

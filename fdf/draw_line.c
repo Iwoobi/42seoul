@@ -92,4 +92,3 @@ void	draw_lines(t_list *data, t_mlx *my_mlx)
 		i++;
 	}
 }
-

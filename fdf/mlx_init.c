@@ -18,5 +18,5 @@ void	ft_mlx_init(t_mlx *my_mlx, int size)
 	my_mlx->win = mlx_new_window(my_mlx->mlx, size, size, "FDF");
 	my_mlx->img.img = mlx_new_image(my_mlx->mlx, size, size);
 	my_mlx->img.data = (int *)mlx_get_data_addr(my_mlx->img.img,
-		&my_mlx->img.bpp, &my_mlx->img.size_l, &my_mlx->img.endian);
+			&my_mlx->img.bpp, &my_mlx->img.size_l, &my_mlx->img.endian);
 }
