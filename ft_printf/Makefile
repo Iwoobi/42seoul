@@ -13,7 +13,7 @@
 CC = gcc
 TARGET = libftprintf.a
 CFLAGS = -Wall -Wextra -Werror
-SRCS = ft_printf.c ft_printf_2.c
+SRCS = 
 OBJS = ${SRCS:.c=.o}
 OBJ = ${OBJS}
 
