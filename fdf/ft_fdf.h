@@ -3,6 +3,12 @@
 
 #define _USE_MATH_DEFINES
 
+#include <stdio.h>
+#include "get_next_line.h"
+#include <fcntl.h>
+#include "ft_fdf.h"
+#include <math.h>
+#include "./mlx/mlx.h"
 
 typedef struct s_center_list
 {
@@ -35,7 +41,6 @@ typedef struct	s_img
 {
 	void	*img;
 	int		*data;
-
 	int		size_l;
 	int		bpp;
 	int		endian;
@@ -58,8 +63,28 @@ typedef struct	s_line
 	int			y;
 }	t_line;
 
+
+long long	ft_atoi(char *str);
+double	ft_radian(int a);
+void	error_data_wrong(void);
+int	open_file(char *file_name, t_list *data);
 int		ft_strlen(char *str);
 char	**ft_split(const char *s, char c);
 void	count_str_2(int *count, int *a);
+void	input_data_copy(t_list *data);
+void	find_max_z(t_list *data);
+void	inputdata_push(t_list *data);
+void	translation_x_y_z(t_list *data, double x_val,
+	double y_val, double z_val);
+void	arr_multiplication(t_list *data, double x_val,
+	double y_val, double z_val);
+void	ft_fdf_init(t_list *data);
+void	ft_mlx_init(t_mlx *my_mlx, int size);
+int	ft_close(void);
+
+int	main_loop(t_mlx *my_mlx);
+void	ft_fdf(t_list *data);
+void	draw_lines(t_list *data, t_mlx *my_mlx);
+int	deal_key(int key_code, t_mlx *my_mlx);
 
 #endif
