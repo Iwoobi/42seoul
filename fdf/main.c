@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:09:53 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/26 23:46:56 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/27 19:18:33 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int	main(int argc, char **argv)
 	ft_fdf_init(data);
 	my_mlx.data = data;
 	ft_mlx_init(&my_mlx, 1000);
-	mlx_hook(my_mlx.win, 2, 0, &deal_key, &my_mlx);
-	mlx_hook(my_mlx.win, 17, 0, &ft_close, &my_mlx);
+	mlx_hook(my_mlx.win, PRESS, 0, &deal_key, &my_mlx);
+	mlx_hook(my_mlx.win, CLOSED, 0, &ft_close, &my_mlx);
 	mlx_loop_hook(my_mlx.mlx, &main_loop, &my_mlx);
+	system("leaks a.out");
 	mlx_loop(my_mlx.mlx);
 }

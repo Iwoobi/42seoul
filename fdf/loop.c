@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:24:24 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/26 23:46:27 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/27 19:18:18 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	input_data_init(t_list *data)
 	}
 }
 
-int	ft_close(void)
+int	ft_close(t_mlx *my_mlx)
 {
 	exit(0);
 }
@@ -64,7 +64,7 @@ int	main_loop(t_mlx *my_mlx)
 {
 	input_data_init(my_mlx->data);
 	ft_fdf(my_mlx->data);
-	rotate_point(my_mlx->data, ft_radian(90));
+	rotate_point(my_mlx->data, ft_radian(90 + my_mlx->data->rot_a));
 	arr_multiplication(my_mlx->data, my_mlx->data->mul * my_mlx->data->len,
 		my_mlx->data->mul * my_mlx->data->len, my_mlx->data->mul
 		* my_mlx->data->len);

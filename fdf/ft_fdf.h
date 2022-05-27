@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 03:20:28 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/27 03:20:28 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/27 18:55:57 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,21 @@
 # define FT_FDF_H
 
 # define _USE_MATH_DEFINES
+# define PRESS 2
+# define CLOSED 17
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_F 3
+# define KEY_UP 126
+# define KEY_DOWN 125
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_Q 12
+# define KEY_W 13
+# define KEY_E 14
+# define KEY_R 15
+# define KEY_SPA 49
 
 # include <stdio.h>
 # include "get_next_line.h"
@@ -44,7 +59,7 @@ typedef struct s_list
 	char			**input_data;
 	double			len;
 	double			mul;
-	double			k;
+	double			rot_a;
 	t_center_list	data_c;
 }	t_list;
 
@@ -90,7 +105,7 @@ void		arr_multiplication(t_list *data, double x_val,
 				double y_val, double z_val);
 void		ft_fdf_init(t_list *data);
 void		ft_mlx_init(t_mlx *my_mlx, int size);
-int			ft_close(void);
+int			ft_close(t_mlx *my_mlx);
 int			main_loop(t_mlx *my_mlx);
 void		ft_fdf(t_list *data);
 void		draw_lines(t_list *data, t_mlx *my_mlx);
