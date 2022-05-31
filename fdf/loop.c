@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:24:24 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/27 19:18:18 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/27 20:44:29 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	input_data_init(t_list *data)
 
 int	ft_close(t_mlx *my_mlx)
 {
+	mlx_destroy_window(my_mlx->mlx, my_mlx->win);
 	exit(0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:57:32 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/27 19:07:09 by youhan           ###   ########.fr       */
+/*   Updated: 2022/05/27 20:57:32 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	row_count(int fd, t_list *data)
 {
-	char *tmp;
-	int	i;
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	tmp = get_next_line(fd);
