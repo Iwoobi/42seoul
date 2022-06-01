@@ -21,6 +21,7 @@ typedef struct s_list
 	pid_t	*pid;
 	int		bonus_mod;
 	char	**path;
+	char	***cmd;
 }	t_list;
 
 void	count_str_2(int *count, int *a);
