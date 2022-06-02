@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/wait.h>
 
 typedef struct s_fd
 {
@@ -21,7 +22,10 @@ typedef struct s_list
 	pid_t	*pid;
 	int		bonus_mod;
 	char	**path;
+	char	*shell;
 	char	***cmd;
+	char	*in_file;
+
 }	t_list;
 
 void	count_str_2(int *count, int *a);
