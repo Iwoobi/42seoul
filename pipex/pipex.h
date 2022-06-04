@@ -24,10 +24,10 @@ typedef struct s_list
 	char	**path;
 	char	*shell;
 	char	***cmd;
+	char	*limmit;
 	char	*in_file;
-	int		*status;
-	int		error;
-	int		in_pipe[2];
+	int		status;
+	int		in_file_fd[2];
 }	t_list;
 
 void	count_str_2(int *count, int *a);
