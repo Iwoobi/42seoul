@@ -1,50 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   process_num.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 19:53:55 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/07 21:07:01 by youhan           ###   ########.fr       */
+/*   Created: 2022/06/07 20:18:07 by youhan            #+#    #+#             */
+/*   Updated: 2022/06/07 21:09:27 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "pipex.h"
 
-int	ft_strlen(char *str)
+int	process_num(t_list data, int pid)
 {
 	int	i;
 
-	i = 0;
-	if (str == NULL)
-		return (0);
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-void	ft_join(char **str, char *back, int flag)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (back == NULL)
+	if (pid == 0)
 	{
-		(*str)[0] = '\0';
-		return ;
-	}	
-	if (flag == 1)
-	{
-		while ((*str)[i] != '\0')
+		i = 0;
+		while (i < data.pipe_num + 1)
+		{
+			if (data.pid[i] == 0)
+				return (-1);
 			i++;
+		}
+		return (1);
 	}
-	while (back[j] != '\0')
+	else
 	{
-		(*str)[i + j] = back[j];
-		j++;
+		if (data.pid[pid - 1] == 0)
+			return (1);
 	}
-	(*str)[i + j] = '\0';
+	return (-1);
 }

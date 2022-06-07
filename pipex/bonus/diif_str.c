@@ -1,50 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   diif_str.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 19:53:55 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/07 21:07:01 by youhan           ###   ########.fr       */
+/*   Created: 2022/06/07 20:39:43 by youhan            #+#    #+#             */
+/*   Updated: 2022/06/07 21:10:15 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../pipex.h"
 
-int	ft_strlen(char *str)
+int	diff_str(char *s1, char *s2, int mod)
 {
 	int	i;
 
 	i = 0;
-	if (str == NULL)
-		return (0);
-	while (str[i] != '\0')
+	if (s1 == NULL)
+		return (-1);
+	if (ft_strlen(s1) != ft_strlen(s2) + mod)
+		return (-1);
+	while (i < ft_strlen(s2) - mod)
+	{
+		if (s1[i] != s2[i])
+			return (-1);
 		i++;
-	return (i);
-}
-
-void	ft_join(char **str, char *back, int flag)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (back == NULL)
-	{
-		(*str)[0] = '\0';
-		return ;
-	}	
-	if (flag == 1)
-	{
-		while ((*str)[i] != '\0')
-			i++;
 	}
-	while (back[j] != '\0')
+	if (mod == 1)
 	{
-		(*str)[i + j] = back[j];
-		j++;
+		if (s1[ft_strlen(s2)] != '\n')
+			return (-1);
 	}
-	(*str)[i + j] = '\0';
+	return (1);
 }

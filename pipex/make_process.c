@@ -1,50 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   make_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 19:53:55 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/07 21:07:01 by youhan           ###   ########.fr       */
+/*   Created: 2022/06/07 20:15:00 by youhan            #+#    #+#             */
+/*   Updated: 2022/06/07 21:07:43 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "pipex.h"
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str == NULL)
-		return (0);
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-void	ft_join(char **str, char *back, int flag)
+void	make_process(t_list *data)
 {
 	int	i;
 	int	j;
+	int	child;
 
 	i = 0;
-	j = 0;
-	if (back == NULL)
+	while (i < data->pipe_num + 1)
 	{
-		(*str)[0] = '\0';
-		return ;
-	}	
-	if (flag == 1)
-	{
-		while ((*str)[i] != '\0')
-			i++;
+		j = 0;
+		child = 0;
+		while (j < data->pipe_num + 1)
+		{
+			if (data->pid[j] == 0)
+				child = 1;
+			j++;
+		}
+		if (child == 0)
+		{
+			data->pid[i] = fork();
+			if (data->pid[i] == -1)
+				error_code(2);
+		}
+		i++;
 	}
-	while (back[j] != '\0')
-	{
-		(*str)[i + j] = back[j];
-		j++;
-	}
-	(*str)[i + j] = '\0';
 }

@@ -6,11 +6,10 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:27:08 by youhan            #+#    #+#             */
-/*   Updated: 2022/05/31 21:59:40 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/07 21:11:57 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "pipex.h"
 
 static void	ft_strncpy(char *dest, const char *src, unsigned int n)

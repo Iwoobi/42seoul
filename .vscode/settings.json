@@ -16,6 +16,8 @@
 		"chrono": "c",
 		"iterator": "c",
 		"math.h": "c",
-		"mlx.h": "c"
+		"mlx.h": "c",
+		"pipex.h": "c",
+		"wait.h": "c"
 	}
 }

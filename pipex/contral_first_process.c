@@ -1,50 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   contral_first_process.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 19:53:55 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/07 21:07:01 by youhan           ###   ########.fr       */
+/*   Created: 2022/06/07 20:55:58 by youhan            #+#    #+#             */
+/*   Updated: 2022/06/07 21:04:46 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "pipex.h"
 
-int	ft_strlen(char *str)
+void	contral_first_process(t_list *data)
 {
-	int	i;
+	int		i;
+	int		status;
+	pid_t	j;
 
-	i = 0;
-	if (str == NULL)
-		return (0);
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-void	ft_join(char **str, char *back, int flag)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (back == NULL)
+	if (data->bonus_mod == 1)
+		push_infile_data(data);
+	else
+		close_fd(data);
+	while (1)
 	{
-		(*str)[0] = '\0';
-		return ;
-	}	
-	if (flag == 1)
-	{
-		while ((*str)[i] != '\0')
+		i = 0;
+		while (i < data->pipe_num + 1)
+		{
+			j = waitpid(data->pid[i], &status, WNOHANG);
+			if (j > 0)
+			{
+				if (i == data->pipe_num)
+				{
+					data->status = WEXITSTATUS(status);
+					return ;
+				}
+			}
 			i++;
+		}
 	}
-	while (back[j] != '\0')
-	{
-		(*str)[i + j] = back[j];
-		j++;
-	}
-	(*str)[i + j] = '\0';
 }

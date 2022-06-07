@@ -1,50 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   find_cmd_local.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 19:53:55 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/07 21:07:01 by youhan           ###   ########.fr       */
+/*   Created: 2022/06/07 20:12:24 by youhan            #+#    #+#             */
+/*   Updated: 2022/06/07 21:06:51 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "pipex.h"
 
-int	ft_strlen(char *str)
+void	find_cmd_local(char **env, t_list *data)
 {
 	int	i;
+	int	local;
 
 	i = 0;
-	if (str == NULL)
-		return (0);
-	while (str[i] != '\0')
+	local = -1;
+	while (env[i] != NULL)
+	{
+		if (env[i][4] != '\0')
+		{
+			if (env[i][0] == 'P' && env[i][1] == 'A' && env[i][2] == 'T'
+				&& env[i][3] == 'H' && env[i][4] == '=')
+				local = i;
+		}
 		i++;
-	return (i);
-}
-
-void	ft_join(char **str, char *back, int flag)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (back == NULL)
-	{
-		(*str)[0] = '\0';
-		return ;
-	}	
-	if (flag == 1)
-	{
-		while ((*str)[i] != '\0')
-			i++;
 	}
-	while (back[j] != '\0')
-	{
-		(*str)[i + j] = back[j];
-		j++;
-	}
-	(*str)[i + j] = '\0';
+	if (local == -1)
+		error_code(1);
+	data->path = ft_split(&(env[local][5]), ':');
+	if (data->path == NULL)
+		error_code(2);
 }
