@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc_pfd_pid.c                                   :+:      :+:    :+:   */
+/*   malloc_pfd_pid_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:14:12 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/08 02:34:20 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/08 02:34:10 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	malloc_pfd_pid(t_list *data)
 {
@@ -31,5 +31,7 @@ void	malloc_pfd_pid(t_list *data)
 			error_code(2);
 		i++;
 	}
+	if (pipe(data->in_file_fd) == -1)
+		error_code(2);
 	data->pid[i] = i + 1;
 }

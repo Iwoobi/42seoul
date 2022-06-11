@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   contral_first_process.c                            :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/07 20:55:58 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/08 02:29:19 by youhan           ###   ########.fr       */
+/*   Created: 2022/05/31 20:55:13 by youhan            #+#    #+#             */
+/*   Updated: 2022/06/08 03:20:26 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-void	contral_first_process(t_list *data)
+int	main(int argc, char **argv, char **env)
 {
-	int		i;
-	int		status;
-	pid_t	j;
+	t_list	data;
 
-	close_fd(data);
-	while (1)
-	{
-		i = 0;
-		while (i < data->pipe_num + 1)
-		{
-			j = waitpid(data->pid[i], &status, WNOHANG);
-			if (j > 0)
-			{
-				if (i == data->pipe_num)
-				{
-					data->status = WEXITSTATUS(status);
-					return ;
-				}
-			}
-			i++;
-		}
-	}
+	data.status = 0;
+	inputdata_check(argc, argv, &data);
+	find_cmd_local(env, &data);
+	find_shell(env, &data);
+	malloc_pfd_pid(&data);
+	make_process(&data);
+	if (data.bonus_mod == 1)
+		contral_pipe_pid_bonus(&data, env);
+	else
+		contral_pipe_pid(&data, env);
+	exit(data.status);
 }

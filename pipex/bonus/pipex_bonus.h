@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 02:21:09 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/08 03:08:13 by youhan           ###   ########.fr       */
+/*   Created: 2022/06/08 02:19:28 by youhan            #+#    #+#             */
+/*   Updated: 2022/06/08 03:31:42 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
-# include "get_next_line.h"
+# include "../get_next_line.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -41,6 +41,7 @@ typedef struct s_list
 	int		in_file_fd[2];
 }	t_list;
 
+int		diff_str(char *s1, char *s2, int mod);
 void	error_code(int mod);
 void	error_file(t_list *data);
 void	error_cmd(t_list *data, char *cmd);
@@ -55,10 +56,13 @@ int		process_num(t_list data, int pid);
 void	all_close_write_pipe_fd(t_list *data);
 void	all_close_read_pipe_fd(t_list *data);
 void	close_fd(t_list *data);
+void	push_infile_data(t_list *data);
 void	exist_cmd(t_list *data, int process, char **dir_cmd);
 void	contral_first_process(t_list *data);
 void	contral_first_cmd_process(t_list *data, char **env);
 void	contral_last_process(t_list *data, char **env);
+void	contral_mid_process(t_list *data, int process, char **env);
 void	contral_pipe_pid(t_list *data, char **env);
+void	contral_pipe_pid_bonus(t_list *data, char **env);
 
 #endif

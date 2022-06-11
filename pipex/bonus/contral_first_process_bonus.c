@@ -1,45 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_fd.c                                         :+:      :+:    :+:   */
+/*   contral_first_process_bonus.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/07 20:31:29 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/08 02:28:28 by youhan           ###   ########.fr       */
+/*   Created: 2022/06/08 02:29:03 by youhan            #+#    #+#             */
+/*   Updated: 2022/06/08 03:38:50 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-void	all_close_write_pipe_fd(t_list *data)
+void	contral_first_process(t_list *data)
 {
-	int	i;
+	int		i;
+	int		status;
+	pid_t	j;
 
-	i = 0;
-	while (i < data->pipe_num)
+	if (data->bonus_mod == 1)
+		push_infile_data(data);
+	else
+		close_fd(data);
+	while (1)
 	{
-		close(data->p_fd[i][1]);
-		i++;
+		i = 0;
+		while (i < data->pipe_num + 1)
+		{
+			j = waitpid(data->pid[i], &status, WNOHANG);
+			if (j > 0)
+			{
+				if (i == data->pipe_num)
+				{
+					data->status = WEXITSTATUS(status);
+					return ;
+				}
+			}
+			i++;
+		}
 	}
-}
-
-void	all_close_read_pipe_fd(t_list *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->pipe_num)
-	{
-		close(data->p_fd[i][0]);
-		i++;
-	}
-}
-
-void	close_fd(t_list *data)
-{
-	close(data->fd.r_fd);
-	close(data->fd.w_fd);
-	all_close_read_pipe_fd(data);
-	all_close_write_pipe_fd(data);
 }

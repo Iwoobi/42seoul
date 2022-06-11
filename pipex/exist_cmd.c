@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:32:50 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/07 21:06:42 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/08 03:26:23 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,31 @@ void	join_dir_cmd(char **dir_cmd, char *dir, char *cmd)
 	(*dir_cmd)[i] = '\0';
 }
 
+void	join_null_cmd(char **dir_cmd, char *cmd)
+{
+	int	cmd_num;
+	int	i;
+
+	i = 0;
+	cmd_num = ft_strlen(cmd);
+	*dir_cmd = (char *)malloc(sizeof(char) * (cmd_num + 1));
+	if (*dir_cmd == NULL)
+		error_code(2);
+	while (i < cmd_num)
+	{
+		(*dir_cmd)[i] = cmd[i];
+		i++;
+	}
+	(*dir_cmd)[i] = '\0';
+}
+
 void	exist_cmd(t_list *data, int process, char **dir_cmd)
 {
 	int	i;
 
 	i = 0;
-	join_dir_cmd(dir_cmd, NULL, data->cmd[process][0]);
-	if (access(*dir_cmd, F_OK) == 0)
+	join_null_cmd(dir_cmd, data->cmd[process][0]);
+	if (access(data->cmd[process][0], F_OK) == 0)
 		return ;
 	while (data->path[i])
 	{

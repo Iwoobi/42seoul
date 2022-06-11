@@ -6,11 +6,11 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:36:07 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/07 21:10:11 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/08 03:30:06 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "pipex_bonus.h"
 
 void	contral_first_cmd_process_bonus(t_list *data, char **env)
 {
