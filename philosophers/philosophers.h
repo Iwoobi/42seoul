@@ -6,13 +6,21 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 19:03:52 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/11 21:22:25 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/13 20:25:51 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-
+# define EAT 1
+# define THINK 2
+# define SLEEP 3
+# define DEAD 0
+# define TAKEN_FORK 4
+# define N 0
+# define DEAD_TIME 1
+# define EAT_TIME 2
+# define SLEEP_TIME 3
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
@@ -20,10 +28,15 @@
 
 typedef struct s_philo
 {
-	int		fork;
-	int		status;
-	struct s_philo *next;
-	struct s_philo *prev;
+	int				num;
+	pthread_t		thread;
+	pthread_mutex_t	fork;
+	int				status;
+	int				*time_data;
+	size_t			start_time;
+	size_t			eating_time;
+	struct s_philo 	*next;
+	struct s_philo 	*prev;
 }	t_philo;
 
 typedef struct s_list
