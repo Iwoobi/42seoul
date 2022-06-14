@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 19:03:52 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/13 20:25:51 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/14 21:02:59 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@
 typedef struct s_philo
 {
 	int				num;
+	int				eating_count;
 	pthread_t		thread;
 	pthread_mutex_t	fork;
-	int				status;
 	int				*time_data;
 	size_t			start_time;
 	size_t			eating_time;
+	int				*exit;
 	struct s_philo 	*next;
 	struct s_philo 	*prev;
 }	t_philo;

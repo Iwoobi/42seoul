@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 19:03:22 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/13 22:48:31 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/14 22:53:30 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ size_t	calculate_time(size_t p_time)
 	return (time.tv_sec * 1000 * 1000 + time.tv_usec - p_time);
 }
 
+void	ft_usleep(size_t time)
+{
+	size_t	start_time;
+	
+	start_time = calculate_time(0);
+	while (calculate_time(0) - start_time < time)
+	{
+	}
+}
+
 long long	ft_atoi(char *str)
 {
 	int			sign;
@@ -57,20 +67,25 @@ long long	ft_atoi(char *str)
 	return (n * sign);
 }
 
-void	print_phlio_status(int num, int status)
+void	print_philo_status(t_philo *philo, int status)
 {
-	char	*philo;
+	int		num;
+	size_t	time;
 
-	if (status == TAKEN_FORK)
-		printf("%d has taken a fork\n",num);
-	if (status == EAT)
-		printf("%d is eating\n", num);
-	if (status == THINK)
-		printf("%d is thinking\n", num);
-	if (status == SLEEP)
-		printf("%d is sleeping\n", num);
-	if (status == DEAD)
-		printf("%d died\n", num);
+	num = philo->num;
+	time = calculate_time(philo->start_time) / 1000;
+	if (*(philo->exit) == 0)
+		return ;
+	else if (status == TAKEN_FORK)
+		printf("%ld %d has taken a fork\n", time, num);
+	else if (status == EAT)
+		printf("%ld %d is eating\n", time, num);
+	else if (status == THINK)
+		printf("%ld %d is thinking\n", time, num);
+	else if (status == SLEEP)
+		printf("%ld %d is sleeping\n", time, num);
+	else if (status == DEAD)
+		printf("%ld %d died\n", time, num);
 	
 }
 
@@ -154,7 +169,6 @@ int	make_philo(t_list *data)
 		if (data->philo->next == NULL)
 			return (-1);
 		data->philo->next->num = i + 1;
-		data->philo->next->status = THINK;
 		data->philo->next->time_data = data->time_data;
 		data->philo->next->prev = prev_philo;
 		data->philo = data->philo->next;
@@ -177,7 +191,6 @@ int	make_philosophers(t_list *data)
 		return (-1);
 	data->philo->num = 1;
 	data->philo->time_data = data->time_data;
-	data->philo->status = THINK;
 	data->philo->next = NULL;
 	data->philo->prev = NULL;
 	if (make_philo(data) == -1)
@@ -194,93 +207,149 @@ void	print_time_data(t_list data)
 	printf("must : %d\n", data.time_data[4]);
 }
 
-// void	print_philo(t_list data)
-// {
-// 	int	i;
-// 	t_philo *next_p;
-// 	i = 0;
-// 	next_p = data.philo;
-// 	while (i < data.time_data[0] * 2)
-// 	{
-// 		printf("%d philo fork = %d\n", i, next_p->fork);
-// 		next_p = next_p->next;
-// 		i++;
-// 	}
-// }
 void	philo_think(t_philo *philo)
 {
-	philo->status = THINK;
-	print_phlio_status(philo->num, THINK);
+	print_philo_status(philo, THINK);
 }
 void	philo_sleep(t_philo *philo)
 {
-	philo->status = SLEEP;
-	print_phlio_status(philo->num, SLEEP);
-	usleep(philo->time_data[SLEEP_TIME]);
+	print_philo_status(philo, SLEEP);
+	ft_usleep(philo->time_data[SLEEP_TIME] * 1000);
 	philo_think(philo);
 }
 void	philo_eating(t_philo *philo)
 {
-	if (philo->prev->status != EAT && philo->next->status != EAT)
+	if (philo->num % 2 == 1)
 	{
-		if (philo->num % 2 == 0)
-		{
-			pthread_mutex_lock(&(philo->fork));
-			pthread_mutex_lock(&(philo->prev->fork));
-		}
-		else
-		{
-			pthread_mutex_lock(&(philo->prev->fork));
-			pthread_mutex_lock(&(philo->fork));
-		}
-		
-		print_phlio_status(philo->num, TAKEN_FORK);
-		print_phlio_status(philo->num, TAKEN_FORK);
-		philo->status = EAT;
-		print_phlio_status(philo->num, EAT);
-		usleep(philo->time_data[EAT_TIME]);
-		philo->eating_time = calculate_time(0);
+		pthread_mutex_lock(&(philo->fork));
+		print_philo_status(philo, TAKEN_FORK);
+		pthread_mutex_lock(&(philo->prev->fork));
+		print_philo_status(philo, TAKEN_FORK);
+	}
+	else
+	{
+		pthread_mutex_lock(&(philo->prev->fork));
+		print_philo_status(philo, TAKEN_FORK);
+		pthread_mutex_lock(&(philo->fork));
+		print_philo_status(philo, TAKEN_FORK);
+	}
+	if (*(philo->exit) != 1)
+		return ;
+	print_philo_status(philo, EAT);
+	philo->eating_time = calculate_time(0);
+	philo->eating_count += 1;
+	ft_usleep(philo->time_data[EAT_TIME] * 1000);
+	if (philo->num % 2 == 1)
+	{	
 		pthread_mutex_unlock(&(philo->fork));
 		pthread_mutex_unlock(&(philo->prev->fork));
-		philo_sleep(philo);
 	}
+	else
+	{
+		pthread_mutex_unlock(&(philo->prev->fork));
+		pthread_mutex_unlock(&(philo->fork));
+	}
+	philo_sleep(philo);
 }
 
 void	*execution_thread(void *philos)
 {
 	t_philo *philo;
+
 	philo = (t_philo *)philos;
 	while (1)
 	{
-		philo_eating(philo);
-		if (calculate_time(philo->eating_time) > philo->time_data[1] * 1000)
-		{
-			printf("%d dead\n", philo->num);
-				return (NULL);
-		}
+		while (*(philo->exit) == 1)
+			philo_eating(philo);
 	}
 }
 
 void	mutex_init(t_list *data)
 {
 	int		i;
-	size_t	time;
+
 	i = 0;
-	time = calculate_time(0);
 	while (i < data->time_data[0])
 	{
-		data->philo->start_time = time;
-		data->philo->eating_time = time;
 		pthread_mutex_init(&(data->philo->fork), NULL);
 		data->philo = data->philo->next;
 		i++;
 	}
 }
 
+void	creat_thread(t_list *data, int *exit)
+{
+	size_t	time;
+	int		i;
+
+	i = 0;
+	time = calculate_time(0);
+	*exit = 0;
+	while (i < data->time_data[0])
+	{
+		data->philo->exit = exit;
+		data->philo->eating_count = 0;
+		data->philo->start_time = time;
+		data->philo->eating_time = time;
+		pthread_create(&(data->philo->thread), NULL, execution_thread, (void *)(data->philo));
+		if (i == data->time_data[0] - 1)
+			*exit = 1;
+		data->philo = data->philo->next;
+		i++;
+	}
+}
+
+void	wait_thread(t_list *data, int *exit)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (*(data->philo->exit) == 1)
+	{
+		if (data->philo->eating_count > data->time_data[4] && data->time_data[4] != -1)
+			j++;
+		if (calculate_time(data->philo->eating_time) > data->time_data[1] * 1000)
+		{
+			printf("%lu %d dead\n",calculate_time(data->philo->start_time)/1000, data->philo->num);
+			exit = 0;
+			break ;
+		}
+		if (j == data->time_data[0])
+		{
+			printf("fin\n");
+			exit = 0;
+			break ;
+		}
+		data->philo = data->philo->next;
+		i++;
+		if (i == data->time_data[0])
+		{
+			i = 0;
+			j = 0;
+		}
+	}
+}
+
+void	destroy_thread(t_list *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->time_data[0])
+	{
+		pthread_detach(data->philo->thread);
+		i++;
+		data->philo = data->philo->next;
+	}
+}
 int	main(int argc, char **argv)
 {
 	t_list	data;
+	size_t	time;
 	int		i;
+	int		exit;
 
 	i = 0;
 	if (input_init(argc, argv, &data) == -1)
@@ -294,19 +363,7 @@ int	main(int argc, char **argv)
 		return (-1);
 	}
 	mutex_init(&data);
-	while (i < data.time_data[0])
-	{
-		pthread_create(&(data.philo->thread),NULL, execution_thread, (void *)(data.philo));
-		data.philo = data.philo->next;
-		i++;
-	}
-	i = 0;
-	while (i < data.time_data[0])
-	{
-		pthread_join(data.philo->thread, 0);
-		i++;
-		data.philo = data.philo->next;
-	}
-	
-
+	creat_thread(&data, &exit);
+	wait_thread(&data, &exit);
+	printf("end\n");
 }
