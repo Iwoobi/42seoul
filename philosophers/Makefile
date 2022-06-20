@@ -12,7 +12,7 @@ OBJS = ${SRCS:.c=.o}
 	${CC} ${CFLAGS} -c $< -o $@
 
 ${TARGET} :	${OBJS}
-	${CC} ${CFLAGS} ${OBJS} -o ${TARGET}
+	${CC} ${CFLAGS} ${OBJS} -o ${TARGET} 
 
 ${BONUS_TARGET} : ${BONUS_OBJS}
 	${CC} ${CFLAGS} ${BONUS_OBJS} -o ${BONUS_TARGET}

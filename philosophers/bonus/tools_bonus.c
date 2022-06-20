@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 20:13:56 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/20 20:35:09 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/21 01:44:54 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,11 @@
 
 void	sem_contral(sem_t **sem, int mod)
 {
-	sem_post(*sem);
 	if (mod == PUT_UP)
-	{	
-		sem -= 1;
 		sem_wait(*sem);
-	}
 	else
-	{
-		sem += 1;
-		sem_wait(*sem);
-	}
+		sem_post(*sem);
 	return;
-
 }
 
 void	print_philo_status_bonus(t_philo *philo, int status)
@@ -46,6 +38,9 @@ void	print_philo_status_bonus(t_philo *philo, int status)
 	else if (status == SLEEP)
 		printf("%ld %d is sleeping\n", time, num);
 	else if (status == DEAD)
+	{
 		printf("%ld %d died\n", time, num);
+		return ;
+	}
 	sem_contral(philo->print, PUT_DOWN);
 }

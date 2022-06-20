@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:04:51 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/20 20:39:01 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/21 01:20:18 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	philo_put_down(t_philo *philo)
 {
 	print_philo_status_bonus(philo, EAT);
 	philo->eating_count += 1;
+	if (philo->eating_count >= philo->time_data[4] && philo->time_data[4] != -1)
+		sem_contral(philo->all_count, PUT_DOWN);
 	philo->eating_time = calculate_time(0);
 	ft_usleep(philo->time_data[EAT_TIME] * 1000);
 	sem_contral(philo->fork, PUT_DOWN);

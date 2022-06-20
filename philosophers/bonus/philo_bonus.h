@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 21:39:05 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/20 22:05:56 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/21 05:09:34 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # include <semaphore.h>
 # include <pthread.h>
 # include <stdio.h>
+# include <signal.h>
+
 
 typedef struct s_philo
 {
@@ -50,7 +52,8 @@ typedef struct s_philo
 typedef struct s_list
 {
 	int 	time_data[5];
-	int		*status;
+	int		status;
+	int		check;
 	t_philo *philo;
 }	t_list;
 
@@ -62,7 +65,7 @@ void		print_philo_status_bonus(t_philo *philo, int status);
 void		sem_contral(sem_t **sem, int mod);
 int			input_init(int argc, char **argv, t_list *data);
 int			make_philosophers(t_list *data);
-void		creat_thread(t_list *data);
+void		creat_thread(t_philo *philo);
 void		philo_put_down(t_philo *philo);
 void		philo_taken_fork(t_philo *philo);
 void		philo_eating_even(t_philo *philo);
