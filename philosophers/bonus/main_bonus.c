@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 21:44:47 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/20 22:03:39 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/20 22:04:33 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,10 @@ void	make_data_status(t_list *data)
 	}
 }
 
-void	close_semaphore(t_list *data)
-{
+// void	close_semaphore(t_list *data)
+// {
 	
-}
+// }
 
 int	main(int argc, char **argv)
 {
@@ -135,5 +135,5 @@ int	main(int argc, char **argv)
 	semaphore_init(&data, &fork, &print, &count);
 	make_process(&data);
 	wait_process(&data);
-	close_semaphore(&data);
+	// close_semaphore(&data);
 }
