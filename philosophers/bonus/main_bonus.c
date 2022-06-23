@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 21:44:47 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/21 05:44:26 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/23 22:29:59 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,12 @@ void	semaphore_init(t_list *data, sem_t **fork, sem_t **print, sem_t **count)
 	sem_unlink("count");
 	sem_unlink("print");
 	*fork = sem_open("fork", O_CREAT, 0744, data->time_data[0]);
-	*print = sem_open("print",  O_CREAT, 0744, 1);
+	*print = sem_open("print", O_CREAT, 0744, 1);
 	*count = sem_open("count", O_CREAT, 0744, data->time_data[0]);
-	while (i < data->time_data[0])
-	{
-		data->philo->print = print;
-		data->philo->pid_id = 1 + i;
-		data->philo->all_count = count;
-		data->philo->fork = fork;
-		data->philo->eating_count = 0;
-		data->philo = data->philo->next;
-		i++;
-	}
+	data->philo->print = print;
+	data->philo->all_count = count;
+	data->philo->fork = fork;
+	data->philo->eating_count = 0;
 }
 
 int	philo_check(t_list *data)
@@ -42,45 +36,52 @@ int	philo_check(t_list *data)
 	i = 0;
 	while (i < data->time_data[0])
 	{
-		if (data->philo->pid_id == 0)
+		if (data->philo->pid_id[i] == 0)
 			return (0);
 		i++;
-		data->philo = data->philo->next;
 	}
 	return (1);
 }
 
-void	make_process(t_list *data)
+void	start_process(t_list *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->time_data[0])
 	{
-		if (philo_check(data) == 1)
+		if (data->philo->pid_id[i] == 0)
 		{
-			printf("pid : %d %d\n",data->philo->pid_id, data->philo->next->pid_id);
-			data->philo->pid_id = fork();
-			if (data->philo->pid_id == -1)
-				exit(1);
-		}
-		data->philo = data->philo->next;
-		i++;
-	}
-	printf("pid : %d %d\n",data->philo->pid_id, data->philo->next->pid_id);
-	printf("i %d \n", i);
-
-	i = 0;
-	
-	while (i < data->time_data[0])
-	{
-		if (data->philo->pid_id == 0)
-		{
+			data->philo->num = i + 1;
 			creat_thread(data->philo);
 		}
-		data->philo = data->philo->next;
 		i++;
 	}
+}
+
+void	make_process(t_list *data)
+{
+	int		i;
+	size_t	time;
+
+	time = calculate_time(0);
+	data->philo->start_time = time;
+	data->philo->eating_time = time;
+	i = 0;
+	while (i < data->time_data[0])
+	{
+		if (philo_check(data) == 1)
+		{
+			data->philo->pid_id[i] = fork();
+			if (data->philo->pid_id[i] == -1)
+				exit(1);
+		}
+		else
+			break ;
+		i++;
+	}
+	if (philo_check(data) == 0)
+		start_process(data);
 }
 
 void	*must_eat_count(void *datas)
@@ -91,21 +92,23 @@ void	*must_eat_count(void *datas)
 	i = 0;
 	data = (t_list *)datas;
 	data->check = 0;
+	usleep(data->time_data[1] * 500);
 	while (i < data->time_data[0])
 	{
 		data->check += 1;
 		sem_contral(data->philo->all_count, PUT_UP);
+		usleep(100);
 		i++;
 	}
+	data->status = 1;
 	i = 0;
 	while (i < data->time_data[0])
 	{
 		sem_contral(data->philo->all_count, PUT_DOWN);
 		i++;
+		usleep(100);
 		data->check -= 1;
 	}
-	sem_contral(data->philo->print, PUT_UP);
-	data->status = 1;
 	return (NULL);
 }
 
@@ -116,56 +119,55 @@ void	kill_process(t_list *data)
 	i = 0;
 	while (i < data->time_data[0])
 	{
-		kill(data->philo->pid_id, SIGKILL);
+		kill(data->philo->pid_id[i], SIGKILL);
 		i++;
-		data->philo = data->philo->next;
 	}
 }
 
-void	wait_process(t_list *data)
+void	wait_process_while(t_list *data)
 {
-	pid_t		j;
-	pthread_t	thread;
-	int			status;
+	int		status;
+	pid_t	j;
+	int		i;
 
-	data->status = 0;
-	pthread_create(&thread, NULL, must_eat_count, (void *)data);
+	i = 0;
 	while (1)
 	{
-		j = waitpid(data->philo->pid_id, &status, WNOHANG);
+		j = waitpid(data->philo->pid_id[i], &status, WNOHANG);
 		if (j > 0)
 		{
 			if (WEXITSTATUS(status) == 1)
 			{
-				pthread_detach(thread);
+				pthread_detach(data->philo->thread);
 				return ;
 			}
 		}
 		if (data->status == 1)
 		{
-			pthread_join(thread, NULL);
+			pthread_join(data->philo->thread, NULL);
 			return ;
 		}
-		data->philo = data->philo->next;
+		usleep(50);
+		i++;
+		i = i % data->time_data[0];
 	}
+}
+
+void	wait_process(t_list *data)
+{
+	data->status = 0;
+	pthread_create(&data->philo->thread, NULL, must_eat_count, (void *)data);
+	wait_process_while(data);
 }
 
 void	semaphore_close(sem_t **print, sem_t **fork, sem_t **count)
 {
-	printf("print\n");
 	sem_close(*print);
-	printf("fork\n");
 	sem_close(*fork);
-	printf("count\n");
 	sem_close(*count);
-	printf("unlink1\n");
 	sem_unlink("fork");
-
-	printf("unlink2\n");
 	sem_unlink("count");
-	printf("unlink3\n");
 	sem_unlink("print");
-	printf("unlink4\n");
 }
 
 void	semaphore_put_down(t_list *data)
@@ -179,9 +181,7 @@ void	semaphore_put_down(t_list *data)
 		data->check -= 1;
 		i++;
 	}
-	printf("check\n");
 	sem_contral(data->philo->print, PUT_DOWN);
-	printf("printf\n");
 }
 
 int	main(int argc, char **argv)
@@ -193,11 +193,9 @@ int	main(int argc, char **argv)
 
 	if (input_init(argc, argv, &data) == -1)
 		return (-1);
-	if (make_philosophers(&data) == -1)
-		return (-1);
+	make_philosophers(&data);
 	if (data.time_data[4] == 0)
 		return (0);
-	printf("%d\n", data.time_data[0]);
 	semaphore_init(&data, &fork, &print, &count);
 	make_process(&data);
 	wait_process(&data);

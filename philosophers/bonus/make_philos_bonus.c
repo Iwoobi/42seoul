@@ -6,50 +6,37 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 21:49:09 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/20 22:04:13 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/23 22:17:42 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	make_philo(t_list *data)
+void	make_philo(t_list *data)
 {
-	int		i;
-	t_philo	*first_philo;
-	t_philo	*prev_philo;
+	int	i;
 
-	first_philo = data->philo;
-	i = 1;
+	i = 0;
+	data->philo->num = i + 1;
+	data->philo->time_data = data->time_data;
+	data->philo->pid_id = (pid_t *)malloc(sizeof(pid_t) * data->time_data[0]);
+	if (data->philo->pid_id == NULL)
+		exit(-1);
 	while (i < data->time_data[0])
 	{
-		prev_philo = data->philo;
-		data->philo->next = (t_philo *)malloc(sizeof(t_philo));
-		if (data->philo->next == NULL)
-			return (-1);
-		data->philo->next->num = i + 1;
-		data->philo->next->time_data = data->time_data;
-		data->philo->next->prev = prev_philo;
-		data->philo = data->philo->next;
+		data->philo->pid_id[i] = i + 1;
 		i++;
 	}
-	data->philo->next = first_philo;
-	first_philo->prev = data->philo;
-	data->philo = first_philo;
-	return (1);
 }
 
-int	make_philosophers(t_list *data)
+void	make_philosophers(t_list *data)
 {
 	if (data->time_data[0] == 0)
-		return (-1);
+		exit(-1);
 	data->philo = (t_philo *)malloc(sizeof(t_philo));
 	if (data->philo == NULL)
-		return (-1);
+		exit(-1);
 	data->philo->num = 1;
 	data->philo->time_data = data->time_data;
-	data->philo->next = NULL;
-	data->philo->prev = NULL;
-	if (make_philo(data) == -1)
-		return (-1);
-	return (1);
+	make_philo(data);
 }
