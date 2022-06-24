@@ -6,7 +6,7 @@
 /*   By: youhan <youhan@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 21:39:05 by youhan            #+#    #+#             */
-/*   Updated: 2022/06/23 22:18:20 by youhan           ###   ########.fr       */
+/*   Updated: 2022/06/24 18:15:21 by youhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,12 @@ void		philo_put_down(t_philo *philo);
 void		philo_taken_fork(t_philo *philo);
 void		philo_eating_even(t_philo *philo);
 void		philo_eating_odd(t_philo *philo);
+void		wait_process(t_list *data);
+void		semaphore_init(t_list *data, sem_t **fork,
+				sem_t **print, sem_t **count);
+void		kill_process(t_list *data);
+void		semaphore_close(sem_t **print, sem_t **fork, sem_t **count);
+void		semaphore_put_down(t_list *data);
+void		make_process(t_list *data);
 
 #endif

@@ -1,9 +1,8 @@
 CC = cc
-TARGET = philo
+TARGET = philo_bonus
 CFLAGS = -Wall -Wextra -Werror
-SRCS = main.c creat_thread.c destroy_thread_mutex.c execution_thread.c ft_atoi.c input_init.c make_philos.c mutex_init.c philo_action.c philo_eat.c tools.c wait_thread.c
+SRCS = main_bonus.c close_bonus.c wait_process_bonus.c semaphore_init_bonus.c make_process_bonus.c tools_bonus.c execution_thread_bonus.c philo_action_bonus.c philo_eat_bonus.c input_init_bonus.c make_philos_bonus.c ../ft_atoi.c
 OBJS = ${SRCS:.c=.o}
-
 
 .o : .c
 	${CC} ${CFLAGS} -c $< -o $@
@@ -12,7 +11,7 @@ ${TARGET} :	${OBJS}
 	${CC} ${CFLAGS} ${OBJS} -o ${TARGET} 
 
 all : ${TARGET} 
-	
+
 clean : 
 	rm -f ${OBJS}
 
